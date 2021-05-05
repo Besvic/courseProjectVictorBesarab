@@ -1,8 +1,12 @@
 package process.controller.employee;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 
 import com.google.gson.Gson;
+
+
+
 import javafx.scene.control.cell.PropertyValueFactory;
 import process.controller.Main;
 import javafx.collections.FXCollections;
@@ -125,7 +129,7 @@ public class MainMenuEmployee {
         Gson gson = new Gson();
         Main.getMethod().writeLine(Const.GET_DATA_FOR_INITIALISE_VIEW_REQUEST);
         Main.getMethod().writeLine(String.valueOf(Employee.CURRENT_ID));
-        /*viewRequests = gson.fromJson(Main.getMethod().readLine(), (Type) ViewRequest.class);*/
+        viewRequests = gson.fromJson(Main.getMethod().readLine(), (Type) ViewRequest.class);
     }
 
 
