@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: MediumTurquoise;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="process.controller.error.ErrorInputData">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutY="40.0" prefHeight="60.0" prefWidth="404.0" text="Неверный ввод данных!" textAlignment="JUSTIFY">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="buttonClose" layoutX="176.0" layoutY="120.0" mnemonicParsing="false" onAction="#close" prefHeight="0.0" prefWidth="59.0" text="Ок">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

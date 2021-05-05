@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="394.0" prefWidth="601.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="process.controller.Registration">
+   <children>
+      <ImageView fitHeight="398.0" fitWidth="602.0" pickOnBounds="true">
+         <image>
+            <Image url="@../../image/start/firstImage.jpg" />
+         </image>
+      </ImageView>
+      <MenuBar layoutX="51.0" layoutY="14.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="false">
+               <graphic>
+                  <Button mnemonicParsing="false" onAction="#exitInMainWindow" text="Button" />
+               </graphic></Menu>
+        </menus>
+      </MenuBar>
+      <AnchorPane layoutX="145.0" layoutY="60.0" prefHeight="296.0" prefWidth="312.0" style="-fx-background-color: Moccasin;">
+         <children>
+            <GridPane layoutX="26.0" layoutY="66.0" prefHeight="162.0" prefWidth="246.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="130.0" minWidth="10.0" prefWidth="64.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="234.0" minWidth="10.0" prefWidth="182.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <PasswordField fx:id="fieldPassword" onAction="#getPassword" prefHeight="55.0" prefWidth="167.0" promptText="Пароль" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="fieldLogin" onAction="#getLogin" prefHeight="37.0" prefWidth="162.0" promptText="Логин" style="-fx-cursor: black;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="fieldName" onAction="#getName" prefHeight="39.0" prefWidth="202.0" promptText="ФИО" GridPane.columnIndex="1" />
+                  <TextField fx:id="fieldEmail" onAction="#getEmail" prefHeight="39.0" prefWidth="202.0" promptText="Почта" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label text="Фио" />
+                  <Label text="Почта" GridPane.rowIndex="1" />
+                  <Label text="Логин" GridPane.rowIndex="2" />
+                  <Label text="Пароль" GridPane.rowIndex="3" />
+               </children>
+            </GridPane>
+            <Button fx:id="buttonConfirmRegisration" layoutX="94.0" layoutY="244.0" mnemonicParsing="false" onAction="#authoriseUser" prefHeight="38.0" prefWidth="125.0" style="-fx-background-color: PaleGreen; -fx-border-color: black; -fx-border-radius: 333; -fx-background-radius: 222;" text="Сохранить">
+               <font>
+                  <Font name="Calibri Italic" size="19.0" />
+               </font>
+            </Button>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="49.0" layoutY="14.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="38.0" prefWidth="215.0" text="Регистрация" textFill="#111010">
+               <font>
+                  <Font name="Calibri Italic" size="28.0" />
+               </font>
+            </Label>
+         </children></AnchorPane>
+   </children>
+</AnchorPane>

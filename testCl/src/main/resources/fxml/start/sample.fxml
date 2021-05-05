@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: Purple;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ControllerAuthoriseBuilder">
+   <children>
+      <AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: Indigo;" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Button fx:id="buttonAuthorise" layoutX="181.0" layoutY="318.0" mnemonicParsing="false" style="-fx-background-color: Chocolate;" text="Зарегистрироваться" textFill="#0d0d0d">
+               <font>
+                  <Font name="System Bold Italic" size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="buttonSignIn" layoutX="247.0" layoutY="259.0" mnemonicParsing="false" style="-fx-background-color: Chocolate;" text="Войти" textFill="#0d0d0d">
+               <font>
+                  <Font name="System Bold Italic" size="18.0" />
+               </font>
+            </Button>
+            <TextField fx:id="buttonLogin" layoutX="204.0" layoutY="151.0" prefHeight="39.0" prefWidth="172.0" promptText="Логин" style="-fx-border-color: Chocolate; -fx-border-radius: 10; -fx-background-radius: 10;" />
+            <TextField fx:id="buttonPassword" layoutX="203.0" layoutY="200.0" prefHeight="39.0" prefWidth="172.0" promptText="Пароль" style="-fx-border-color: Chocolate; -fx-background-radius: 10; -fx-border-radius: 10;" />
+            <Label layoutX="175.0" layoutY="96.0" text="Авторизация" textFill="#f8f3ed">
+               <font>
+                  <Font name="Calibri Light Italic" size="40.0" />
+               </font>
+            </Label>
+            <AnchorPane prefHeight="84.0" prefWidth="600.0" style="-fx-background-color: Silver;">
+               <children>
+                  <Label layoutX="210.0" layoutY="13.0" text="Konsult.ru" textFill="#66397c">
+                     <font>
+                        <Font name="Californian FB Italic" size="48.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
