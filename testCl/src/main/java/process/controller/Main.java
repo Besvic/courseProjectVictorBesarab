@@ -16,7 +16,7 @@ public class Main extends Application{
 
     public static Methods getMethod(){
         if (methods == null) {
-            methods = new Methods("127.0.0.1", 7776);
+            methods = new Methods("127.0.0.1", 7775);
             System.out.println("Подключение к серверу прошло успешно.");
         }
         return methods;

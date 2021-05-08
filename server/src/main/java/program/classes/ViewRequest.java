@@ -1,4 +1,4 @@
-package process.controller.employee;
+package program.classes;
 
 
 import program.classes.Request;
@@ -9,13 +9,18 @@ public class ViewRequest extends Request {
 
     }
     public ViewRequest(int id, String nameUser, String phoneNumber, String comment, String date){
-        this.idUser = id;
+        this.id = id;
         this.nameUser =  nameUser;
         this.phoneNumber = phoneNumber;
         this.comment = comment;
         this.choiceDate = date;
     }
 
+    public String getNameUser() {
+        return nameUser;
+    }
 
-
+    public void setNameUser(String nameUser) {
+        this.nameUser = nameUser;
+    }
 }

@@ -38,7 +38,7 @@ public class ServerWork {
 
 
     public static void main(String[] args) {
-        try (ServerSocket server = new ServerSocket(7776)) {
+        try (ServerSocket server = new ServerSocket(7775)) {
             System.out.println("Server started.");
             while (true) {
 
@@ -89,7 +89,7 @@ public class ServerWork {
                                 case Const.DELETE_CURRENT_EMPLOYEE:
                                     process.deleteEmployeeOnId(Integer.parseInt(getServerStream.readLine()));
                                 case Const.GET_DATA_FOR_INITIALISE_VIEW_REQUEST:
-                                  /*  process.getDataForViewRequest();*/
+                                    process.getDataForViewRequest();
                                     break;
 
                                     case Const.Exit:

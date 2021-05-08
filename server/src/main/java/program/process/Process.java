@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import program.classes.Const;
 import program.classes.Employee;
 import program.classes.User;
+import program.classes.ViewRequest;
 import server.ServerWork;
 
 import java.sql.ResultSet;
@@ -196,11 +197,11 @@ public class Process {
 
     // get data for table view
 
-   /* public void getDataForViewRequest(){
+    public void getDataForViewRequest(){
         DBConnect db = new DBConnect();
         ObservableList<ViewRequest> viewRequest = FXCollections.observableArrayList();
         ResultSet result = db.getDataForViewRequest(Integer.parseInt(ServerWork.getServerStream.readLine()));
-        try{
+       /* try{
             while (result.next()){
                 viewRequest.add(new ViewRequest(result.getInt("id"), result.getString("name")
                         , result.getString("phoneNumber"), result.getString("comment")
@@ -208,10 +209,10 @@ public class Process {
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-        }
+        }*/
         Gson gson = new Gson();
-        ServerWork.getServerStream.writeLine(gson.toJson(viewRequest));
-    }*/
+        ServerWork.getServerStream.writeLine(gson.toJson(result));
+    }
 
 
 }

@@ -1,8 +1,12 @@
 package process.controller.employee;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import com.google.gson.Gson;
+import dbconnection.DBConnect;
 import javafx.scene.control.cell.PropertyValueFactory;
 import process.controller.Main;
 import javafx.collections.FXCollections;
@@ -18,6 +22,7 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import program.classes.Const;
 import program.classes.Employee;
+import program.classes.ViewRequest;
 
 public class MainMenuEmployee {
 
@@ -43,6 +48,9 @@ public class MainMenuEmployee {
     private Label currentEmailLabel;
 
     @FXML
+    private Label idRequestFromViewRequestLabel;
+
+    @FXML
     private TableView<ViewRequest> requestTableView;
 
     @FXML
@@ -61,6 +69,32 @@ public class MainMenuEmployee {
     private TableColumn<ViewRequest, String> commentColumnRequest;
 
     ObservableList<ViewRequest> viewRequests = FXCollections.observableArrayList();
+
+    //commit request in account employee
+    @FXML
+    void commitRequest(ActionEvent event) {
+        Main.getMethod().writeLine(Const.COMMIT_REQUEST_IN_EMPLOYEE_ACCOUNT);
+        Main.getMethod().writeLine(idRequestFromViewRequestLabel.getText());
+        Main.getMethod().readLine();
+
+    }
+
+    @FXML
+    void rejectRequest(ActionEvent event) {
+
+    }
+
+    @FXML
+    void reasonForReject(ActionEvent event) {
+
+    }
+
+
+    @FXML
+    void graphicMenu(ActionEvent event) {
+        Main main = new Main();
+        main.getWindow("/fxml/graphic/graphicMenu.fxml", "Статистика");
+    }
 
     @FXML
     void comeBack() {
@@ -98,6 +132,7 @@ public class MainMenuEmployee {
     @FXML
     void initialize() {
         // initialize current details in profile
+
         Main.getMethod().writeLine(Const.GET_EMPLOYEE_CURRENT_DETAILS);
         Main.getMethod().writeLine(String.valueOf(Employee.CURRENT_ID));
         Gson gson = new Gson();
@@ -109,23 +144,61 @@ public class MainMenuEmployee {
         currentPasswordLabel.setText(employee.getPassword());
         currentPositionLabel.setText(employee.getPosition());
         currentPhoneNumberLabel.setText(employee.getPhoneNumber());
+
         //initialize request view
 
         initializeObjectViewRequest();
         idRequestColumnRequest.setCellValueFactory(new PropertyValueFactory<ViewRequest, Integer>("id"));
-        nameUserColumnRequest.setCellValueFactory(new PropertyValueFactory<ViewRequest, String>("name"));
+        nameUserColumnRequest.setCellValueFactory(new PropertyValueFactory<ViewRequest, String>("nameUser"));
         phoneNumberUserColumnRequest.setCellValueFactory(new PropertyValueFactory<ViewRequest, String>("phoneNumber"));
         commentColumnRequest.setCellValueFactory(new PropertyValueFactory<ViewRequest, String>("comment"));
-        dateColumnRequest.setCellValueFactory(new PropertyValueFactory<ViewRequest, String>("date"));
+        dateColumnRequest.setCellValueFactory(new PropertyValueFactory<ViewRequest, String>("choiceDate"));
         requestTableView.setItems(viewRequests);
+
+        // listener request view for commit or reject
+        showIdRequestFromViewRequest(null);
+
+        requestTableView.getSelectionModel().selectedItemProperty().addListener(
+                ((observableValue, viewRequest, newValue) ->showIdRequestFromViewRequest(newValue) )
+        );
+
     }
 
+    public void showIdRequestFromViewRequest(ViewRequest request){
+        if (request != null)
+            idRequestFromViewRequestLabel.setText(String.valueOf(request.getId()));
+        else
+            idRequestFromViewRequestLabel.setText("");
+    }
 
     public void initializeObjectViewRequest() {
-        Gson gson = new Gson();
+       /* Gson gson = new Gson();
         Main.getMethod().writeLine(Const.GET_DATA_FOR_INITIALISE_VIEW_REQUEST);
         Main.getMethod().writeLine(String.valueOf(Employee.CURRENT_ID));
-        /*viewRequests = gson.fromJson(Main.getMethod().readLine(), (Type) ViewRequest.class);*/
+        String str = Main.getMethod().readLine();
+        *//*viewRequests = gson.fromJson(Main.getMethod().readLine(),  ViewRequest.class);*//*
+        ResultSet result = gson.fromJson(str, ResultSet.class);
+        try{
+            while (result.next()){
+                viewRequests.add(new ViewRequest(result.getInt("id"), result.getString("name")
+                        , result.getString("phoneNumber"), result.getString("comment")
+                        , result.getString("dateForMeeting")));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }*/
+
+        DBConnect db = new DBConnect();
+        ResultSet result = db.getDataForViewRequest(Employee.CURRENT_ID);
+        try{
+            while (result.next()){
+                viewRequests.add(new ViewRequest(result.getInt("id"), result.getString("name")
+                        , result.getString("phoneNumber"), result.getString("comment")
+                        , result.getString("dateForMeeting")));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
 

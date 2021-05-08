@@ -1148,7 +1148,7 @@ startDate</ColNames>
     </column>
     <column id="337" parent="289" name="dateForMeeting">
       <Position>6</Position>
-      <DataType>int|0s</DataType>
+      <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
     </column>
     <index id="338" parent="289" name="request_idUser_uindex">

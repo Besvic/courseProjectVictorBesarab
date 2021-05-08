@@ -316,7 +316,7 @@ static {
         String query = "SELECT request.*, u.name " +
                 "from request " +
                 "inner join users u on request.idUser = u.idUser " +
-                "where request.idUser = ? ";
+                "where request.choiceIdEmployee = ? ";
         try {
             PreparedStatement pS = getConnect().prepareStatement(query);
             pS.setInt(1, id);
