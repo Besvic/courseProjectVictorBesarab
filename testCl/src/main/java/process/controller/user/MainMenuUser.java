@@ -92,8 +92,8 @@ public class MainMenuUser {
     @FXML // fx:id="phoneNumberView"
     private TableColumn<OrderTable, String> phoneNumberView; // Value injected by FXMLLoader
 
-    @FXML // fx:id="actionView"
-    private TableColumn<OrderTable, String> actionView; // Value injected by FXMLLoader
+   /* @FXML // fx:id="actionView"
+    private TableColumn<OrderTable, String> actionView; // Value injected by FXMLLoader*/
 
     @FXML // fx:id="startDateView"
     private TableColumn<OrderTable, String> startDateView; // Value injected by FXMLLoader
@@ -146,10 +146,6 @@ public class MainMenuUser {
             this.setEmail(email);
             this.setPhone(phone);
             this.setName(name);
-        }
-
-        OrderTable(){
-
         }
 
         public String getName() {
@@ -280,7 +276,7 @@ public class MainMenuUser {
         //initialize user order
         orderTable = initializeMyOrderTable();
         idOrderView.setCellValueFactory(new PropertyValueFactory<OrderTable,Integer>("id"));
-        actionView.setCellValueFactory(new PropertyValueFactory<OrderTable, String>("action"));
+/*        actionView.setCellValueFactory(new PropertyValueFactory<OrderTable, String>("action"));*/
         nameEmployeeView.setCellValueFactory(new PropertyValueFactory<OrderTable, String>("nameEmployee"));
         phoneNumberView.setCellValueFactory(new PropertyValueFactory<OrderTable, String>("phone"));
         emailEmployeeView.setCellValueFactory(new PropertyValueFactory<OrderTable,String>("email"));
@@ -302,11 +298,11 @@ public class MainMenuUser {
                 String email = resultSet.getString("email");
                 String nameEmployee = resultSet.getString("employee.name");
                 int idOrder = resultSet.getInt("idOrder");
-                String action = resultSet.getString("action");
-                String startDate = resultSet.getString("startDate");
+               /* String action = resultSet.getString("action");*/
+                String startDate = resultSet.getString("dateStart");
                 String name = resultSet.getString("service.name");
                 orderTable.add(new OrderTable(phone,email,
-                        nameEmployee,idOrder,action,startDate, name));
+                        nameEmployee,idOrder,/*action*/"",startDate, name));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();

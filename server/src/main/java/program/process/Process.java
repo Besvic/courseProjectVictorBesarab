@@ -6,15 +6,14 @@ import controller.employee.ViewRequest;*/
 import dbconnection.DBConnect;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import program.classes.Const;
-import program.classes.Employee;
-import program.classes.User;
-import program.classes.ViewRequest;
+import program.classes.*;
 import server.ServerWork;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
+
+import static server.ServerWork.getServerStream;
 
 
 public class Process {
@@ -62,11 +61,11 @@ public class Process {
             throwables.printStackTrace();
         }
         if (i == 1) {
-            ServerWork.getServerStream.writeLine(gson.toJson(userAdd));
-            ServerWork.getServerStream.writeLine(Integer.toString(userAdd.getId()));
+            getServerStream.writeLine(gson.toJson(userAdd));
+            getServerStream.writeLine(Integer.toString(userAdd.getId()));
         }
         else{
-            ServerWork.getServerStream.writeLine(Const.FUNCTION_FAILED);
+            getServerStream.writeLine(Const.FUNCTION_FAILED);
         }
     }
 
@@ -89,19 +88,19 @@ public class Process {
         }
         Gson gson = new Gson();
         if (i != 0)
-            ServerWork.getServerStream.writeLine(gson.toJson(user));
+            getServerStream.writeLine(gson.toJson(user));
         else
-            ServerWork.getServerStream.writeLine("0");
+            getServerStream.writeLine("0");
     }
 
     public void updateUserDetails(String stringG) {
         DBConnect db = new DBConnect();
         int answer = db.updateUserDetails(stringG);
         if ( answer == 0){
-            ServerWork.getServerStream.writeLine(Const.FUNCTION_FAILED);
+            getServerStream.writeLine(Const.FUNCTION_FAILED);
         }
         else{
-            ServerWork.getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
+            getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
         }
     }
     public void deleteUserAccountOnCurrentId(String id){
@@ -118,9 +117,9 @@ public class Process {
         else
             answer = db.setUserRequest(Integer.parseInt(idUser), Integer.parseInt(idEmployee), comment,phoneNumber);
         if (answer == 0)
-            ServerWork.getServerStream.writeLine(Const.FUNCTION_FAILED);
+            getServerStream.writeLine(Const.FUNCTION_FAILED);
         else
-            ServerWork.getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
+            getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
     }
 
 
@@ -168,9 +167,9 @@ public class Process {
         }
         Gson gson = new Gson();
         if (i != 0)
-            ServerWork.getServerStream.writeLine(gson.toJson(employee));
+            getServerStream.writeLine(gson.toJson(employee));
         else
-            ServerWork.getServerStream.writeLine("0");
+            getServerStream.writeLine("0");
     }
 
     public void updateEmployeeDetails(String stringG){
@@ -180,19 +179,38 @@ public class Process {
         int result = db.updateEmployeeDetails(employee.getId(), employee.getName(), employee.getEmail(), employee.getPhoneNumber()
                 , employee.getLogin(), employee.getPassword());
         if (result == 0)
-            ServerWork.getServerStream.writeLine(Const.FUNCTION_FAILED);
+            getServerStream.writeLine(Const.FUNCTION_FAILED);
         else
-            ServerWork.getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
+            getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
     }
 
     public void deleteEmployeeOnId(int id){
         DBConnect db = new DBConnect();
         if (db.deleteEmployeeOnId(id) != 0 )
-            ServerWork.getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
+            getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
         else
-            ServerWork.getServerStream.writeLine(Const.FUNCTION_FAILED);
+            getServerStream.writeLine(Const.FUNCTION_FAILED);
     }
 
+    public void insertOrder(){
+        String idRequest = getServerStream.readLine();
+        String stringG = getServerStream.readLine();
+        Gson gson = new Gson();
+        Service service = gson.fromJson(stringG, Service.class);
+        DBConnect db = new DBConnect();
+        if (db.insertOrder(service, Integer.parseInt(idRequest)) != 0)
+            getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
+        else
+            getServerStream.writeLine(Const.FUNCTION_FAILED);
+    }
+
+    public void rejectRequest(){
+        DBConnect db = new DBConnect();
+        if (db.deleteRowFromRequest(Integer.parseInt(getServerStream.readLine()), getServerStream.readLine()) == 0)
+            getServerStream.writeLine(Const.FUNCTION_FAILED);
+        else
+            getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
+    }
 
 
     // get data for table view
@@ -200,7 +218,7 @@ public class Process {
     public void getDataForViewRequest(){
         DBConnect db = new DBConnect();
         ObservableList<ViewRequest> viewRequest = FXCollections.observableArrayList();
-        ResultSet result = db.getDataForViewRequest(Integer.parseInt(ServerWork.getServerStream.readLine()));
+        ResultSet result = db.getDataForViewRequest(Integer.parseInt(getServerStream.readLine()));
        /* try{
             while (result.next()){
                 viewRequest.add(new ViewRequest(result.getInt("id"), result.getString("name")
@@ -211,7 +229,7 @@ public class Process {
             throwables.printStackTrace();
         }*/
         Gson gson = new Gson();
-        ServerWork.getServerStream.writeLine(gson.toJson(result));
+        getServerStream.writeLine(gson.toJson(result));
     }
 
 

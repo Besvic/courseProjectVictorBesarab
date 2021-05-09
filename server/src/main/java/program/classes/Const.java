@@ -16,6 +16,7 @@ public class Const {
     public static final String DELETE_CURRENT_EMPLOYEE = "deleteCurrentEmployee";
     public static final String GET_DATA_FOR_INITIALISE_VIEW_REQUEST = "getDataForInitializeViewRequest";
     public static final String COMMIT_REQUEST_IN_EMPLOYEE_ACCOUNT = "commitRequestInEmployeeAccount";
+    public static final String REJECT_REQUEST = "rejectRequest";
 
 
     public static final String Exit = "Exit";

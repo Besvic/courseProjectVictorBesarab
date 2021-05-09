@@ -1,6 +1,8 @@
 package program.classes;
 
 public class Request {
+    public static int CURRENT_ID = 0;
+    protected  String name;
     protected int idUser;
     protected int id;
     protected int idEmployee;
@@ -54,5 +56,13 @@ public class Request {
 
     public void setChoiceDate(String choiceDate) {
         this.choiceDate = choiceDate;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

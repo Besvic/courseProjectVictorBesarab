@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.mysql.cj.jdbc.ClientPreparedStatement;
 import program.classes.Const;
 import program.classes.Employee;
+import program.classes.Service;
 import program.classes.User;
 import server.ServerWork;
 
@@ -273,6 +274,119 @@ static {
         }
     }
 
+    public int insertOrder(Service service, int idRequest){
+       ResultSet result = null;
+       ResultSet resultAfterInsertIntoService = null;
+        String query = "SELECT request.* " +
+                "from request " +
+                "WHERE id = ? ";
+
+        try{
+            //extract data
+            PreparedStatement pS = getConnect().prepareStatement(query);
+            pS.setInt(1, idRequest);
+            result = pS.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return 0;
+        }
+        if (result == null)
+            return 0;
+        else {
+            String queryInsert = "INSERT INTO service " +
+                    "(name, city, definition, cost, dateStart) " +
+                    "VALUES(?, ?, ?, ?, ?) ";
+            String querySelect = "SELECT max(idService) from service ";
+            try {
+                result.next();
+                PreparedStatement pS = getConnect().prepareStatement(queryInsert);
+                pS.setString(1, service.getName());
+                pS.setString(2, service.getCity());
+                pS.setString(3, service.getDefinition());
+                pS.setDouble(4, service.getCost());
+                pS.setString(5, result.getString("dateForMeeting"));
+                pS.executeUpdate();
+                pS = getConnect().prepareStatement(querySelect);
+                resultAfterInsertIntoService = pS.executeQuery();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                return 0;
+            }
+        }
+        int numberResult = 0;
+        if (resultAfterInsertIntoService == null)
+            return 0;
+        else {
+            String query3 = "INSERT INTO `order` " +
+                    "(idUser, idService, idEmpl) " +
+                    "values (?, ?, ?) ";
+            try {
+                resultAfterInsertIntoService.next();
+                PreparedStatement pS = getConnect().prepareStatement(query3);
+                pS.setInt(1, result.getInt("idUser"));
+                pS.setInt(2, resultAfterInsertIntoService.getInt("max(idService)"));
+                pS.setInt(3, result.getInt("choiceIdEmployee"));
+                numberResult =  pS.executeUpdate();
+                //delete row because we have data
+                String deleteQuery = "delete from request " +
+                        "where id = ? ";
+                pS = getConnect().prepareStatement(deleteQuery);
+                pS.setInt(1, idRequest);
+                pS.executeUpdate();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            finally {
+                return numberResult;
+            }
+        }
+    }
+
+    public int deleteRowFromRequest(int id, String reason){
+        ResultSet result = null;
+        String querySelect = "select request.* " +
+                "from request " +
+                "where id = ? ";
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(querySelect);
+            pS.setInt(1, id);
+           result = pS.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return 0;
+        }
+        if (result == null){
+            return 0;
+        }
+        else {
+            String queryInsert = "insert into rejectedrequest (idUser, idEmployee, phoneNumber, comment, dateStart, reason) " +
+                    "values (?, ?, ?, ?, ?, ?)";
+            try {
+                result.next();
+                PreparedStatement pS = getConnect().prepareStatement(queryInsert);
+                pS.setInt(1, result.getInt("idUser"));
+                pS.setInt(2, result.getInt("choiceIdEmployee"));
+                pS.setString(3, result.getString("phoneNumber"));
+                pS.setString(4, result.getString("comment"));
+                pS.setString(5, result.getString("dateForMeeting"));
+                pS.setString(6, reason);
+                pS.executeUpdate();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                return 0;
+            }
+            String queryDelete = "delete from request " +
+                    "where id = ?";
+            try {
+                PreparedStatement pS = getConnect().prepareStatement(queryDelete);
+                pS.setInt(1, id);
+                return pS.executeUpdate();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                return 0;
+            }
+        }
+    }
 
 
 
@@ -294,7 +408,7 @@ static {
 
     public ResultSet getDataFromOrderOnIdUser(int id){
         ResultSet result = null;
-        String query = "select order.idOrder, order.action, order.startDate," +
+        String query = "select order.idOrder, service.dateStart," +
                 " employee.name, employee.email,employee.phoneNumber, service.name " +
                 "from `order`" +
                 "inner join employee on order.idEmpl = employee.id " +

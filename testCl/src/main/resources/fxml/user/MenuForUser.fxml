@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="800.0" prefWidth="900.0" style="-fx-background-color: Moccasin;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="process.controller.user.MainMenuUser">
+<AnchorPane prefHeight="800.0" prefWidth="900.0" style="-fx-background-color: Moccasin;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="process.controller.user.MainMenuUser">
     <children>
         <Label alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="145.0" layoutY="6.0" prefHeight="39.0" prefWidth="600.0" text="Меню пользователя" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <font>
@@ -127,7 +128,7 @@
                               <TextField fx:id="timeReceiptText" promptText="чч-мм" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                               <TextField fx:id="commentForReceiptText" promptText="Ваш вопрос" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                               <Label text="  Дата" GridPane.rowIndex="1" />
-                              <TextField fx:id="dateReceiptText" promptText="дд-мм-гггг" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <DatePicker fx:id="dateReceiptText" prefHeight="25.0" prefWidth="205.0" promptText="дд.мм.гггг" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.0" minWidth="10.0" prefWidth="148.0" />
@@ -199,7 +200,6 @@
                               <columns>
                                   <TableColumn fx:id="idOrderView" prefWidth="34.0" text="ID" />
                                   <TableColumn fx:id="nameOrderView" prefWidth="116.0" text="Название" />
-                                  <TableColumn fx:id="actionView" prefWidth="156.0" text="Этап рассмотрения" />
                                   <TableColumn fx:id="nameEmployeeView" prefWidth="116.0" text="ФИО сотрудника" />
                                   <TableColumn fx:id="phoneNumberView" prefWidth="191.0" text="Номер телефона сотрудника" />
                                   <TableColumn fx:id="emailEmployeeView" prefWidth="124.0" text="Почта сотрудника" />

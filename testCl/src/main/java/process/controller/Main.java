@@ -53,10 +53,10 @@ public class Main extends Application{
         launch(args);
     }
 
-    public void getWindow(String FXMLString, String title){
+    public void getWindow(String pathToWindow, String title){
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource(FXMLString));
+            root = FXMLLoader.load(getClass().getResource(pathToWindow));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -64,7 +64,29 @@ public class Main extends Application{
         Main.primaryStage.setTitle(title);
         Main.primaryStage.show();
     }
+
+
+
+    public void createWindow(String pathToWindow, int height, int wight){
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource(pathToWindow));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setMaxHeight(height);
+        stage.setMaxWidth(wight);
+        stage.setMinHeight(height);
+        stage.setMinWidth(wight);
+        stage.showAndWait();
+    }
 }
+
+
 
 
 

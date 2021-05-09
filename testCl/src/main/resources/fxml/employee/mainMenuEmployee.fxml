@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.input.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
 <?import javafx.scene.*?>
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane maxHeight="800.0" maxWidth="900.0" minHeight="679.0" minWidth="900.0" prefHeight="752.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="process.controller.employee.MainMenuEmployee">
    <children>
@@ -104,16 +103,18 @@
                           </rowConstraints>
                            <children>
                               <Label text="id заявки" />
-                              <Label fx:id="idRequestFromViewRequestLabel" text="Label" GridPane.columnIndex="1" />
+                              <Label fx:id="idRequestFromViewRequestLabel" GridPane.columnIndex="1" />
                               <Button mnemonicParsing="false" onAction="#commitRequest" text="Подтвердить" GridPane.rowIndex="1" />
-                              <Button mnemonicParsing="false" onAction="#rejectRequest" prefHeight="25.0" prefWidth="87.0" text="Оклонить" GridPane.rowIndex="2" />
-                              <MenuButton mnemonicParsing="false" onAction="#reasonForReject" text="Указать причину" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                <items>
-                                  <MenuItem mnemonicParsing="false" text="Не мой профиль" />
-                                  <MenuItem mnemonicParsing="false" text="Невозможно связаться с клиентом" />
-                                    <MenuItem mnemonicParsing="false" text="Другое" />
-                                </items>
-                              </MenuButton>
+                              <Button fx:id="rejectRequest" mnemonicParsing="false" onAction="#getRejectRequest" prefHeight="25.0" prefWidth="87.0" text="Оклонить" GridPane.rowIndex="2" />
+                              <ChoiceBox fx:id="reasonForReject" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                 <contextMenu>
+                                    <ContextMenu opacity="0.24">
+                                      <items>
+                                        <MenuItem mnemonicParsing="false" text="checkContext" />
+                                      </items>
+                                    </ContextMenu>
+                                 </contextMenu>
+                              </ChoiceBox>
                            </children>
                         </GridPane>
                      </children>
@@ -182,5 +183,12 @@
           </TitledPane>
         </panes>
       </Accordion>
+      <MenuButton layoutX="138.0" layoutY="287.0" mnemonicParsing="false" onAction="#getReasonForReject" text="Указать причину">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Не мой профиль" />
+          <MenuItem mnemonicParsing="false" text="Невозможно связаться с клиентом" />
+            <MenuItem mnemonicParsing="false" text="Другое" />
+        </items>
+      </MenuButton>
    </children>
 </AnchorPane>

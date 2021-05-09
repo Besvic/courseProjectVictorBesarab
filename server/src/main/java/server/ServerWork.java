@@ -91,6 +91,12 @@ public class ServerWork {
                                 case Const.GET_DATA_FOR_INITIALISE_VIEW_REQUEST:
                                     process.getDataForViewRequest();
                                     break;
+                                case Const.COMMIT_REQUEST_IN_EMPLOYEE_ACCOUNT:
+                                    process.insertOrder();
+                                    break;
+                                case Const.REJECT_REQUEST:
+                                    process.rejectRequest();
+                                    break;
 
                                     case Const.Exit:
                                     break;

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import com.google.gson.Gson;
 import dbconnection.DBConnect;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import process.controller.Main;
 import javafx.collections.FXCollections;
@@ -16,16 +17,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.stage.Stage;
-import program.classes.Const;
-import program.classes.Employee;
-import program.classes.ViewRequest;
+import process.controller.error.ErrorInputData;
+import program.classes.*;
 
 public class MainMenuEmployee {
-
     @FXML
     private Label currentLoginLabel;
 
@@ -50,6 +46,15 @@ public class MainMenuEmployee {
     @FXML
     private Label idRequestFromViewRequestLabel;
 
+ /*   @FXML
+    private MenuButton reasonForReject;*/
+
+    @FXML
+    private ChoiceBox<String> reasonForReject;
+
+    @FXML
+    private Button rejectRequest;
+
     @FXML
     private TableView<ViewRequest> requestTableView;
 
@@ -73,21 +78,53 @@ public class MainMenuEmployee {
     //commit request in account employee
     @FXML
     void commitRequest(ActionEvent event) {
-        Main.getMethod().writeLine(Const.COMMIT_REQUEST_IN_EMPLOYEE_ACCOUNT);
-        Main.getMethod().writeLine(idRequestFromViewRequestLabel.getText());
-        Main.getMethod().readLine();
+        if (!idRequestFromViewRequestLabel.getText().isEmpty()) {
+            Main.getMethod().writeLine(Const.COMMIT_REQUEST_IN_EMPLOYEE_ACCOUNT);
+            Main.getMethod().writeLine(idRequestFromViewRequestLabel.getText());
+            // sent id for delete request
+            // Service.setCurrentId(Integer.parseInt(idRequestFromViewRequestLabel.getText()));
+            Main m = new Main();
+            m.createWindow("/fxml/employee/commitRequest.fxml", 400, 400);
+            //Main.getMethod().readLine();
+        }
+        else {
+            ErrorInputData err = new ErrorInputData();
+            err.show();
+        }
 
     }
 
+    public String getReasonForReject(){
+        return reasonForReject.getValue().trim();
+    }
     @FXML
-    void rejectRequest(ActionEvent event) {
-
+    void getRejectRequest(ActionEvent event) {
+        if (idRequestFromViewRequestLabel.getText().trim().isEmpty()){
+            ErrorInputData err = new ErrorInputData();
+            err.show();
+        }
+        else {
+            Main.getMethod().writeLine(Const.REJECT_REQUEST);
+            Main.getMethod().writeLine(idRequestFromViewRequestLabel.getText().trim());
+            Main.getMethod().writeLine(getReasonForReject());
+            if (Main.getMethod().readLine().equals(Const.FUNCTION_COMPLETED_SUCCESSFUL)) {
+                Main main = new Main();
+                main.getWindow("/fxml/employee/mainMenuEmployee.fxml", "Меню сотрудника");
+            }
+            else {
+                ErrorInputData err = new ErrorInputData();
+                err.show();
+            }
+        }
     }
 
-    @FXML
-    void reasonForReject(ActionEvent event) {
-
-    }
+    /*@FXML
+    String getReasonForReject() {
+        if (reasonForReject.getText().trim().equals("Указать причину")) {
+            return "";
+        }
+        return reasonForReject.getText().trim();
+    }*/
 
 
     @FXML
@@ -161,6 +198,11 @@ public class MainMenuEmployee {
         requestTableView.getSelectionModel().selectedItemProperty().addListener(
                 ((observableValue, viewRequest, newValue) ->showIdRequestFromViewRequest(newValue) )
         );
+
+        // initialize choice box for reject order
+        reasonForReject.setValue("Не могу связаться с клиентом");
+        ObservableList<String> rulesReject = FXCollections.observableArrayList("Не мой профиль", "Не могу связаться с клиентом", "Не договорились с клиентом", "Другое");
+        reasonForReject.setItems(rulesReject);
 
     }
 
