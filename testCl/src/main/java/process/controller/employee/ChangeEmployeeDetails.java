@@ -74,9 +74,6 @@ public class ChangeEmployeeDetails {
             String stringG = gson.toJson(employee);
             getMethod().writeLine(Const.UPDATE_EMPLOYEE_DETAILS);
             getMethod().writeLine(stringG);
-
-
-
             //wait answer about function
             if (getMethod().readLine().equals(Const.FUNCTION_COMPLETED_SUCCESSFUL)){
                 processLabel.setText("Выйдите из аккаунта для сохранения данных.");

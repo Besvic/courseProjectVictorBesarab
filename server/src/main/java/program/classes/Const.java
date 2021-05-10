@@ -17,7 +17,10 @@ public class Const {
     public static final String GET_DATA_FOR_INITIALISE_VIEW_REQUEST = "getDataForInitializeViewRequest";
     public static final String COMMIT_REQUEST_IN_EMPLOYEE_ACCOUNT = "commitRequestInEmployeeAccount";
     public static final String REJECT_REQUEST = "rejectRequest";
-
+    public static final String INITIALIZE_VIEW_REQUEST = "initializeViewRequest";
+    public static final String INITIALIZE_CURRENT_ORDER_VIEW_TABLE = "initializeCurrentOrderViewTable";
+    public static final String INITIALIZE_COMPLETED_VIEW_TABLE = "initializeCompletedViewTable";
+    public static final String ADD_ACTS_OF_WORK = "addActsOfWork";
 
     public static final String Exit = "Exit";
 

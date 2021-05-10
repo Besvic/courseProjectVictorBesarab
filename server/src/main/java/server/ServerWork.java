@@ -97,8 +97,20 @@ public class ServerWork {
                                 case Const.REJECT_REQUEST:
                                     process.rejectRequest();
                                     break;
+                                case Const.INITIALIZE_VIEW_REQUEST:
+                                    process.getDataForInitializeViewRequest();
+                                    break;
+                                case Const.INITIALIZE_CURRENT_ORDER_VIEW_TABLE:
+                                    process.initializeCurrentOrderViewTable();
+                                    break;
+                                case Const.INITIALIZE_COMPLETED_VIEW_TABLE:
+                                    process.initializeCompletedOrderViewTable();
+                                    break;
+                                case Const.ADD_ACTS_OF_WORK:
+                                    process.addActsOfWork();
+                                    break;
 
-                                    case Const.Exit:
+                                case Const.Exit:
                                     break;
                             }
                         }

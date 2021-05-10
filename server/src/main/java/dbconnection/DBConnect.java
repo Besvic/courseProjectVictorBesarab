@@ -388,6 +388,63 @@ static {
         }
     }
 
+    public int insertRowIntoActsOfWork(int id){
+        int numberResult = 0;
+        String selectQuery = "SELECT u.email, s.dateStart, s.cost, e.email, s.city, s.definition, s.name, u.idUser, e.id, o.idService " +
+                "from `order` o " +
+                "inner join service s on o.idService = s.idService " +
+                "inner join employee e on o.idEmpl = e.id " +
+                "inner join users u on o.idUser = u.idUser " +
+                "where o.idOrder = ? ";
+        ResultSet resultSelect = null;
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(selectQuery);
+            pS.setInt(1, id);
+            resultSelect = pS.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return numberResult;
+        }
+        if (resultSelect == null)
+            return numberResult;
+        else {
+            String queryInsert = "insert into actsofwork(emailUser, endDate, startDate, cost, emailEmployee, city, " +
+                    "definition, name, idUser, idEmployee) " +
+                    "values (?, current_date(), ?, ? ,? ,? ,? ,? ,? ,?) ";
+            try {
+                resultSelect.next();
+                PreparedStatement pS = getConnect().prepareStatement(queryInsert);
+                pS.setString(1, resultSelect.getString("u.email"));
+               /* pS.setString(2, "current_date()");*/
+                pS.setString(2, resultSelect.getString("dateStart"));
+                pS.setDouble(3, resultSelect.getDouble("cost"));
+                pS.setString(4, resultSelect.getString("e.email"));
+                pS.setString(5, resultSelect.getString("city"));
+                pS.setString(6, resultSelect.getString("definition"));
+                pS.setString(7, resultSelect.getString("name"));
+                pS.setInt(8, resultSelect.getInt("idUser"));
+                pS.setInt(9, resultSelect.getInt("id"));
+                numberResult = pS.executeUpdate();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                return numberResult;
+            }
+            String deleteQuery = "delete from service " +
+                    "where idService = ?";
+            try{
+                PreparedStatement pS = getConnect().prepareStatement(deleteQuery);
+                pS.setInt(1, resultSelect.getInt("idService"));
+                if (pS.executeUpdate() == 1)
+                    return numberResult;
+                else
+                    return 0;
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                return 0;
+            }
+        }
+
+    }
 
 
     public ResultSet getDataFromRequestOnIdUser(int id){
@@ -437,6 +494,36 @@ static {
             return pS.executeQuery();
 
         } catch (SQLException throwables) {
+            return null;
+        }
+    }
+
+    public ResultSet getDataForCurrentOrderViewTable(int id){
+        String query = "select `order`.idOrder, s.name, u.name, u.email, s.definition, s.cost, s.dateStart " +
+                "from `order` " +
+                "inner join service s on `order`.idService = s.idService " +
+                "inner join users u on `order`.idUser = u.idUser " +
+                "where `order`.idEmpl = ? ";
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(query);
+            pS.setInt(1, id);
+            return pS.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
+
+    public ResultSet getDataForInitializeCompletedOrderViewTable(int id){
+        String query = "select actsofwork.* " +
+                "from actsofwork " +
+                "where idEmployee = ? ";
+        try{
+            PreparedStatement pS = getConnect().prepareStatement(query);
+            pS.setInt(1, id);
+            return pS.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
             return null;
         }
     }

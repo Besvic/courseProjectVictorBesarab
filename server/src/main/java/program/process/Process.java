@@ -7,6 +7,7 @@ import dbconnection.DBConnect;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import program.classes.*;
+import program.helperClasses.CurrentOrderViewTable;
 import server.ServerWork;
 
 import java.sql.ResultSet;
@@ -212,6 +213,15 @@ public class Process {
             getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
     }
 
+    public void addActsOfWork(){
+        DBConnect db = new DBConnect();
+        if (db.insertRowIntoActsOfWork(Integer.parseInt(getServerStream.readLine())) == 1)
+            getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
+        else
+            getServerStream.writeLine(Const.FUNCTION_FAILED);
+    }
+
+
 
     // get data for table view
 
@@ -233,4 +243,58 @@ public class Process {
     }
 
 
+    // get data for view table in employee account
+
+    public void getDataForInitializeViewRequest(){
+        DBConnect db = new DBConnect();
+        Gson gson = new Gson();
+        ResultSet result = db.getDataForViewRequest(Integer.parseInt(getServerStream.readLine()));
+        try{
+            while (result.next()){
+
+                ViewRequest viewRequest = new ViewRequest(result.getInt("id"), result.getString("name")
+                        , result.getString("phoneNumber"), result.getString("comment")
+                        , result.getString("dateForMeeting"));
+                getServerStream.writeLine(gson.toJson(viewRequest));
+            }
+            getServerStream.writeLine("0");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public void initializeCurrentOrderViewTable(){
+        DBConnect db = new DBConnect();
+        Gson gson = new Gson();
+        ResultSet result = db.getDataForCurrentOrderViewTable(Integer.parseInt(getServerStream.readLine()));
+        try{
+            while (result.next()){
+                CurrentOrderViewTable currentOrderViewTable = new CurrentOrderViewTable(result.getInt("idOrder"),
+                        result.getString("s.name"), result.getString("u.name"), result.getString("email"),
+                        result.getString("definition"), result.getDouble("cost"), result.getString("dateStart"));
+                getServerStream.writeLine(gson.toJson(currentOrderViewTable));
+            }
+            getServerStream.writeLine("0");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public void initializeCompletedOrderViewTable(){
+        DBConnect db = new DBConnect();
+        Gson gson = new Gson();
+        ResultSet result = db.getDataForInitializeCompletedOrderViewTable(Integer.parseInt(getServerStream.readLine()));
+        try{
+            while (result.next()){
+                ActsOfWork acts = new ActsOfWork(result.getInt("id"), result.getString("emailUser"),
+                        result.getString("endDate"), result.getString("startDate"), result.getDouble("cost"),
+                        result.getString("emailEmployee"), result.getString("city"), result.getString("definition"),
+                        result.getString("name"), result.getInt("idUser"), result.getInt("idEmployee"));
+                getServerStream.writeLine(gson.toJson(acts));
+            }
+            getServerStream.writeLine("0");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 }
