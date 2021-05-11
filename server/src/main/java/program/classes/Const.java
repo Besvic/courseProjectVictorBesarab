@@ -21,6 +21,8 @@ public class Const {
     public static final String INITIALIZE_CURRENT_ORDER_VIEW_TABLE = "initializeCurrentOrderViewTable";
     public static final String INITIALIZE_COMPLETED_VIEW_TABLE = "initializeCompletedViewTable";
     public static final String ADD_ACTS_OF_WORK = "addActsOfWork";
+    public static final String ADD_STATISTIC_EMPLOYEE = "addStatisticEmployee";
+    public static final String INITIALIZE_ALL_EMPLOYEE_TABLE_VIEW = "initializeAllEmployeeTableView";
 
     public static final String Exit = "Exit";
 

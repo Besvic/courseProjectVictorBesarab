@@ -109,6 +109,13 @@ public class ServerWork {
                                 case Const.ADD_ACTS_OF_WORK:
                                     process.addActsOfWork();
                                     break;
+                                case Const.ADD_STATISTIC_EMPLOYEE:
+                                    process.addStatisticMark();
+                                    break;
+                                case Const.INITIALIZE_ALL_EMPLOYEE_TABLE_VIEW:
+                                    process.initializeEmployeeTableView();
+                                    break;
+
 
                                 case Const.Exit:
                                     break;

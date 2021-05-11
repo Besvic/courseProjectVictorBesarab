@@ -3,16 +3,19 @@ package program.process;
 import com.google.gson.Gson;
 /*import controller.employee.MainMenuEmployee;
 import controller.employee.ViewRequest;*/
+import com.sun.javafx.collections.MappingChange;
 import dbconnection.DBConnect;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import program.classes.*;
 import program.helperClasses.CurrentOrderViewTable;
-import server.ServerWork;
+import program.classes.Statistic;
+import program.helperClasses.EmployeeTableView;
+import program.helperClasses.StatisticMark;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Vector;
+import java.util.*;
 
 import static server.ServerWork.getServerStream;
 
@@ -123,7 +126,30 @@ public class Process {
             getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
     }
 
+    public void addStatisticMark(){
+        DBConnect db = new DBConnect();
+        Gson gson = new Gson();
+        ArrayList<StatisticMark> statistic = new ArrayList<>();
+        statistic.add(new StatisticMark("serviceSpeed", Double.valueOf(getServerStream.readLine())));
+        statistic.add(new StatisticMark("serviceQuality", Double.valueOf(getServerStream.readLine())));
+        statistic.add(new StatisticMark("politeness", Double.valueOf(getServerStream.readLine())));
+        Collections.sort(statistic, StatisticMark.COMPARE_BY_MARK);
+        while (true){
+            if (statistic.get(0).getMark() > statistic.get(1).getMark() + statistic.get(2).getMark())
+                break;
+            else
+                statistic.get(0).setMark(statistic.get(0).getMark() * 2);
+        }
+        double sum = 0;
+        for (var s : statistic )
+            sum += s.getMark();
 
+        if (db.addUserStatisticMark(statistic.get(0).getMark() / sum,
+                statistic.get(0).getName(), Integer.parseInt(getServerStream.readLine())) != 0)
+            getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
+        else
+            getServerStream.writeLine(Const.FUNCTION_FAILED);
+    }
 
 
     //Employee function
@@ -291,6 +317,22 @@ public class Process {
                         result.getString("emailEmployee"), result.getString("city"), result.getString("definition"),
                         result.getString("name"), result.getInt("idUser"), result.getInt("idEmployee"));
                 getServerStream.writeLine(gson.toJson(acts));
+            }
+            getServerStream.writeLine("0");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public void initializeEmployeeTableView(){
+        Gson gson = new Gson();
+        DBConnect db = new DBConnect();
+        ResultSet result = db.getDataForInitializeEmployeeTableView();
+        try {
+            while (result.next()){
+                EmployeeTableView employeeTableView = new EmployeeTableView(result.getInt("id"), result.getString("name"),
+                        result.getString("position"), result.getDouble("mark"));
+                getServerStream.writeLine(gson.toJson(employeeTableView));
             }
             getServerStream.writeLine("0");
         } catch (SQLException throwables) {

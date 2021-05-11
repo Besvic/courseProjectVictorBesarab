@@ -22,8 +22,11 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import program.classes.Const;
+import program.classes.Employee;
 import program.classes.Order;
 import program.classes.User;
+import program.helperClasses.CurrentOrderViewTable;
+import program.helperClasses.EmployeeTableView;
 
 public class MainMenuUser {
 
@@ -48,6 +51,9 @@ public class MainMenuUser {
     @FXML // fx:id="answerOnRequest"
     private Label answerOnRequest; // Value injected by FXMLLoader
 
+    @FXML
+    private Label idEmployeeForStatisticLabel;
+
     @FXML // fx:id="confirmReceiptButton"
     private Button confirmReceiptButton; // Value injected by FXMLLoader
 
@@ -57,7 +63,14 @@ public class MainMenuUser {
     @FXML
     private Button changeDetailsButton;
 
+    @FXML
+    private TextField serviceQualityMarkForStatisticField;
 
+    @FXML
+    private TextField serviceSpeedMarkForStatisticField;
+
+    @FXML
+    private TextField politenessMarkForStatisticField;
 
     @FXML // fx:id="cityField"
     private TextField idEmployeeForChoiceField; // Value injected by FXMLLoader
@@ -71,29 +84,20 @@ public class MainMenuUser {
     @FXML // fx:id="commentForReceiptText"
     private TextField commentForReceiptText; // Value injected by FXMLLoader
 
-    @FXML // fx:id="dateReceiptText"
-    private TextField dateReceiptText; // Value injected by FXMLLoader
-
     @FXML // fx:id="idEmployeeText"
     private TextField idEmployeeText; // Value injected by FXMLLoader
 
     @FXML // fx:id="timeReceiptText"
     private TextField timeReceiptText; // Value injected by FXMLLoader
 
-    @FXML // fx:id="idEmployeeForStatisticField"
-    private TextField idEmployeeForStatisticField; // Value injected by FXMLLoader
-
-    @FXML // fx:id="markForStatisticField"
-    private TextField markForStatisticField; // Value injected by FXMLLoader
+    @FXML
+    private DatePicker dateReceiptText;
 
     @FXML // fx:id="orderViewTable"
     private TableView<OrderTable> orderViewTable; // Value injected by FXMLLoader
 
     @FXML // fx:id="phoneNumberView"
     private TableColumn<OrderTable, String> phoneNumberView; // Value injected by FXMLLoader
-
-   /* @FXML // fx:id="actionView"
-    private TableColumn<OrderTable, String> actionView; // Value injected by FXMLLoader*/
 
     @FXML // fx:id="startDateView"
     private TableColumn<OrderTable, String> startDateView; // Value injected by FXMLLoader
@@ -110,7 +114,40 @@ public class MainMenuUser {
     @FXML // fx:id="nameEmployeeView"
     private TableColumn<OrderTable, String> nameEmployeeView; // Value injected by FXMLLoader
 
+    @FXML
+    private TableView<EmployeeTableView> employeeTableView;
+
+    @FXML
+    private TableColumn<EmployeeTableView, String> nameEmployeeColumnEmployeeTableView;
+
+    @FXML
+    private TableColumn<EmployeeTableView, Double> ratingEmployeeColumnEmployeeTableView;
+
+    @FXML
+    private TableColumn<EmployeeTableView, Integer> idEmployeeColumnEmployeeTableView;
+
+    @FXML
+    private TableColumn<EmployeeTableView, String> positionEmployeeColumnEmployeeTableView;
+
+
     ObservableList<OrderTable> orderTable = FXCollections.observableArrayList();
+
+    ObservableList<EmployeeTableView> employeeTableViews = FXCollections.observableArrayList();
+
+    @FXML
+    String getServiceSpeedMarkForStatistic() {
+        return serviceSpeedMarkForStatisticField.getText().trim();
+    }
+
+    @FXML
+    String getServiceQualityMarkForStatistic() {
+        return serviceQualityMarkForStatisticField.getText().trim();
+    }
+
+    @FXML
+    String getPolitenessMarkForStatistic() {
+        return politenessMarkForStatisticField.getText().trim();
+    }
 
     @FXML
     void deleteDetails(ActionEvent event) {
@@ -123,7 +160,32 @@ public class MainMenuUser {
 
     @FXML
     void sendStatistic(ActionEvent event) {
-
+        try {
+            if (idEmployeeForStatisticLabel.getText().trim().isEmpty() || getPolitenessMarkForStatistic().isEmpty() || getServiceSpeedMarkForStatistic().isEmpty() ||
+                    getServiceQualityMarkForStatistic().isEmpty() ||
+                   Double.valueOf(getPolitenessMarkForStatistic()) > 5 || Double.valueOf(getServiceSpeedMarkForStatistic()) > 5 ||
+                    Double.valueOf(getServiceQualityMarkForStatistic()) > 5) {
+                ErrorInputData err = new ErrorInputData();
+                err.show();
+            } else {
+                Main.getMethod().writeLine(Const.ADD_STATISTIC_EMPLOYEE);
+                Main.getMethod().writeLine(getServiceSpeedMarkForStatistic());
+                Main.getMethod().writeLine(getServiceQualityMarkForStatistic());
+                Main.getMethod().writeLine(getPolitenessMarkForStatistic());
+                Main.getMethod().writeLine(idEmployeeForStatisticLabel.getText().trim());
+                if (Main.getMethod().readLine().equals(Const.FUNCTION_FAILED)) {
+                    ErrorInputData err = new ErrorInputData();
+                    err.show();
+                }else {
+                    Main main = new Main();
+                    main.getWindow("/fxml/user/MenuForUser.fxml", "Меню пользователя");
+                }
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            ErrorInputData err = new ErrorInputData();
+            err.show();
+        }
     }
     @FXML
     void confirmReceipt(ActionEvent event) {
@@ -276,7 +338,6 @@ public class MainMenuUser {
         //initialize user order
         orderTable = initializeMyOrderTable();
         idOrderView.setCellValueFactory(new PropertyValueFactory<OrderTable,Integer>("id"));
-/*        actionView.setCellValueFactory(new PropertyValueFactory<OrderTable, String>("action"));*/
         nameEmployeeView.setCellValueFactory(new PropertyValueFactory<OrderTable, String>("nameEmployee"));
         phoneNumberView.setCellValueFactory(new PropertyValueFactory<OrderTable, String>("phone"));
         emailEmployeeView.setCellValueFactory(new PropertyValueFactory<OrderTable,String>("email"));
@@ -284,6 +345,7 @@ public class MainMenuUser {
         nameOrderView.setCellValueFactory(new PropertyValueFactory<OrderTable, String>("name" ));
         orderViewTable.setItems(orderTable);
         //initialize view for employee
+        initializeEmployeeViewTable();
 
 
     }
@@ -314,6 +376,41 @@ public class MainMenuUser {
             return orderTable;
         }
     }
+
+    private void showIdEmployeeTableView(EmployeeTableView employeeTableView){
+        if (employeeTableView != null){
+            idEmployeeText.setText(String.valueOf(employeeTableView.getId()));
+            idEmployeeForStatisticLabel.setText(String.valueOf(employeeTableView.getId()));
+        }else {
+            idEmployeeText.setText("");
+            idEmployeeForStatisticLabel.setText("");
+        }
+    }
+
+    private void initializeEmployeeViewTable(){
+        Main.getMethod().writeLine(Const.INITIALIZE_ALL_EMPLOYEE_TABLE_VIEW);
+        Gson gson = new Gson();
+        while (true){
+            String strG = Main.getMethod().readLine();
+            if (strG.equals("0"))
+                break;
+            else {
+                EmployeeTableView employee = gson.fromJson(strG, EmployeeTableView.class);
+                employeeTableViews.add(new EmployeeTableView(employee.getId(), employee.getName(), employee.getPosition(), employee.getMark()));
+                idEmployeeColumnEmployeeTableView.setCellValueFactory(new PropertyValueFactory<EmployeeTableView, Integer>("id"));
+                nameEmployeeColumnEmployeeTableView.setCellValueFactory(new PropertyValueFactory<EmployeeTableView, String>("name"));
+                positionEmployeeColumnEmployeeTableView.setCellValueFactory(new PropertyValueFactory<EmployeeTableView, String>("position"));
+                ratingEmployeeColumnEmployeeTableView.setCellValueFactory(new PropertyValueFactory<EmployeeTableView, Double>("mark"));
+                employeeTableView.setItems(employeeTableViews);
+                showIdEmployeeTableView(null);
+                //listener tab on row
+                employeeTableView.getSelectionModel().selectedItemProperty().addListener(
+                        ((observableValue, employeeTableView1, t1) -> showIdEmployeeTableView(t1))
+                );
+            }
+        }
+    }
+
 }
 
 

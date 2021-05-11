@@ -3,6 +3,7 @@ package dbconnection;
 //import com.mysql.fabric.jdbc.FabricMySQLDriver;
 
 import com.google.gson.Gson;
+import com.mysql.cj.Query;
 import com.mysql.cj.jdbc.ClientPreparedStatement;
 import program.classes.Const;
 import program.classes.Employee;
@@ -186,23 +187,65 @@ static {
         if (idEmployee != 0)
             query = "INSERT INTO request (idUser, phoneNumber, comment, choiceIdEmployee) " +
                     "value (?, ?, ?, ?)";
-            else
+        else
             query =  "INSERT INTO request (idUser, phoneNumber, comment) " +
                     "value (?, ?, ?)";
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(query);
+            pS.setInt(1, idUser);
+            pS.setString(2, phoneNumber);
+            pS.setString(3, comment);
+            if (idEmployee != 0)
+                pS.setInt(4, idEmployee);
+            int i = pS.executeUpdate();
+            return i;
+        } catch (SQLException throwables) {
+            return 0;
+        }
+    }
+
+    public int addUserStatisticMark(Double mark, String field, int idEmployee){
+        ResultSet resultSelect = null;
+        String selectQuery = "select * " +
+                "from statistic " +
+                "where idEmployee = ? ";
+        try{
+            PreparedStatement pS = getConnect().prepareStatement(selectQuery);
+            pS.setDouble(1, idEmployee);
+            resultSelect = pS.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return 0;
+        }
+        if (resultSelect == null)
+            return 0;
+        else {
             try {
-                PreparedStatement pS = getConnect().prepareStatement(query);
-                pS.setInt(1, idUser);
-                pS.setString(2, phoneNumber);
-                pS.setString(3, comment);
-                if (idEmployee != 0)
-                    pS.setInt(4, idEmployee);
-                int i = pS.executeUpdate();
-                return i;
+                resultSelect.next();
+                String updateQuery = null;
+                if (field.equals("politeness"))
+                    updateQuery = "update statistic " +
+                        "set politeness = politeness + ? " +
+                        "where idEmployee = ? ";
+                else if (field.equals("serviceSpeed"))
+                    updateQuery = "update statistic " +
+                        "set serviceSpeed = serviceSpeed + ? " +
+                        "where idEmployee = ? ";
+                else
+                    updateQuery = "update statistic " +
+                        "set serviceQuality = serviceQuality + ? " +
+                        "where idEmployee = ? ";
+                PreparedStatement pS = getConnect().prepareStatement(updateQuery);
+      /*          pS.setString(1, "politeness");
+                pS.setString(2, "politeness");*/
+                pS.setDouble(1, (mark + resultSelect.getDouble(field))/2);
+                pS.setInt(2, idEmployee);
+                return pS.executeUpdate();
             } catch (SQLException throwables) {
+                throwables.printStackTrace();
                 return 0;
             }
-
-
+        }
     }
 
 
@@ -415,7 +458,6 @@ static {
                 resultSelect.next();
                 PreparedStatement pS = getConnect().prepareStatement(queryInsert);
                 pS.setString(1, resultSelect.getString("u.email"));
-               /* pS.setString(2, "current_date()");*/
                 pS.setString(2, resultSelect.getString("dateStart"));
                 pS.setDouble(3, resultSelect.getDouble("cost"));
                 pS.setString(4, resultSelect.getString("e.email"));
@@ -528,102 +570,22 @@ static {
         }
     }
 
+    public ResultSet getDataForInitializeEmployeeTableView(){
+        String selectQuery = "select e.id, e.name, e.position, " +
+                "CAST(ROUND(((s.serviceQuality + s.serviceSpeed + s.politeness)/3), 2) AS DECIMAL(10,2)) mark " +
+                "from employee e " +
+                "inner join statistic s on e.id = s.idEmployee";
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(selectQuery);
+            return pS.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
+
 
 
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//    // JDBC variables for opening and managing connection
-//    private static Connection con;
-//    private static Statement stmt;
-//    private static ResultSet rs;
-//
-//    public static void main(String args[]) {
-//        String query = "select count(*) from users";
-//
-//        try {
-//            // opening database connection to MySQL server
-//            con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-//
-//            // getting Statement object to execute query
-//            stmt = con.createStatement();
-//
-//            // executing SELECT query
-//            rs = stmt.executeQuery(query);
-//
-//            while (rs.next()) {
-//                int count = rs.getInt(1);
-//                System.out.println("Total number of books in the table : " + count);
-//            }
-//
-//        } catch (SQLException sqlEx) {
-//            sqlEx.printStackTrace();
-//        } finally {
-//            //close connection ,stmt and resultset here
-//            try { con.close(); } catch(SQLException se) { /*can't do anything */ }
-//            try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
-//            try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
-//        }
-//    }
