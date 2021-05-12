@@ -1,12 +1,8 @@
 package process.controller.employee;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import com.google.gson.Gson;
-import dbconnection.DBConnect;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import process.controller.Main;
@@ -175,7 +171,13 @@ public class MainMenuEmployee {
     @FXML
     void graphicMenu(ActionEvent event) {
         Main main = new Main();
-        main.getWindow("/fxml/graphic/graphicMenu.fxml", "Статистика");
+        main.getWindow("/fxml/graphic/graphicEmployeeCostCity.fxml", "График");
+    }
+
+    @FXML
+    void barChartIdEmployeeIncomeInMonth(ActionEvent event) {
+        Main main = new Main();
+        main.getWindow("/fxml/graphic/BarChartCurrentEmployeeIncom.fxml", "Диаграмма");
     }
 
     @FXML
@@ -261,7 +263,7 @@ public class MainMenuEmployee {
 
     public void showIdRequestFromViewRequest(ViewRequest request ){
         if (request != null)
-            idOrderFromCurrentOrderViewTableLabel.setText(String.valueOf(request.getId()));
+            idRequestFromViewRequestLabel.setText(String.valueOf(request.getId()));
         else
             idRequestFromViewRequestLabel.setText("");
     }

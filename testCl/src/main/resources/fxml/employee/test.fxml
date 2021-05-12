@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox prefHeight="423.0" prefWidth="554.0" style="-fx-background-color: Thistle;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="process.controller.graphic.GraphicMenu">
+    <children>
+        <HBox prefHeight="9.0" prefWidth="450.0">
+            <children>
+                <Label prefHeight="47.0" prefWidth="294.0" text="фвамяв">
+                    <font>
+                        <Font size="32.0" />
+                    </font></Label>
+                <ComboBox fx:id="menuChoiceGraphic" prefWidth="150.0" />
+            </children>
+        </HBox>
+        <AreaChart fx:id="areaChartOnRequestFromCountry" prefHeight="528.0" prefWidth="554.0" style="-fx-cursor: black; -fx-legend-side: Red; -fx-background-color: #ff0000;" title="График зависимости заработанной суммы в городе">
+            <xAxis>
+                <CategoryAxis side="BOTTOM" />
+            </xAxis>
+            <yAxis>
+                <NumberAxis side="LEFT" />
+            </yAxis>
+        </AreaChart>
+    </children>
+</VBox>

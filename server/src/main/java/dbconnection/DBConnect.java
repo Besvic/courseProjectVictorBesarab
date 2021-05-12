@@ -586,6 +586,73 @@ static {
 
 
 
+
+
+
+    // graphic
+
+    public ResultSet getAllDataCityAndCostFromActsOfWork(){
+        String selectQuery = "select sum(cost), city " +
+                "from actsofwork " +
+                "group by city" +
+                "order by cost ";
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(selectQuery);
+            return pS.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
+
+    public ResultSet getByIdEmployeeDataCityAndCostFromActsOfWork(int id){
+        String selectQuery = "select sum(cost) as cost, city " +
+                "from actsofwork " +
+                "where idEmployee = ? " +
+                "group by city " +
+                "order by cost ";
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(selectQuery);
+            pS.setInt(1, id);
+            return pS.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
+
+    public ResultSet getDataByIdEmployeeCostAndMonthFromActsOfWork(int idEmployee){
+        String selectQuery = "select MONTH(endDate) as month, SUM(cost) as cost " +
+                "from actsofwork " +
+                "where YEAR(endDate) = YEAR(CURRENT_DATE) and idEmployee = ? " +
+                "group by month " +
+                "order by month ";
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(selectQuery);
+            pS.setInt(1, idEmployee);
+            return pS.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
+
+    public ResultSet getAllDataCostAndMonthFromActsOfWork(){
+        String selectQuery = "select MONTH(endDate) as month, SUM(cost) as cost " +
+                "from actsofwork " +
+                "where YEAR(endDate) = YEAR(CURRENT_DATE) " +
+                "group by month " +
+                "order by month ";
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(selectQuery);
+            return pS.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
+
+
 }
 
 

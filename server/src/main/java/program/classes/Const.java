@@ -23,6 +23,9 @@ public class Const {
     public static final String ADD_ACTS_OF_WORK = "addActsOfWork";
     public static final String ADD_STATISTIC_EMPLOYEE = "addStatisticEmployee";
     public static final String INITIALIZE_ALL_EMPLOYEE_TABLE_VIEW = "initializeAllEmployeeTableView";
+    public static final String INITIALIZE_GRAPHIC_DEPENDENCE_COST_ON_CITY_BY_ID_EMPLOYEE = "initializeGraphicDependenceCostOnCityByIdEmployee";
+    public static final String INITIALIZE_DIAGRAM_COST_AND_MONTH_BY_ID_EMPLOYEE= "initializeDiagramCostAndMonthByIdEmployee";
+
 
     public static final String Exit = "Exit";
 

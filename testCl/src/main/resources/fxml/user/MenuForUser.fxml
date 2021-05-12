@@ -153,11 +153,11 @@
                            <children>
                               <Label text="  id сотрудника" />
                               <Label text="Скорость обслуживания" GridPane.rowIndex="1" />
-                              <TextField fx:id="serviceSpeedMarkForStatisticField" onAction="#getServiceSpeedMarkForStatistic" promptText="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <TextField fx:id="serviceSpeedMarkForStatisticField" onAction="#getServiceSpeedMarkForStatistic" promptText="до 5 баллов" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <Label text="Качество обслуживания" GridPane.rowIndex="2" />
                               <Label text="Вежливость" GridPane.rowIndex="3" />
-                              <TextField fx:id="serviceQualityMarkForStatisticField" onAction="#getServiceQualityMarkForStatistic" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <TextField fx:id="politenessMarkForStatisticField" onAction="#getPolitenessMarkForStatistic" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <TextField fx:id="serviceQualityMarkForStatisticField" onAction="#getServiceQualityMarkForStatistic" promptText="до 5 баллов" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <TextField fx:id="politenessMarkForStatisticField" onAction="#getPolitenessMarkForStatistic" promptText="до 5 баллов" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                               <Label fx:id="idEmployeeForStatisticLabel" text="id" GridPane.columnIndex="1" />
                            </children>
                            <columnConstraints>

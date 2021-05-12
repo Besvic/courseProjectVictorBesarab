@@ -130,7 +130,7 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                            </rowConstraints>
                         </GridPane>
-                        <Button layoutX="76.0" layoutY="84.0" mnemonicParsing="false" onAction="#confirmCompleteOrder" prefHeight="25.0" prefWidth="152.0" text="Подтвердить выполнение" />
+                        <Button layoutX="63.0" layoutY="78.0" mnemonicParsing="false" onAction="#confirmCompleteOrder" prefHeight="25.0" prefWidth="177.0" text="Подтвердить выполнение" />
                      </children>
                   </AnchorPane>
                </content>
@@ -163,8 +163,8 @@
                   <Font name="Calibri Italic" size="22.0" />
                </font>
             </Label>
-            <Button layoutX="57.0" layoutY="57.0" mnemonicParsing="false" onAction="#graphicMenu" prefHeight="34.0" prefWidth="241.0" text="Отображении статистики на графике" />
-            <Button layoutX="118.0" layoutY="105.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="116.0" text="Отменить заявку" />
+            <Button layoutX="57.0" layoutY="57.0" mnemonicParsing="false" onAction="#graphicMenu" prefHeight="34.0" prefWidth="241.0" text="Заработок в графической форме" />
+            <Button layoutX="118.0" layoutY="105.0" mnemonicParsing="false" onAction="#barChartIdEmployeeIncomeInMonth" prefHeight="34.0" prefWidth="116.0" text="график 2" />
          </children>
       </AnchorPane>
       <Accordion layoutX="229.0" layoutY="446.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">

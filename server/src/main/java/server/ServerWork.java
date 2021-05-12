@@ -115,6 +115,12 @@ public class ServerWork {
                                 case Const.INITIALIZE_ALL_EMPLOYEE_TABLE_VIEW:
                                     process.initializeEmployeeTableView();
                                     break;
+                                case Const.INITIALIZE_GRAPHIC_DEPENDENCE_COST_ON_CITY_BY_ID_EMPLOYEE:
+                                    process.getCityAndCostOnIdEmployee();
+                                    break;
+                                case Const.INITIALIZE_DIAGRAM_COST_AND_MONTH_BY_ID_EMPLOYEE:
+                                    process.getCostAndMonthByIdEmployee();
+                                    break;
 
 
                                 case Const.Exit:

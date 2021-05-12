@@ -11,8 +11,10 @@ import program.classes.*;
 import program.helperClasses.CurrentOrderViewTable;
 import program.classes.Statistic;
 import program.helperClasses.EmployeeTableView;
+import program.helperClasses.InitializeGraphicArrows;
 import program.helperClasses.StatisticMark;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
@@ -338,5 +340,76 @@ public class Process {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+
+
+
+
+    //graphic
+
+    public void getCityAndCostOnIdEmployee(){
+        DBConnect db = new DBConnect();
+        Gson gson = new Gson();
+        ResultSet result = db.getByIdEmployeeDataCityAndCostFromActsOfWork(Integer.parseInt(getServerStream.readLine()));
+        try {
+            while (result.next()){
+                InitializeGraphicArrows init = new InitializeGraphicArrows(result.getDouble("cost"), result.getString("city"));
+                getServerStream.writeLine(gson.toJson(init));
+            }
+            getServerStream.writeLine("0");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    //diagram
+    public void getCostAndMonthByIdEmployee(){
+        DBConnect db = new DBConnect();
+        Gson gson = new Gson();
+        ResultSet result = db.getDataByIdEmployeeCostAndMonthFromActsOfWork(Integer.parseInt(getServerStream.readLine()));
+        try{
+            while (result.next()){
+                InitializeGraphicArrows init = new InitializeGraphicArrows(result.getDouble("cost"), result.getString("month"));
+                init.setyString(mothToString(init.getyString()));
+                getServerStream.writeLine(gson.toJson(init));
+            }
+            getServerStream.writeLine("0");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+
+    String mothToString(String number){
+        switch (number){
+            case "1":
+                return "Январь";
+            case "2":
+                return "Февраль";
+            case "3":
+                return "Март";
+            case "4":
+                return "Апрель";
+            case "5":
+                return "Май";
+            case "6":
+                return "Июнь";
+            case "7":
+                return "Июль";
+            case "8":
+                return "Август";
+            case "9":
+                return "Сентябрь";
+            case "10":
+                return "Октябрь";
+            case "11":
+                return "Ноябрь";
+            case "12":
+                return "Декабрь";
+            default:
+                new RuntimeException();
+        }
+        return number;
     }
 }
