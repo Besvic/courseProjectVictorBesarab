@@ -153,6 +153,18 @@ public class Process {
             getServerStream.writeLine(Const.FUNCTION_FAILED);
     }
 
+    public void addRequest(){
+        DBConnect db = new DBConnect();
+        Gson gson = new Gson();
+        Request request = gson.fromJson(getServerStream.readLine(), Request.class);
+        if (db.addRequest(request.getIdUser(), request.getIdEmployee(), request.getPhoneNumber(), request.getComment(),
+                request.getChoiceDate()) != 0)
+            getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
+        else
+            getServerStream.writeLine(Const.FUNCTION_FAILED);
+
+    }
+
 
     //Employee function
     public String checkEmployeeAuthorisation(String stringGson){

@@ -9,7 +9,7 @@
 
 <AnchorPane prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: MediumTurquoise;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="process.controller.error.ErrorInputData">
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutY="40.0" prefHeight="60.0" prefWidth="404.0" text="Неверный ввод данных!" textAlignment="JUSTIFY">
+      <Label fx:id="demoLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="40.0" prefHeight="60.0" prefWidth="404.0" text="Неверный ввод данных!" textAlignment="JUSTIFY">
          <font>
             <Font size="18.0" />
          </font>

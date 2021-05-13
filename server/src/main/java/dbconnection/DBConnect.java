@@ -200,6 +200,7 @@ static {
             int i = pS.executeUpdate();
             return i;
         } catch (SQLException throwables) {
+            throwables.printStackTrace();
             return 0;
         }
     }
@@ -245,6 +246,22 @@ static {
                 throwables.printStackTrace();
                 return 0;
             }
+        }
+    }
+    public int addRequest(int idUser, int idEmployee, String phoneNumber, String comment, String date){
+        String insertQuery = "INSERT INTO request (idUser, phoneNumber, comment, choiceIdEmployee, dateForMeeting) " +
+                    "value (?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(insertQuery);
+            pS.setInt(1, idUser);
+            pS.setString(2, phoneNumber);
+            pS.setString(3, comment);
+            pS.setInt(4, idEmployee);
+            pS.setString(5, date);
+            return pS.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return 0;
         }
     }
 

@@ -5,6 +5,11 @@ package process.controller.user;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import com.google.gson.Gson;
 import process.controller.EnterInAccount;
@@ -21,10 +26,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import program.classes.Const;
-import program.classes.Employee;
-import program.classes.Order;
-import program.classes.User;
+import program.classes.*;
 import program.helperClasses.CurrentOrderViewTable;
 import program.helperClasses.EmployeeTableView;
 
@@ -54,6 +56,9 @@ public class MainMenuUser {
     @FXML
     private Label idEmployeeForStatisticLabel;
 
+    @FXML // fx:id="idEmployeeText"
+    private Label idEmployeeForReceiptLabel; // Value injected by FXMLLoader
+
     @FXML // fx:id="confirmReceiptButton"
     private Button confirmReceiptButton; // Value injected by FXMLLoader
 
@@ -73,7 +78,7 @@ public class MainMenuUser {
     private TextField politenessMarkForStatisticField;
 
     @FXML // fx:id="cityField"
-    private TextField idEmployeeForChoiceField; // Value injected by FXMLLoader
+    private Label idEmployeeForChoiceLabel; // Value injected by FXMLLoader
 
     @FXML // fx:id="commentForRequestField"
     private TextField commentForRequestField; // Value injected by FXMLLoader
@@ -84,11 +89,8 @@ public class MainMenuUser {
     @FXML // fx:id="commentForReceiptText"
     private TextField commentForReceiptText; // Value injected by FXMLLoader
 
-    @FXML // fx:id="idEmployeeText"
-    private TextField idEmployeeText; // Value injected by FXMLLoader
-
     @FXML // fx:id="timeReceiptText"
-    private TextField timeReceiptText; // Value injected by FXMLLoader
+    private TextField phoneReceiptText; // Value injected by FXMLLoader
 
     @FXML
     private DatePicker dateReceiptText;
@@ -157,6 +159,22 @@ public class MainMenuUser {
         main.getWindow("/fxml/start/mainWindow.fxml","Вход/Авторизация");
     }
 
+    @FXML
+    String getPhoneReceiptText() {
+        return phoneReceiptText.getText().trim();
+    }
+
+    @FXML
+    String getCommentForReceiptText() {
+        return commentForReceiptText.getText().trim();
+    }
+
+    @FXML
+    String getDateReceiptText() {
+        String d = dateReceiptText.getValue().toString();
+        return d;
+
+    }
 
     @FXML
     void sendStatistic(ActionEvent event) {
@@ -189,7 +207,37 @@ public class MainMenuUser {
     }
     @FXML
     void confirmReceipt(ActionEvent event) {
-        //  if(idEmployeeText.getText().trim() != "" && )
+        String stringCurrentDate = new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime());
+        SimpleDateFormat defaultDateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
+        SimpleDateFormat defaultDateFormat1 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        Date currentDate = null;
+        Date userDate = null;
+
+        String s = getDateReceiptText();
+        try {
+            currentDate = defaultDateFormat.parse(stringCurrentDate);
+            userDate = defaultDateFormat1.parse(s/*getDateReceiptText()*/);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        System.out.println(currentDate.after(userDate));
+        if (currentDate.after(userDate) && !getPhoneReceiptText().isEmpty() && !getDateReceiptText().isEmpty() &&
+                !idEmployeeForReceiptLabel.getText().trim().isEmpty() && !getCommentForReceiptText().isEmpty()){
+            Main.getMethod().writeLine(Const.SEND_REQUEST_FOR_EMPLOYEE);
+            Request request = new Request(User.CURRENT_ID, Integer.parseInt(idEmployeeForReceiptLabel.getText()), getPhoneReceiptText(), getCommentForReceiptText(), getDateReceiptText());
+            Gson gson = new Gson();
+            Main.getMethod().writeLine(gson.toJson(request));
+            if (Main.getMethod().readLine().equals(Const.FUNCTION_COMPLETED_SUCCESSFUL)){
+                System.out.println(Const.FUNCTION_COMPLETED_SUCCESSFUL);
+            }else {
+                ErrorInputData err = new ErrorInputData();
+                err.show();
+            }
+
+        } else {
+            ErrorInputData err = new ErrorInputData();
+            err.show();
+        }
 
     }
 
@@ -277,14 +325,14 @@ public class MainMenuUser {
 
     @FXML
     void sendRequest(ActionEvent event) {
-        String answer = null;
+       /* String answer = null;
         try {
-            if (!idEmployeeForChoiceField.getText().trim().isEmpty())
-                Integer.parseInt(idEmployeeForChoiceField.getText().trim());
+            if (!idEmployeeForChoiceLabel.getText().trim().isEmpty())
+                Integer.parseInt(idEmployeeForChoiceLabel.getText().trim());
             if (!telephoneNumberField.getText().isEmpty() && !commentForRequestField.getText().trim().isEmpty()) {
                 Main.getMethod().writeLine(Const.SEND_REQUEST_fROM_USER_MENU);
                 Main.getMethod().writeLine(String.valueOf(User.CURRENT_ID));
-                Main.getMethod().writeLine(idEmployeeForChoiceField.getText().trim());
+                Main.getMethod().writeLine(idEmployeeForChoiceLabel.getText().trim());
                 Main.getMethod().writeLine(telephoneNumberField.getText().trim());
                 Main.getMethod().writeLine(commentForRequestField.getText().trim());
                 if (Main.getMethod().readLine().equals(Const.FUNCTION_FAILED)) {
@@ -303,7 +351,7 @@ public class MainMenuUser {
             ErrorInputData err = new ErrorInputData();
             err.show();
         }
-        answerOnRequest.setText(answer);
+        answerOnRequest.setText(answer);*/
     }
 
     public void showUserDetails(User user, String request){
@@ -379,11 +427,13 @@ public class MainMenuUser {
 
     private void showIdEmployeeTableView(EmployeeTableView employeeTableView){
         if (employeeTableView != null){
-            idEmployeeText.setText(String.valueOf(employeeTableView.getId()));
+            idEmployeeForReceiptLabel.setText(String.valueOf(employeeTableView.getId()));
             idEmployeeForStatisticLabel.setText(String.valueOf(employeeTableView.getId()));
+            idEmployeeForChoiceLabel.setText(String.valueOf(employeeTableView.getId()));
         }else {
-            idEmployeeText.setText("");
+            idEmployeeForReceiptLabel.setText("");
             idEmployeeForStatisticLabel.setText("");
+            idEmployeeForChoiceLabel.setText("");
         }
     }
 

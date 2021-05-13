@@ -27,6 +27,7 @@ public class BarChartCurrentEmployeeIncome {
                 break;
             else {
                 InitializeGraphicArrows graphicArrows = gson.fromJson(strG, InitializeGraphicArrows.class);
+
                 vectorDiagram.add(new InitializeGraphicArrows(graphicArrows.getxDouble(), graphicArrows.getyString()));
             }
         }
@@ -36,6 +37,10 @@ public class BarChartCurrentEmployeeIncome {
 
 
 /*        xyChart.getData().addAll(new XYChart.Data<String, Double>(vector));*/
+        barChartIdEmployeeCostInMonth.setBarGap(20);
+//        barChartIdEmployeeCostInMonth.setCategoryGap(10);
+//        barChartIdEmployeeCostInMonth.setMaxWidth(50);
+//        barChartIdEmployeeCostInMonth.setMinWidth(1);
         barChartIdEmployeeCostInMonth.getData().setAll(xyChart);
 
 

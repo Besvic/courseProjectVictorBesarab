@@ -94,10 +94,10 @@
                                       <Label text="Желаемый сотрудник" GridPane.rowIndex="1" />
                                       <Label fx:id="answerOnRequest" prefHeight="32.0" prefWidth="259.0" textAlignment="CENTER" GridPane.columnSpan="2147483647" GridPane.rowIndex="3" GridPane.rowSpan="2147483647" />
                                       <TextField fx:id="telephoneNumberField" promptText="+375-(  ) - . . . - . . - . ." GridPane.columnIndex="1" />
-                                      <TextField fx:id="idEmployeeForChoiceField" promptText="id сотрудника" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                       <TextField fx:id="commentForRequestField" promptText="Ваш вопрос" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                                     <Button fx:id="sendRequestButton" mnemonicParsing="false" onAction="#sendRequest" text="Отправить заявку" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                               <Label text="Комментарий*" GridPane.rowIndex="2" />
+                              <Label fx:id="idEmployeeForChoiceLabel" text="id Employee" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                   </children>
                                   <columnConstraints>
                                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="264.0" minWidth="10.0" prefWidth="262.0" />
@@ -121,13 +121,13 @@
                         <GridPane maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefHeight="167.0" prefWidth="345.0" style="-fx-background-color: LightSteelBlue;">
                            <children>
                               <Label text="  id сотрудника" />
-                              <Label text="  Время приема" GridPane.rowIndex="2" />
+                              <Label text="Телефон для связи" GridPane.rowIndex="2" />
                               <Label prefHeight="48.0" prefWidth="119.0" text="  Комментарий" GridPane.columnSpan="2147483647" GridPane.rowIndex="3" GridPane.rowSpan="2147483647" />
-                              <TextField fx:id="idEmployeeText" promptText="id " GridPane.columnIndex="1" />
-                              <TextField fx:id="timeReceiptText" promptText="чч-мм" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                              <TextField fx:id="commentForReceiptText" promptText="Ваш вопрос" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <TextField fx:id="phoneReceiptText" onAction="#getPhoneReceiptText" promptText="чч-мм" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <TextField fx:id="commentForReceiptText" onAction="#getCommentForReceiptText" promptText="Ваш вопрос" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                               <Label text="  Дата" GridPane.rowIndex="1" />
-                              <DatePicker fx:id="dateReceiptText" prefHeight="25.0" prefWidth="205.0" promptText="дд.мм.гггг" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <DatePicker fx:id="dateReceiptText" onAction="#getDateReceiptText" prefHeight="25.0" prefWidth="205.0" promptText="дд.мм.гггг" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Label fx:id="idEmployeeForReceiptLabel" text="idEmployee" GridPane.columnIndex="1" />
                            </children>
                            <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="148.0" minWidth="10.0" prefWidth="148.0" />

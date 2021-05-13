@@ -10,6 +10,18 @@ public class Request {
     protected String comment;
     protected String choiceDate;
 
+    public Request(int idUser, int idEmployee, String phoneNumber, String comment, String choiceDate) {
+        this.idUser = idUser;
+        this.idEmployee = idEmployee;
+        this.phoneNumber = phoneNumber;
+        this.comment = comment;
+        this.choiceDate = choiceDate;
+    }
+
+    public Request() {
+
+    }
+
     public int getIdUser() {
         return idUser;
     }

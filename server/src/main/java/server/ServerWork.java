@@ -121,6 +121,9 @@ public class ServerWork {
                                 case Const.INITIALIZE_DIAGRAM_COST_AND_MONTH_BY_ID_EMPLOYEE:
                                     process.getCostAndMonthByIdEmployee();
                                     break;
+                                case Const.SEND_REQUEST_FOR_EMPLOYEE:
+                                    process.addRequest();
+                                    break;
 
 
                                 case Const.Exit:
