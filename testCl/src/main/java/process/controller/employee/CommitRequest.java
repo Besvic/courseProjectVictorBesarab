@@ -5,10 +5,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import process.controller.Main;
-import process.controller.error.ErrorInputData;
+import process.controller.error.ErrorInput;
 import program.classes.Const;
-import program.classes.Order;
-import program.classes.Request;
 import program.classes.Service;
 
 import static process.controller.Main.getMethod;
@@ -50,8 +48,8 @@ public class CommitRequest {
     @FXML
     void createOrder(ActionEvent event) {
         if (getCityTextField().isEmpty() || getCoastTextField() == 0 || getCommentTextField().isEmpty() || getNameTextField().isEmpty()){
-            ErrorInputData errorInputData = new ErrorInputData();
-            errorInputData.show();
+            ErrorInput errorInput = new ErrorInput();
+            errorInput.show();
         }else {
             Service service = new Service(0, getNameTextField(), getCityTextField(), getCommentTextField(), "", getCoastTextField() );
             Gson gson = new Gson();
@@ -62,7 +60,7 @@ public class CommitRequest {
                 main.getWindow("/fxml/employee/mainMenuEmployee.fxml", "Меню сотрудника");
             }
             else {
-                ErrorInputData err = new ErrorInputData();
+                ErrorInput err = new ErrorInput();
                 err.show();
             }
         }

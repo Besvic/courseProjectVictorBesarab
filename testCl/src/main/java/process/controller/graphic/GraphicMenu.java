@@ -3,6 +3,7 @@ package process.controller.graphic;
 import com.google.gson.Gson;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.XYChart;
@@ -21,6 +22,12 @@ public class GraphicMenu {
 
     @FXML
     private AreaChart<String, Double> areaChartOnRequestFromCountry;
+
+    @FXML
+    void comeBack(ActionEvent event) {
+        Main main = new Main();
+        main.getWindow("/fxml/employee/mainMenuEmployee.fxml", "Меню сотрудника");
+    }
 
     @FXML
     void initialize() {

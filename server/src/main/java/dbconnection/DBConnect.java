@@ -5,10 +5,7 @@ package dbconnection;
 import com.google.gson.Gson;
 import com.mysql.cj.Query;
 import com.mysql.cj.jdbc.ClientPreparedStatement;
-import program.classes.Const;
-import program.classes.Employee;
-import program.classes.Service;
-import program.classes.User;
+import program.classes.*;
 import server.ServerWork;
 
 import java.sql.*;
@@ -182,23 +179,15 @@ static {
         }
     }
 
-    public int setUserRequest(int idUser, int idEmployee, String comment, String phoneNumber){
-        String query = null;
-        if (idEmployee != 0)
-            query = "INSERT INTO request (idUser, phoneNumber, comment, choiceIdEmployee) " +
-                    "value (?, ?, ?, ?)";
-        else
-            query =  "INSERT INTO request (idUser, phoneNumber, comment) " +
-                    "value (?, ?, ?)";
+    public int setUserRequestForManager(Request request){
+        String insertQuery = "INSERT INTO managerrequest (idUser, phoneNumber, comment) " +
+                "value (?, ?, ?)";
         try {
-            PreparedStatement pS = getConnect().prepareStatement(query);
-            pS.setInt(1, idUser);
-            pS.setString(2, phoneNumber);
-            pS.setString(3, comment);
-            if (idEmployee != 0)
-                pS.setInt(4, idEmployee);
-            int i = pS.executeUpdate();
-            return i;
+            PreparedStatement pS = getConnect().prepareStatement(insertQuery);
+            pS.setInt(1, request.getIdUser());
+            pS.setString(2, request.getPhoneNumber());
+            pS.setString(3, request.getComment());
+            return pS.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             return 0;
@@ -226,20 +215,23 @@ static {
                 String updateQuery = null;
                 if (field.equals("politeness"))
                     updateQuery = "update statistic " +
-                        "set politeness = politeness + ? " +
+                        "set politeness = ? " +
                         "where idEmployee = ? ";
                 else if (field.equals("serviceSpeed"))
                     updateQuery = "update statistic " +
-                        "set serviceSpeed = serviceSpeed + ? " +
+                        "set serviceSpeed = ? " +
                         "where idEmployee = ? ";
                 else
                     updateQuery = "update statistic " +
-                        "set serviceQuality = serviceQuality + ? " +
+                        "set serviceQuality = ? " +
                         "where idEmployee = ? ";
                 PreparedStatement pS = getConnect().prepareStatement(updateQuery);
       /*          pS.setString(1, "politeness");
                 pS.setString(2, "politeness");*/
-                pS.setDouble(1, (mark + resultSelect.getDouble(field))/2);
+               /* double point = mark + resultSelect.getDouble(field);
+                if (point > 5)
+                    point = 5;*/
+                pS.setDouble(1, mark/5 + resultSelect.getDouble(field));
                 pS.setInt(2, idEmployee);
                 return pS.executeUpdate();
             } catch (SQLException throwables) {
@@ -539,6 +531,26 @@ static {
         return result;
     }
 
+
+
+
+
+    //admin function
+
+    public ResultSet checkAdminAuthorisation(Admin admin){
+        String selectQuery = "select * " +
+                "from admin " +
+                "where login = ? and password = ?";
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(selectQuery);
+            pS.setString(1, admin.getLogin());
+            pS.setString(2, admin.getPassword());
+            return pS.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
 
     // get data for table view
 

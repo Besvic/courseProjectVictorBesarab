@@ -14,7 +14,7 @@ import java.util.Locale;
 import com.google.gson.Gson;
 import process.controller.EnterInAccount;
 import process.controller.Main;
-import process.controller.error.ErrorInputData;
+import process.controller.error.ErrorInput;
 import dbconnection.DBConnect;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,7 +27,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import program.classes.*;
-import program.helperClasses.CurrentOrderViewTable;
 import program.helperClasses.EmployeeTableView;
 
 public class MainMenuUser {
@@ -65,8 +64,6 @@ public class MainMenuUser {
     @FXML // fx:id="sendRequestButton"
     private Button sendRequestButton; // Value injected by FXMLLoader
 
-    @FXML
-    private Button changeDetailsButton;
 
     @FXML
     private TextField serviceQualityMarkForStatisticField;
@@ -171,9 +168,7 @@ public class MainMenuUser {
 
     @FXML
     String getDateReceiptText() {
-        String d = dateReceiptText.getValue().toString();
-        return d;
-
+        return dateReceiptText.getValue().toString();
     }
 
     @FXML
@@ -183,7 +178,7 @@ public class MainMenuUser {
                     getServiceQualityMarkForStatistic().isEmpty() ||
                    Double.valueOf(getPolitenessMarkForStatistic()) > 5 || Double.valueOf(getServiceSpeedMarkForStatistic()) > 5 ||
                     Double.valueOf(getServiceQualityMarkForStatistic()) > 5) {
-                ErrorInputData err = new ErrorInputData();
+                ErrorInput err = new ErrorInput();
                 err.show();
             } else {
                 Main.getMethod().writeLine(Const.ADD_STATISTIC_EMPLOYEE);
@@ -192,7 +187,7 @@ public class MainMenuUser {
                 Main.getMethod().writeLine(getPolitenessMarkForStatistic());
                 Main.getMethod().writeLine(idEmployeeForStatisticLabel.getText().trim());
                 if (Main.getMethod().readLine().equals(Const.FUNCTION_FAILED)) {
-                    ErrorInputData err = new ErrorInputData();
+                    ErrorInput err = new ErrorInput();
                     err.show();
                 }else {
                     Main main = new Main();
@@ -201,7 +196,7 @@ public class MainMenuUser {
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            ErrorInputData err = new ErrorInputData();
+            ErrorInput err = new ErrorInput();
             err.show();
         }
     }
@@ -212,30 +207,30 @@ public class MainMenuUser {
         SimpleDateFormat defaultDateFormat1 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         Date currentDate = null;
         Date userDate = null;
-
-        String s = getDateReceiptText();
         try {
             currentDate = defaultDateFormat.parse(stringCurrentDate);
-            userDate = defaultDateFormat1.parse(s/*getDateReceiptText()*/);
+            userDate = defaultDateFormat1.parse(getDateReceiptText());
         } catch (ParseException e) {
+            ErrorInput err = new ErrorInput();
+            err.show();
             e.printStackTrace();
         }
-        System.out.println(currentDate.after(userDate));
-        if (currentDate.after(userDate) && !getPhoneReceiptText().isEmpty() && !getDateReceiptText().isEmpty() &&
+        System.out.println(currentDate.before(userDate));
+        if (currentDate.before(userDate) && !getPhoneReceiptText().isEmpty() && !getDateReceiptText().isEmpty() &&
                 !idEmployeeForReceiptLabel.getText().trim().isEmpty() && !getCommentForReceiptText().isEmpty()){
             Main.getMethod().writeLine(Const.SEND_REQUEST_FOR_EMPLOYEE);
             Request request = new Request(User.CURRENT_ID, Integer.parseInt(idEmployeeForReceiptLabel.getText()), getPhoneReceiptText(), getCommentForReceiptText(), getDateReceiptText());
             Gson gson = new Gson();
             Main.getMethod().writeLine(gson.toJson(request));
             if (Main.getMethod().readLine().equals(Const.FUNCTION_COMPLETED_SUCCESSFUL)){
-                System.out.println(Const.FUNCTION_COMPLETED_SUCCESSFUL);
+                Main main = new Main();
+                main.getWindow("/fxml/user/MenuForUser.fxml", "Меню пользователя");
             }else {
-                ErrorInputData err = new ErrorInputData();
-                err.show();
+                ErrorInput err = new ErrorInput();
+                err.showErrorProcess();
             }
-
         } else {
-            ErrorInputData err = new ErrorInputData();
+            ErrorInput err = new ErrorInput();
             err.show();
         }
 
@@ -325,33 +320,30 @@ public class MainMenuUser {
 
     @FXML
     void sendRequest(ActionEvent event) {
-       /* String answer = null;
+        String answer = null;
         try {
-            if (!idEmployeeForChoiceLabel.getText().trim().isEmpty())
-                Integer.parseInt(idEmployeeForChoiceLabel.getText().trim());
-            if (!telephoneNumberField.getText().isEmpty() && !commentForRequestField.getText().trim().isEmpty()) {
-                Main.getMethod().writeLine(Const.SEND_REQUEST_fROM_USER_MENU);
-                Main.getMethod().writeLine(String.valueOf(User.CURRENT_ID));
-                Main.getMethod().writeLine(idEmployeeForChoiceLabel.getText().trim());
-                Main.getMethod().writeLine(telephoneNumberField.getText().trim());
-                Main.getMethod().writeLine(commentForRequestField.getText().trim());
-                if (Main.getMethod().readLine().equals(Const.FUNCTION_FAILED)) {
-                    answer = "Предыдущая заявка еще не рассмотрена.";
+            if (!telephoneNumberField.getText().trim().isEmpty() && !commentForRequestField.getText().trim().isEmpty()) {
+                Main.getMethod().writeLine(Const.SEND_MANAGER_REQUEST_fROM_USER_MENU);
+                Request request = new Request(User.CURRENT_ID, telephoneNumberField.getText().trim(), commentForRequestField.getText().trim());
+                Gson gson = new Gson();
+                Main.getMethod().writeLine(gson.toJson(request));
+                if (Main.getMethod().readLine().equals(Const.FUNCTION_COMPLETED_SUCCESSFUL)) {
+                    answer = "Заявка сформирована.";
                 }
                 else {
-                    answer = "Заявка сформирована.";
+                   ErrorInput err = new ErrorInput();
+                   err.showErrorProcess();
                 }
             }
             else{
-                answer = "Заполните все поля со *.";
-                ErrorInputData err = new ErrorInputData();
+                ErrorInput err = new ErrorInput();
                 err.show();
             }
         } catch (NumberFormatException e) {
-            ErrorInputData err = new ErrorInputData();
+            ErrorInput err = new ErrorInput();
             err.show();
         }
-        answerOnRequest.setText(answer);*/
+        answerOnRequest.setText(answer);
     }
 
     public void showUserDetails(User user, String request){
@@ -371,7 +363,7 @@ public class MainMenuUser {
         DBConnect db = new DBConnect();
         //initialize user details and request
         ResultSet result = db.getDataFromRequestOnIdUser(user.getId());
-        String actionRequest = "Запрос отустствует.";
+        String actionRequest = "Заявка отустствует.";
         int numberResult = 0;
         try {
             while (result.next()){
@@ -381,7 +373,7 @@ public class MainMenuUser {
             numberResult = 0;
         }
         if (numberResult != 0)
-            actionRequest = "Запрос обрабатывается.";
+            actionRequest = "Заявка обрабатывается.";
         showUserDetails(user, actionRequest);
         //initialize user order
         orderTable = initializeMyOrderTable();

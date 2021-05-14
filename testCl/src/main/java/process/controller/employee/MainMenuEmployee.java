@@ -14,7 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import process.controller.error.ErrorInputData;
+import process.controller.error.ErrorInput;
 import program.classes.*;
 import program.helperClasses.CurrentOrderViewTable;
 
@@ -137,7 +137,7 @@ public class MainMenuEmployee {
             //Main.getMethod().readLine();
         }
         else {
-            ErrorInputData err = new ErrorInputData();
+            ErrorInput err = new ErrorInput();
             err.show();
         }
 
@@ -150,7 +150,7 @@ public class MainMenuEmployee {
     @FXML
     void rejectRequest(ActionEvent event) {
         if (idRequestFromViewRequestLabel.getText().trim().isEmpty()){
-            ErrorInputData err = new ErrorInputData();
+            ErrorInput err = new ErrorInput();
             err.show();
         }
         else {
@@ -162,7 +162,7 @@ public class MainMenuEmployee {
                 main.getWindow("/fxml/employee/mainMenuEmployee.fxml", "Меню сотрудника");
             }
             else {
-                ErrorInputData err = new ErrorInputData();
+                ErrorInput err = new ErrorInput();
                 err.show();
             }
         }
@@ -216,7 +216,7 @@ public class MainMenuEmployee {
     @FXML
     void confirmCompleteOrder(ActionEvent event) {
         if (idOrderFromCurrentOrderViewTableLabel.getText().trim().equals("")){
-            ErrorInputData err = new ErrorInputData();
+            ErrorInput err = new ErrorInput();
             err.show();
         }else {
             Main.getMethod().writeLine(Const.ADD_ACTS_OF_WORK);
@@ -225,7 +225,7 @@ public class MainMenuEmployee {
                 Main main = new Main();
                 main.getWindow("/fxml/employee/mainMenuEmployee.fxml", "Меню сотрудника");
             }else{
-                ErrorInputData err = new ErrorInputData();
+                ErrorInput err = new ErrorInput();
                 err.show();
             }
         }

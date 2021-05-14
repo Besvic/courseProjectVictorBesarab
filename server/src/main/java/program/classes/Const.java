@@ -10,7 +10,7 @@ public class Const {
     public static final String USER_AUTHORISATION = "authorisationUser";
     public static final String EMPLOYEE_AUTHORISATION = "authorisationAdmin";
     public static final String DELETE_CURRENT_USER = "deleteCurrentUser";
-    public static final String SEND_REQUEST_fROM_USER_MENU = "sendRequestFromUserMenu";
+    public static final String SEND_MANAGER_REQUEST_fROM_USER_MENU = "sendManagerRequestFromUserMenu";
     public static final String GET_USER_CURRENT_DETAILS = "getUserCurrentDetails";
     public static final String GET_EMPLOYEE_CURRENT_DETAILS = "getEmployeeCurrentDetails";
     public static final String DELETE_CURRENT_EMPLOYEE = "deleteCurrentEmployee";
@@ -26,6 +26,10 @@ public class Const {
     public static final String INITIALIZE_GRAPHIC_DEPENDENCE_COST_ON_CITY_BY_ID_EMPLOYEE = "initializeGraphicDependenceCostOnCityByIdEmployee";
     public static final String INITIALIZE_DIAGRAM_COST_AND_MONTH_BY_ID_EMPLOYEE= "initializeDiagramCostAndMonthByIdEmployee";
     public static final String SEND_REQUEST_FOR_EMPLOYEE = "sendRequestForEmployee";
+    public static final String CREATE_EMPLOYEE = "createEmployee";
+    public static final String AUTHORISATION_ADMIN = "adminAuthorisation";
+
+
 
 
     public static final String Exit = "Exit";

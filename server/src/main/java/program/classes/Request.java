@@ -18,6 +18,12 @@ public class Request {
         this.choiceDate = choiceDate;
     }
 
+    public Request(int idUser, String phoneNumber, String comment) {
+        this.idUser = idUser;
+        this.phoneNumber = phoneNumber;
+        this.comment = comment;
+    }
+
     public Request() {
 
     }

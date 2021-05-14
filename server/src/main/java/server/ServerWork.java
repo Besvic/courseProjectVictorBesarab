@@ -66,16 +66,17 @@ public class ServerWork {
                                         process.checkUserAuthorisation(strGson);
                                     }
                                     break;
+                                case Const.AUTHORISATION_ADMIN:
+                                    process.checkAdmin();
+                                    break;
                                 case Const.UPDATE_USER_DETAILS:
-                                    String strGson = getServerStream.readLine();
-                                    process.updateUserDetails(strGson);
+                                    process.updateUserDetails(getServerStream.readLine());
                                     break;
                                 case Const.DELETE_CURRENT_USER:
-                                    String idCurrent =  getServerStream.readLine();
-                                    process.deleteUserAccountOnCurrentId(idCurrent);
+                                    process.deleteUserAccountOnCurrentId(getServerStream.readLine());
                                     break;
-                                case Const.SEND_REQUEST_fROM_USER_MENU:
-                                    process.setUserRequest(getServerStream.readLine(), getServerStream.readLine(), getServerStream.readLine(), getServerStream.readLine());
+                                case Const.SEND_MANAGER_REQUEST_fROM_USER_MENU:
+                                    process.setUserRequest();
                                     break;
                                 case Const.GET_USER_CURRENT_DETAILS:
                                     process.getUserDetailsOnId(Integer.parseInt(getServerStream.readLine()));
@@ -88,6 +89,7 @@ public class ServerWork {
                                     break;
                                 case Const.DELETE_CURRENT_EMPLOYEE:
                                     process.deleteEmployeeOnId(Integer.parseInt(getServerStream.readLine()));
+                                    break;
                                 case Const.GET_DATA_FOR_INITIALISE_VIEW_REQUEST:
                                     process.getDataForViewRequest();
                                     break;

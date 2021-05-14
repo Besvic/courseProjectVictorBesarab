@@ -115,14 +115,11 @@ public class Process {
         db.userDeleteOnCurrentID(idInt);
     }
 
-    public void setUserRequest(String idUser, String idEmployee, String phoneNumber, String comment){
+    public void setUserRequest(){
        DBConnect db = new DBConnect();
-       int answer = 0;
-        if (idEmployee.isEmpty())
-            answer = db.setUserRequest(Integer.parseInt(idUser), 0, comment,phoneNumber);
-        else
-            answer = db.setUserRequest(Integer.parseInt(idUser), Integer.parseInt(idEmployee), comment,phoneNumber);
-        if (answer == 0)
+       Gson gson = new Gson();
+       Request request = gson.fromJson(getServerStream.readLine(), Request.class);
+        if (db.setUserRequestForManager(request) == 0)
             getServerStream.writeLine(Const.FUNCTION_FAILED);
         else
             getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
@@ -261,6 +258,27 @@ public class Process {
             getServerStream.writeLine(Const.FUNCTION_FAILED);
     }
 
+
+    // admin function
+
+    public void checkAdmin(){
+        DBConnect db = new DBConnect();
+        Gson gson = new Gson();
+        ResultSet result = db.checkAdminAuthorisation(gson.fromJson(getServerStream.readLine(), Admin.class));
+        if (result == null)
+            getServerStream.writeLine(Const.FUNCTION_FAILED);
+        else {
+            getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
+            try {
+                result.next();
+                getServerStream.writeLine(result.getString("id"));
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                getServerStream.writeLine(Const.FUNCTION_FAILED);
+            }
+
+        }
+    }
 
 
     // get data for table view

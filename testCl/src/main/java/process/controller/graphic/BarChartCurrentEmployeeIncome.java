@@ -1,6 +1,7 @@
 package process.controller.graphic;
 
 import com.google.gson.Gson;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
@@ -14,6 +15,12 @@ import java.util.Vector;
 public class BarChartCurrentEmployeeIncome {
     @FXML
     private BarChart<String, Double> barChartIdEmployeeCostInMonth;
+
+    @FXML
+    void comeBack(ActionEvent event) {
+        Main main = new Main();
+        main.getWindow("/fxml/employee/mainMenuEmployee.fxml", "Меню сотрудника");
+    }
 
     @FXML
     void initialize() {

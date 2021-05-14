@@ -918,496 +918,550 @@ SELECT|sys.sys_config
 </ObjectGrants>
     </user>
     <table id="286" parent="3" name="actsofwork"/>
-    <table id="287" parent="3" name="employee"/>
-    <table id="288" parent="3" name="order"/>
-    <table id="289" parent="3" name="rejectedrequest"/>
-    <table id="290" parent="3" name="request"/>
-    <table id="291" parent="3" name="service"/>
-    <table id="292" parent="3" name="statistic"/>
-    <table id="293" parent="3" name="users">
+    <table id="287" parent="3" name="admin"/>
+    <table id="288" parent="3" name="employee"/>
+    <table id="289" parent="3" name="managerrequest"/>
+    <table id="290" parent="3" name="order"/>
+    <table id="291" parent="3" name="rejectedrequest"/>
+    <table id="292" parent="3" name="request"/>
+    <table id="293" parent="3" name="service"/>
+    <table id="294" parent="3" name="statistic"/>
+    <table id="295" parent="3" name="users">
       <Collation>utf8_general_ci</Collation>
     </table>
-    <column id="294" parent="286" name="id">
+    <column id="296" parent="286" name="id">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="295" parent="286" name="emailUser">
+    <column id="297" parent="286" name="emailUser">
       <Position>2</Position>
       <DataType>varchar(265)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="296" parent="286" name="endDate">
+    <column id="298" parent="286" name="endDate">
       <Position>3</Position>
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="297" parent="286" name="startDate">
+    <column id="299" parent="286" name="startDate">
       <Position>4</Position>
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="298" parent="286" name="cost">
+    <column id="300" parent="286" name="cost">
       <Position>5</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="299" parent="286" name="emailEmployee">
+    <column id="301" parent="286" name="emailEmployee">
       <Position>6</Position>
       <DataType>varchar(256)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="300" parent="286" name="city">
+    <column id="302" parent="286" name="city">
       <Position>7</Position>
       <DataType>varchar(256)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="301" parent="286" name="definition">
+    <column id="303" parent="286" name="definition">
       <Position>8</Position>
       <DataType>varchar(256)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="302" parent="286" name="name">
+    <column id="304" parent="286" name="name">
       <Position>9</Position>
       <DataType>varchar(256)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="303" parent="286" name="idUser">
+    <column id="305" parent="286" name="idUser">
       <Position>10</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="304" parent="286" name="idEmployee">
+    <column id="306" parent="286" name="idEmployee">
       <Position>11</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="305" parent="286" name="actsofwork_order_idOrder_fk">
+    <index id="307" parent="286" name="actsofwork_order_idOrder_fk">
       <ColNames>emailUser</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="306" parent="286" name="PRIMARY">
+    <key id="308" parent="286" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="307" parent="287" name="id">
+    <column id="309" parent="287" name="name">
+      <Position>1</Position>
+      <DataType>varchar(256)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="310" parent="287" name="id">
+      <Position>2</Position>
+      <DataType>int|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
+    </column>
+    <column id="311" parent="287" name="login">
+      <Position>3</Position>
+      <DataType>varchar(256)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="312" parent="287" name="password">
+      <Position>4</Position>
+      <DataType>varchar(256)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="313" parent="287" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="314" parent="288" name="id">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="308" parent="287" name="name">
+    <column id="315" parent="288" name="name">
       <Position>2</Position>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="309" parent="287" name="position">
+    <column id="316" parent="288" name="position">
       <Position>3</Position>
       <DataType>enum(&apos;Экономист&apos;, &apos;Аналитик&apos;, &apos;Логист&apos;, &apos;Юрист&apos;)|0e</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="310" parent="287" name="Employment">
+    <column id="317" parent="288" name="Employment">
       <Position>4</Position>
       <DataType>enum(&apos;Да&apos;, &apos;Нет&apos;)|0e</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;Нет&apos;</DefaultExpression>
     </column>
-    <column id="311" parent="287" name="login">
+    <column id="318" parent="288" name="login">
       <Position>5</Position>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="312" parent="287" name="password">
+    <column id="319" parent="288" name="password">
       <Position>6</Position>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="313" parent="287" name="phoneNumber">
+    <column id="320" parent="288" name="phoneNumber">
       <Position>7</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="314" parent="287" name="email">
+    <column id="321" parent="288" name="email">
       <Position>8</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="315" parent="287" name="employee_login_uindex">
+    <index id="322" parent="288" name="employee_login_uindex">
       <ColNames>login</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="316" parent="287" name="employee_phoneNumber_uindex">
+    <index id="323" parent="288" name="employee_phoneNumber_uindex">
       <ColNames>phoneNumber</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="317" parent="287" name="employee_email_uindex">
+    <index id="324" parent="288" name="employee_email_uindex">
       <ColNames>email</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="318" parent="287" name="PRIMARY">
+    <key id="325" parent="288" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="319" parent="287" name="employee_login_uindex">
+    <key id="326" parent="288" name="employee_login_uindex">
       <ColNames>login</ColNames>
       <UnderlyingIndexName>employee_login_uindex</UnderlyingIndexName>
     </key>
-    <key id="320" parent="287" name="employee_phoneNumber_uindex">
+    <key id="327" parent="288" name="employee_phoneNumber_uindex">
       <ColNames>phoneNumber</ColNames>
       <UnderlyingIndexName>employee_phoneNumber_uindex</UnderlyingIndexName>
     </key>
-    <key id="321" parent="287" name="employee_email_uindex">
+    <key id="328" parent="288" name="employee_email_uindex">
       <ColNames>email</ColNames>
       <UnderlyingIndexName>employee_email_uindex</UnderlyingIndexName>
     </key>
-    <column id="322" parent="288" name="idOrder">
+    <column id="329" parent="289" name="id">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="323" parent="288" name="idUser">
+    <column id="330" parent="289" name="idUser">
       <Position>2</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="324" parent="288" name="idService">
+    <column id="331" parent="289" name="comment">
+      <Position>3</Position>
+      <DataType>varchar(256)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="332" parent="289" name="phoneNumber">
+      <Position>4</Position>
+      <DataType>varchar(256)|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="333" parent="289" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="334" parent="290" name="idOrder">
+      <Position>1</Position>
+      <DataType>int|0s</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>null</SequenceIdentity>
+    </column>
+    <column id="335" parent="290" name="idUser">
+      <Position>2</Position>
+      <DataType>int|0s</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="336" parent="290" name="idService">
       <Position>3</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="325" parent="288" name="idEmpl">
+    <column id="337" parent="290" name="idEmpl">
       <Position>4</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="326" parent="288" name="order_idService_uindex">
+    <index id="338" parent="290" name="order_idService_uindex">
       <ColNames>idService</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="327" parent="288" name="order_pk">
+    <index id="339" parent="290" name="order_pk">
       <ColNames>idService</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="328" parent="288" name="table_name_users_idUser_fk">
+    <index id="340" parent="290" name="table_name_users_idUser_fk">
       <ColNames>idUser</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="329" parent="288" name="table_name_employee_idEmpl_fk">
+    <index id="341" parent="290" name="table_name_employee_idEmpl_fk">
       <ColNames>idEmpl</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="330" parent="288" name="PRIMARY">
+    <key id="342" parent="290" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>idOrder</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="331" parent="288" name="order_idService_uindex">
+    <key id="343" parent="290" name="order_idService_uindex">
       <ColNames>idService</ColNames>
       <UnderlyingIndexName>order_idService_uindex</UnderlyingIndexName>
     </key>
-    <key id="332" parent="288" name="order_pk">
+    <key id="344" parent="290" name="order_pk">
       <ColNames>idService</ColNames>
       <UnderlyingIndexName>order_pk</UnderlyingIndexName>
     </key>
-    <foreign-key id="333" parent="288" name="table_name_users_idUser_fk">
+    <foreign-key id="345" parent="290" name="table_name_users_idUser_fk">
       <ColNames>idUser</ColNames>
       <RefTableName>users</RefTableName>
       <RefColNames>idUser</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="334" parent="288" name="order_service_idService_fk">
+    <foreign-key id="346" parent="290" name="order_service_idService_fk">
       <ColNames>idService</ColNames>
       <RefTableName>service</RefTableName>
       <RefColNames>idService</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="335" parent="288" name="table_name_employee_idEmpl_fk">
+    <foreign-key id="347" parent="290" name="table_name_employee_idEmpl_fk">
       <ColNames>idEmpl</ColNames>
       <RefTableName>employee</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
     </foreign-key>
-    <column id="336" parent="289" name="id">
+    <column id="348" parent="291" name="id">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="337" parent="289" name="idUser">
+    <column id="349" parent="291" name="idUser">
       <Position>2</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="338" parent="289" name="idEmployee">
+    <column id="350" parent="291" name="idEmployee">
       <Position>3</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="339" parent="289" name="phoneNumber">
+    <column id="351" parent="291" name="phoneNumber">
       <Position>4</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="340" parent="289" name="comment">
+    <column id="352" parent="291" name="comment">
       <Position>5</Position>
       <DataType>varchar(400)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="341" parent="289" name="dateStart">
+    <column id="353" parent="291" name="dateStart">
       <Position>6</Position>
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="342" parent="289" name="reason">
+    <column id="354" parent="291" name="reason">
       <Position>7</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="343" parent="289" name="rejectedRequest_users_idUser_fk">
+    <index id="355" parent="291" name="rejectedRequest_users_idUser_fk">
       <ColNames>idUser</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="344" parent="289" name="rejectedRequest_employee_id_fk">
+    <index id="356" parent="291" name="rejectedRequest_employee_id_fk">
       <ColNames>idEmployee</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="345" parent="289" name="PRIMARY">
+    <key id="357" parent="291" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="346" parent="289" name="rejectedRequest_users_idUser_fk">
+    <foreign-key id="358" parent="291" name="rejectedRequest_users_idUser_fk">
       <ColNames>idUser</ColNames>
       <RefTableName>users</RefTableName>
       <RefColNames>idUser</RefColNames>
       <OnUpdate>cascade</OnUpdate>
     </foreign-key>
-    <foreign-key id="347" parent="289" name="rejectedRequest_employee_id_fk">
+    <foreign-key id="359" parent="291" name="rejectedRequest_employee_id_fk">
       <ColNames>idEmployee</ColNames>
       <RefTableName>employee</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
     </foreign-key>
-    <column id="348" parent="290" name="id">
+    <column id="360" parent="292" name="id">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="349" parent="290" name="idUser">
+    <column id="361" parent="292" name="idUser">
       <Position>2</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="350" parent="290" name="choiceIdEmployee">
+    <column id="362" parent="292" name="choiceIdEmployee">
       <Position>3</Position>
       <DataType>int|0s</DataType>
     </column>
-    <column id="351" parent="290" name="phoneNumber">
+    <column id="363" parent="292" name="phoneNumber">
       <Position>4</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="352" parent="290" name="comment">
+    <column id="364" parent="292" name="comment">
       <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
       <DefaultExpression>&apos;empty&apos;</DefaultExpression>
     </column>
-    <column id="353" parent="290" name="dateForMeeting">
+    <column id="365" parent="292" name="dateForMeeting">
       <Position>6</Position>
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="354" parent="290" name="request_idUser_uindex">
+    <index id="366" parent="292" name="request_idUser_uindex">
       <ColNames>idUser</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <index id="355" parent="290" name="request_employee_id_fk">
+    <index id="367" parent="292" name="request_employee_id_fk">
       <ColNames>choiceIdEmployee</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="356" parent="290" name="PRIMARY">
+    <key id="368" parent="292" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="357" parent="290" name="request_idUser_uindex">
+    <key id="369" parent="292" name="request_idUser_uindex">
       <ColNames>idUser</ColNames>
       <UnderlyingIndexName>request_idUser_uindex</UnderlyingIndexName>
     </key>
-    <foreign-key id="358" parent="290" name="request_users_idUser_fk">
+    <foreign-key id="370" parent="292" name="request_users_idUser_fk">
       <ColNames>idUser</ColNames>
       <RefTableName>users</RefTableName>
       <RefColNames>idUser</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <foreign-key id="359" parent="290" name="request_employee_id_fk">
+    <foreign-key id="371" parent="292" name="request_employee_id_fk">
       <ColNames>choiceIdEmployee</ColNames>
       <RefTableName>employee</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
     </foreign-key>
-    <column id="360" parent="291" name="name">
+    <column id="372" parent="293" name="name">
       <Position>1</Position>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="361" parent="291" name="idService">
+    <column id="373" parent="293" name="idService">
       <Position>2</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="362" parent="291" name="city">
+    <column id="374" parent="293" name="city">
       <Position>3</Position>
       <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="363" parent="291" name="definition">
+    <column id="375" parent="293" name="definition">
       <Position>4</Position>
       <DataType>varchar(400)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="364" parent="291" name="cost">
+    <column id="376" parent="293" name="cost">
       <Position>5</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="365" parent="291" name="dateStart">
+    <column id="377" parent="293" name="dateStart">
       <Position>6</Position>
       <DataType>date|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="366" parent="291" name="service_pk">
+    <index id="378" parent="293" name="service_pk">
       <ColNames>idService</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="367" parent="291" name="PRIMARY">
+    <key id="379" parent="293" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>idService</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="368" parent="291" name="service_pk">
+    <key id="380" parent="293" name="service_pk">
       <ColNames>idService</ColNames>
       <UnderlyingIndexName>service_pk</UnderlyingIndexName>
     </key>
-    <column id="369" parent="292" name="idEmployee">
+    <column id="381" parent="294" name="idEmployee">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
     </column>
-    <column id="370" parent="292" name="numberRequest">
+    <column id="382" parent="294" name="numberRequest">
       <Position>2</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
     </column>
-    <column id="371" parent="292" name="numberOrder">
+    <column id="383" parent="294" name="numberOrder">
       <Position>3</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
     </column>
-    <column id="372" parent="292" name="averageMark">
+    <column id="384" parent="294" name="averageMark">
       <Position>4</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>0</DefaultExpression>
     </column>
-    <column id="373" parent="292" name="serviceSpeed">
+    <column id="385" parent="294" name="serviceSpeed">
       <Position>5</Position>
       <DataType>double|0s</DataType>
       <DefaultExpression>0</DefaultExpression>
     </column>
-    <column id="374" parent="292" name="serviceQuality">
+    <column id="386" parent="294" name="serviceQuality">
       <Position>6</Position>
       <DataType>double|0s</DataType>
       <DefaultExpression>0</DefaultExpression>
     </column>
-    <column id="375" parent="292" name="politeness">
+    <column id="387" parent="294" name="politeness">
       <Position>7</Position>
       <DataType>double|0s</DataType>
       <DefaultExpression>0</DefaultExpression>
     </column>
-    <column id="376" parent="292" name="id">
+    <column id="388" parent="294" name="id">
       <Position>8</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <index id="377" parent="292" name="statistic_idEmployee_uindex">
+    <index id="389" parent="294" name="statistic_idEmployee_uindex">
       <ColNames>idEmployee</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="378" parent="292" name="PRIMARY">
+    <key id="390" parent="294" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="379" parent="292" name="statistic_idEmployee_uindex">
+    <key id="391" parent="294" name="statistic_idEmployee_uindex">
       <ColNames>idEmployee</ColNames>
       <UnderlyingIndexName>statistic_idEmployee_uindex</UnderlyingIndexName>
     </key>
-    <foreign-key id="380" parent="292" name="statistic_employee_idEmployee_fk">
+    <foreign-key id="392" parent="294" name="statistic_employee_idEmployee_fk">
       <ColNames>idEmployee</ColNames>
       <RefTableName>employee</RefTableName>
       <RefColNames>id</RefColNames>
       <OnUpdate>cascade</OnUpdate>
       <OnDelete>cascade</OnDelete>
     </foreign-key>
-    <column id="381" parent="293" name="idUser">
+    <column id="393" parent="295" name="idUser">
       <Position>1</Position>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>null</SequenceIdentity>
     </column>
-    <column id="382" parent="293" name="name">
+    <column id="394" parent="295" name="name">
       <Position>2</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="383" parent="293" name="login">
+    <column id="395" parent="295" name="login">
       <Position>3</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="384" parent="293" name="password">
+    <column id="396" parent="295" name="password">
       <Position>4</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="385" parent="293" name="email">
+    <column id="397" parent="295" name="email">
       <Position>5</Position>
       <DataType>varchar(45)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="386" parent="293" name="users_login_uindex">
+    <index id="398" parent="295" name="users_login_uindex">
       <ColNames>login</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="387" parent="293" name="PRIMARY">
+    <key id="399" parent="295" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>idUser</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="388" parent="293" name="users_login_uindex">
+    <key id="400" parent="295" name="users_login_uindex">
       <ColNames>login</ColNames>
       <UnderlyingIndexName>users_login_uindex</UnderlyingIndexName>
     </key>
