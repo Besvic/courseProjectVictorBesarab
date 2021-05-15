@@ -69,4 +69,22 @@ public class ErrorInput {
         stage.setMinWidth(300);
         stage.showAndWait();
     }
+
+    public void showCompleteSuccessful(){
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/error/completeSuccessful.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setMaxHeight(200);
+        stage.setMaxWidth(300);
+        stage.setMinHeight(200);
+        stage.setMinWidth(300);
+        stage.showAndWait();
+    }
 }

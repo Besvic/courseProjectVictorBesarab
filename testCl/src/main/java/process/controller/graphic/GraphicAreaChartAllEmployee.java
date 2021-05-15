@@ -1,6 +1,7 @@
 package process.controller.graphic;
 
 import com.google.gson.Gson;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,8 +15,7 @@ import program.helperClasses.InitializeGraphicArrows;
 
 import java.util.Vector;
 
-public class GraphicMenu {
-
+public class GraphicAreaChartAllEmployee {
     @FXML
     private ComboBox<String> menuChoiceGraphic;
 
@@ -25,7 +25,7 @@ public class GraphicMenu {
     @FXML
     void comeBack(ActionEvent event) {
         Main main = new Main();
-        main.getWindow("/fxml/employee/mainMenuEmployee.fxml", "Меню сотрудника");
+        main.getWindow("/fxml/admin/adminMenu.fxml", "Меню администратора");
     }
 
     @FXML
@@ -36,11 +36,10 @@ public class GraphicMenu {
         menuChoiceGraphic.setItems(itemX);*/
 
         XYChart.Series<String, Double> series = new XYChart.Series<>();
-        Main.getMethod().writeLine(Const.INITIALIZE_GRAPHIC_DEPENDENCE_COST_ON_CITY_BY_ID_EMPLOYEE);
-        Main.getMethod().writeLine(String.valueOf(Employee.CURRENT_ID));
+        Main.getMethod().writeLine(Const.INITIALIZE_GRAPHIC_DEPENDENCE_COST_ON_CITY_ALL_EMPLOYEE);
         Gson gson = new Gson();
         Vector<InitializeGraphicArrows> vectorGraphic = new Vector<>();
-        while (true){
+        while (true) {
             String strG = Main.getMethod().readLine();
             if (strG.equals("0"))
                 break;
@@ -49,12 +48,10 @@ public class GraphicMenu {
                 vectorGraphic.add(new InitializeGraphicArrows(graphicArrows.getxDouble(), graphicArrows.getyString()));
             }
         }
-        for (var v: vectorGraphic) {
+        for (var v : vectorGraphic) {
             series.getData().add(new XYChart.Data<>(v.getyString(), v.getxDouble()));
         }
-        series.setName("Заработанная сумма");
+        series.setName("Заработок в разных городах");
         areaChartOnRequestFromCountry.getData().setAll(series);
-
     }
-
 }

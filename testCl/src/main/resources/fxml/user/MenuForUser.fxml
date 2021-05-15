@@ -6,14 +6,14 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="800.0" prefWidth="900.0" style="-fx-background-color: Moccasin;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="process.controller.user.MainMenuUser">
+<AnchorPane prefHeight="647.0" prefWidth="900.0" style="-fx-background-color: Moccasin;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="process.controller.user.MainMenuUser">
     <children>
-      <ImageView fitHeight="800.0" fitWidth="900.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="665.0" fitWidth="900.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
             <Image url="@../../image/start/userMenu.jpg" />
          </image>
       </ImageView>
-        <TitledPane animated="false" layoutY="40.0" prefHeight="205.0" prefWidth="364.0" style="-fx-content-display: LightSteelBlue;" text="Личные данные" AnchorPane.leftAnchor="0.0">
+        <TitledPane animated="false" layoutY="40.0" prefWidth="359.0" style="-fx-content-display: LightSteelBlue;" text="Личные данные" AnchorPane.leftAnchor="0.0">
             <content>
                 <TabPane prefHeight="179.0" prefWidth="342.0" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
@@ -173,9 +173,33 @@
             </TitledPane>
         </panes>
       </Accordion>
-      <Accordion layoutX="21.0" layoutY="511.0" prefHeight="289.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="511.0">
+      <MenuBar layoutY="2.0" prefHeight="16.0" prefWidth="900.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Выход">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#comeBack" text="Выйти из аккаунта" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Изменить">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#changeDetails" text="Изменить аккаунт" />
+                  <MenuItem mnemonicParsing="false" onAction="#deleteDetails" text="Удалить аккаунт" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false">
+               <graphic>
+                    <Label alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="2.0" prefWidth="600.0" text="Меню пользователя">
+                        <font>
+                            <Font name="Calibri Italic" size="28.0" />
+                        </font>
+                    </Label>
+               </graphic>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <Accordion layoutX="129.0" layoutY="493.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <panes>
-            <TitledPane animated="false" prefHeight="361.0" prefWidth="900.0" text="Просмотреть сотрудников">
+            <TitledPane animated="false" prefHeight="148.0" prefWidth="900.0" text="Просмотреть сотрудников">
                <content>
                   <AnchorPane prefHeight="244.0" prefWidth="372.0" style="-fx-background-color: LightSteelBlue;">
                      <children>
@@ -191,9 +215,9 @@
                   </AnchorPane>
                </content>
             </TitledPane>
-            <TitledPane animated="false" prefHeight="250.0" text="Просмотреть мои заказы">
+            <TitledPane animated="false" prefHeight="147.0" prefWidth="900.0" text="Просмотреть мои заказы">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="192.0" prefWidth="372.0" style="-fx-background-color: LightSteelBlue;">
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="212.0" prefWidth="898.0" style="-fx-background-color: LightSteelBlue;">
                      <children>
                           <TableView fx:id="orderViewTable" layoutX="-2.4000000000000004" layoutY="-1.4000000000000004" prefHeight="342.0" prefWidth="900.0" style="-fx-background-color: LightSteelBlue;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-12.0" AnchorPane.rightAnchor="-12.0" AnchorPane.topAnchor="-11.0">
                               <columns>
@@ -211,30 +235,5 @@
             </TitledPane>
          </panes>
       </Accordion>
-      <MenuBar layoutY="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="Выход">
-            <items>
-              <MenuItem mnemonicParsing="false" onAction="#comeBack" text="Выйти из аккаунта" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Изменить">
-            <items>
-              <MenuItem mnemonicParsing="false" onAction="#changeDetails" text="Изменить аккаунт" />
-                  <MenuItem mnemonicParsing="false" onAction="#deleteDetails" text="Удалить аккаунт" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false">
-               <graphic>
-                    <Label alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="15.0" prefWidth="600.0" text="Меню пользователя">
-                        <font>
-                            <Font name="Calibri Italic" size="28.0" />
-                        </font>
-                    </Label>
-               </graphic>
-          </Menu>
-        </menus>
-      </MenuBar>
-      <Label fx:id="idEmployeeForChoiceLabel" layoutX="179.0" layoutY="321.0" text="id Employee" />
     </children>
 </AnchorPane>

@@ -3,6 +3,7 @@ package process.controller;
 
 import animation.ErrorInputEnter;
 import com.google.gson.Gson;
+import javafx.scene.control.PasswordField;
 import process.controller.error.ErrorInput;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -43,7 +44,7 @@ public class EnterInAccount {
     private Button buttonRegister;
 
     @FXML
-    private TextField textFieldPassword;
+    private PasswordField textFieldPassword;
 
     @FXML
     private Button buttonSignIn;
@@ -113,10 +114,10 @@ public class EnterInAccount {
                     String answer = Main.getMethod().readLine();
                     if (answer.equals(FUNCTION_FAILED)) {
                         // ANIMATION TEST
-                        ErrorInputEnter loginAnimation = new ErrorInputEnter(textFieldLogin);
+                       /* ErrorInputEnter loginAnimation = new ErrorInputEnter(textFieldLogin);
                         ErrorInputEnter passwordAnimation = new ErrorInputEnter(textFieldPassword);
                         loginAnimation.playAnimation();
-                        passwordAnimation.playAnimation();
+                        passwordAnimation.playAnimation();*/
                         ErrorInput err = new ErrorInput();
                         err.show();
                     } else {

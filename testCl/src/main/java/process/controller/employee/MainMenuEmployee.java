@@ -50,9 +50,6 @@ public class MainMenuEmployee {
     private ChoiceBox<String> reasonForReject;
 
     @FXML
-    private Button rejectRequest;
-
-    @FXML
     private TableView<ViewRequest> requestTableView;
 
     @FXML

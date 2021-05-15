@@ -25,9 +25,15 @@ public class Const {
     public static final String INITIALIZE_ALL_EMPLOYEE_TABLE_VIEW = "initializeAllEmployeeTableView";
     public static final String INITIALIZE_GRAPHIC_DEPENDENCE_COST_ON_CITY_BY_ID_EMPLOYEE = "initializeGraphicDependenceCostOnCityByIdEmployee";
     public static final String INITIALIZE_DIAGRAM_COST_AND_MONTH_BY_ID_EMPLOYEE= "initializeDiagramCostAndMonthByIdEmployee";
+    public static final String INITIALIZE_GRAPHIC_DEPENDENCE_COST_ON_CITY_ALL_EMPLOYEE = "INITIALIZE_GRAPHIC_DEPENDENCE_COST_ON_CITY_ALL_EMPLOYEE";
+    public static final String INITIALIZE_DIAGRAM_COST_AND_MONTH_ALL_EMPLOYEE= "INITIALIZE_DIAGRAM_COST_AND_MONTH_ALL_EMPLOYEE";
     public static final String SEND_REQUEST_FOR_EMPLOYEE = "sendRequestForEmployee";
     public static final String CREATE_EMPLOYEE = "createEmployee";
     public static final String AUTHORISATION_ADMIN = "adminAuthorisation";
+    public static final String INITIALIZE_CURRENT_DETAILS_ADMIN = "initializeCurrentDetailsAdmin";
+    public static final String DELETE_CURRENT_ADMIN = "deleteCurrentAdmin";
+    public static final String INITIALIZE_TEXT_FIELD_FOR_CREATE_DETAILS = "INITIALIZE_TEXT_FIELD_FOR_CHANGE_DETAILS";
+    public static final String DELETE_EMPLOYEE = "DELETE_EMPLOYEE";
 
 
 

@@ -5,13 +5,21 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import process.controller.Main;
+import process.controller.error.ErrorInput;
+import program.classes.Admin;
 import program.classes.Const;
 import program.helperClasses.EmployeeTableView;
+
+import java.io.IOException;
 
 public class AdminMenu {
 
@@ -51,42 +59,101 @@ public class AdminMenu {
     ObservableList<EmployeeTableView> employeeTableViews = FXCollections.observableArrayList();
 
     @FXML
-    void comeBack(ActionEvent event) {
+    void comeBack() {
         Main main = new Main();
         main.getWindow("/fxml/start/mainWindow.fxml","Вход/Авторизация");
     }
 
     @FXML
-    void changeDetails(ActionEvent event) {
+    void createEmployee(ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/fxml/admin/createEmployee.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setTitle("Создание аккаунта");
+        stage.setScene(new Scene(root));
+        stage.setMaxHeight(600);
+        stage.setMaxWidth(600);
+        stage.setMinHeight(100);
+        stage.setMinWidth(500);
+        stage.showAndWait();
 
     }
 
     @FXML
     void deleteDetails(ActionEvent event) {
-
+        Main.getMethod().writeLine(Const.DELETE_CURRENT_ADMIN);
+        Main.getMethod().writeLine(String.valueOf(Admin.getCurrentId()));
+        if (Main.getMethod().readLine().equals(Const.FUNCTION_COMPLETED_SUCCESSFUL))
+            comeBack();
+        else {
+            ErrorInput err = new ErrorInput();
+            err.showErrorProcess();
+        }
     }
 
     @FXML
+    void confirmDeleteEmployee(){
+        if (idEmployeeForDeleteLabel.getText().isEmpty()){
+            ErrorInput err = new ErrorInput();
+            err.show();
+        } else {
+            Main.getMethod().writeLine(Const.DELETE_EMPLOYEE);
+            Main.getMethod().writeLine(idEmployeeForDeleteLabel.getText().trim());
+            if (Main.getMethod().readLine().equals(Const.FUNCTION_COMPLETED_SUCCESSFUL)){
+                Main main = new Main();
+                main.getWindow("/fxml/admin/adminMenu.fxml", "Меню администратора");
+            } else {
+                ErrorInput err = new ErrorInput();
+                err.showErrorProcess();
+            }
+        }
+    }
+    @FXML
     void showGraphic(ActionEvent event) {
-
+        Main main = new Main();
+        main.getWindow("/fxml/graphic/graphicAreaChartByAllEmployee.fxml", "График");
     }
 
     @FXML
     void showDiagram(ActionEvent event) {
-
+        Main main = new Main();
+        main.getWindow("/fxml/graphic/barChartAllEmployee.fxml", "Диаграмма");
     }
 
     @FXML
     void initialize() {
+        initializeCurrentDetails();
+
         initializeEmployeeViewTable();
+    }
+    public void initializeCurrentDetails(){
+        Main.getMethod().writeLine(Const.INITIALIZE_CURRENT_DETAILS_ADMIN);
+        Main.getMethod().writeLine(String.valueOf(Admin.getCurrentId()));
+        Gson gson = new Gson();
+        if (Main.getMethod().readLine().equals(Const.FUNCTION_FAILED)){
+            ErrorInput err = new ErrorInput();
+            err.showErrorProcess();
+        } else {
+            Admin admin = gson.fromJson(Main.getMethod().readLine(), Admin.class);
+            idCurrentLabel.setText(String.valueOf(admin.getId()));
+            nameCurrentLabel.setText(admin.getName());
+            loginCurrentLabel.setText(admin.getLogin());
+            passwordCurrentLabel.setText(admin.getPassword());
+        }
     }
 
     private void showIdEmployeeTableView(EmployeeTableView employeeTableView){
         if (employeeTableView != null){
-            idUserForDeleteLabel.setText(String.valueOf(employeeTableView.getId()));
+           // idUserForDeleteLabel.setText(String.valueOf(employeeTableView.getId()));
             idEmployeeForDeleteLabel.setText(String.valueOf(employeeTableView.getId()));
         }else {
-            idUserForDeleteLabel.setText("");
+            //idUserForDeleteLabel.setText("");
             idEmployeeForDeleteLabel.setText("");
         }
     }
@@ -114,4 +181,5 @@ public class AdminMenu {
             }
         }
     }
+
 }

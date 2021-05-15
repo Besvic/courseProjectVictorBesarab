@@ -421,11 +421,11 @@ public class MainMenuUser {
         if (employeeTableView != null){
             idEmployeeForReceiptLabel.setText(String.valueOf(employeeTableView.getId()));
             idEmployeeForStatisticLabel.setText(String.valueOf(employeeTableView.getId()));
-            idEmployeeForChoiceLabel.setText(String.valueOf(employeeTableView.getId()));
+           // idEmployeeForChoiceLabel.setText(String.valueOf(employeeTableView.getId()));
         }else {
             idEmployeeForReceiptLabel.setText("");
             idEmployeeForStatisticLabel.setText("");
-            idEmployeeForChoiceLabel.setText("");
+            //idEmployeeForChoiceLabel.setText("");
         }
     }
 

@@ -126,6 +126,23 @@ public class ServerWork {
                                 case Const.SEND_REQUEST_FOR_EMPLOYEE:
                                     process.addRequest();
                                     break;
+                                case Const.INITIALIZE_CURRENT_DETAILS_ADMIN:
+                                    process.getDetailsAdmin();
+                                    break;
+                                case Const.DELETE_CURRENT_ADMIN:
+                                    process.deleteCurrentAdmin();
+                                    break;
+                                case Const.CREATE_EMPLOYEE:
+                                    process.createEmployee();
+                                    break;
+                                case Const.DELETE_EMPLOYEE:
+                                    process.deleteEmployeeOnId(Integer.parseInt(getServerStream.readLine()));
+                                case Const.INITIALIZE_DIAGRAM_COST_AND_MONTH_ALL_EMPLOYEE:
+                                    process.getBarAllCostAndMonth();
+                                    break;
+                                case Const.INITIALIZE_GRAPHIC_DEPENDENCE_COST_ON_CITY_ALL_EMPLOYEE:
+                                    process.getAllDataForAreaCharts();
+                                    break;
 
 
                                 case Const.Exit:

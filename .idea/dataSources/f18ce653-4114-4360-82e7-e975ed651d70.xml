@@ -1033,12 +1033,12 @@ SELECT|sys.sys_config
     </column>
     <column id="316" parent="288" name="position">
       <Position>3</Position>
-      <DataType>enum(&apos;Экономист&apos;, &apos;Аналитик&apos;, &apos;Логист&apos;, &apos;Юрист&apos;)|0e</DataType>
+      <DataType>varchar(256)|0s</DataType>
       <NotNull>1</NotNull>
     </column>
     <column id="317" parent="288" name="Employment">
       <Position>4</Position>
-      <DataType>enum(&apos;Да&apos;, &apos;Нет&apos;)|0e</DataType>
+      <DataType>varchar(256)|0s</DataType>
       <NotNull>1</NotNull>
       <DefaultExpression>&apos;Нет&apos;</DefaultExpression>
     </column>

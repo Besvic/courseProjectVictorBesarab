@@ -552,6 +552,75 @@ static {
         }
     }
 
+    public ResultSet getDetailsOnId(int id){
+        String selectQuery = "select * " +
+                "from admin " +
+                "where id = ? ";
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(selectQuery);
+            pS.setInt(1, id);
+            return pS.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
+
+    public int deleteCurrentAdminOnId(int id){
+        String deleteQuery = "delete from admin " +
+                "where id = ? ";
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(deleteQuery);
+            pS.setInt(1, id);
+            return pS.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return 0;
+        }
+    }
+
+    public int createEmployee(Employee employee){
+        String insertQuery = "insert into employee (name, position, login, password, phoneNumber, email) " +
+                "values (?, ?, ?, ?, ?, ?) ";
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(insertQuery);
+            pS.setString(1, employee.getName());
+            pS.setString(2, employee.getPosition());
+            pS.setString(3, employee.getLogin());
+            pS.setString(4, employee.getPassword());
+            pS.setString(5, employee.getPhoneNumber());
+            pS.setString(6, employee.getEmail());
+            pS.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return 0;
+        }
+        try {
+            String selectQuery = "select max(id) as id from employee ";
+            PreparedStatement pS = getConnect().prepareStatement(selectQuery);
+            ResultSet result = pS.executeQuery();
+            if (result != null) {
+                result.next();
+                employee.setId(result.getInt("id"));
+            }
+            else
+                return 0;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return 0;
+        }
+        insertQuery = "insert into statistic (idEmployee) " +
+                "values (?)";
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(insertQuery);
+            pS.setInt(1, employee.getId());
+            return pS.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return 0;
+        }
+    }
+
     // get data for table view
 
     public ResultSet getDataForViewRequest(int id){
@@ -620,10 +689,10 @@ static {
 
     // graphic
 
-    public ResultSet getAllDataCityAndCostFromActsOfWork(){
-        String selectQuery = "select sum(cost), city " +
+    public ResultSet getAreaChartsAllDataCityAndCostFromActsOfWork(){
+        String selectQuery = "select sum(cost) as cost, city " +
                 "from actsofwork " +
-                "group by city" +
+                "group by city " +
                 "order by cost ";
         try {
             PreparedStatement pS = getConnect().prepareStatement(selectQuery);
@@ -666,7 +735,7 @@ static {
         }
     }
 
-    public ResultSet getAllDataCostAndMonthFromActsOfWork(){
+    public ResultSet getBarAllDataCostAndMonthFromActsOfWork(){
         String selectQuery = "select MONTH(endDate) as month, SUM(cost) as cost " +
                 "from actsofwork " +
                 "where YEAR(endDate) = YEAR(CURRENT_DATE) " +

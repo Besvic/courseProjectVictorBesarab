@@ -280,6 +280,44 @@ public class Process {
         }
     }
 
+    public void getDetailsAdmin(){
+        DBConnect db = new DBConnect();
+        Gson gson = new Gson();
+        ResultSet result = null;
+        if ((result = db.getDetailsOnId(Integer.parseInt(getServerStream.readLine()))) == null)
+            getServerStream.writeLine(Const.FUNCTION_FAILED);
+        else {
+            try {
+                result.next();
+                Admin admin = new Admin(result.getString("name"), result.getInt("id"),
+                        result.getString("login"), result.getString("password"));
+                getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
+                getServerStream.writeLine(gson.toJson(admin));
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                getServerStream.writeLine(Const.FUNCTION_FAILED);
+            }
+        }
+    }
+
+    public void deleteCurrentAdmin(){
+        DBConnect db = new DBConnect();
+        if (db.deleteCurrentAdminOnId(Integer.parseInt(getServerStream.readLine())) == 0)
+            getServerStream.writeLine(Const.FUNCTION_FAILED);
+        else
+            getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
+    }
+
+
+    public void createEmployee(){
+        DBConnect db = new DBConnect();
+        Gson gson = new Gson();
+        if (db.createEmployee(gson.fromJson(getServerStream.readLine(), Employee.class)) == 0)
+            getServerStream.writeLine(Const.FUNCTION_FAILED);
+        else
+            getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
+    }
+
 
     // get data for table view
 
@@ -393,6 +431,21 @@ public class Process {
         }
     }
 
+    public void getAllDataForAreaCharts(){
+        DBConnect db = new DBConnect();
+        Gson gson = new Gson();
+        ResultSet result = db.getAreaChartsAllDataCityAndCostFromActsOfWork();
+        try {
+            while (result.next()){
+                InitializeGraphicArrows init = new InitializeGraphicArrows(result.getDouble("cost"), result.getString("city"));
+                getServerStream.writeLine(gson.toJson(init));
+            }
+            getServerStream.writeLine("0");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
     //diagram
     public void getCostAndMonthByIdEmployee(){
         DBConnect db = new DBConnect();
@@ -410,6 +463,25 @@ public class Process {
         }
 
     }
+
+    public void getBarAllCostAndMonth(){
+        DBConnect db = new DBConnect();
+        Gson gson = new Gson();
+        ResultSet result = db.getBarAllDataCostAndMonthFromActsOfWork();
+        try{
+            while (result.next()){
+                InitializeGraphicArrows init = new InitializeGraphicArrows(result.getDouble("cost"), result.getString("month"));
+                init.setyString(mothToString(init.getyString()));
+                getServerStream.writeLine(gson.toJson(init));
+            }
+            getServerStream.writeLine("0");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+    }
+
+
 
     String mothToString(String number){
         switch (number){
