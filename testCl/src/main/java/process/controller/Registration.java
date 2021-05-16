@@ -1,7 +1,7 @@
 package process.controller;
 
 import com.google.gson.Gson;
-import process.controller.error.ErrorInputData;
+import process.controller.error.ErrorInput;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -105,7 +105,7 @@ public class Registration {
                 Main.primaryStage.setScene(new Scene(root));
                 Main.primaryStage.setTitle("Вход/Авторизация");
                 Main.primaryStage.show();*/
-                ErrorInputData err = new ErrorInputData();
+                ErrorInput err = new ErrorInput();
                 err.show();
 
             }
@@ -113,7 +113,7 @@ public class Registration {
                 System.out.println(FUNCTION_COMPLETED_SUCCESSFUL);
             }
         }else {
-            ErrorInputData err = new ErrorInputData();
+            ErrorInput err = new ErrorInput();
             err.show();
 
         }

@@ -66,16 +66,17 @@ public class ServerWork {
                                         process.checkUserAuthorisation(strGson);
                                     }
                                     break;
+                                case Const.AUTHORISATION_ADMIN:
+                                    process.checkAdmin();
+                                    break;
                                 case Const.UPDATE_USER_DETAILS:
-                                    String strGson = getServerStream.readLine();
-                                    process.updateUserDetails(strGson);
+                                    process.updateUserDetails(getServerStream.readLine());
                                     break;
                                 case Const.DELETE_CURRENT_USER:
-                                    String idCurrent =  getServerStream.readLine();
-                                    process.deleteUserAccountOnCurrentId(idCurrent);
+                                    process.deleteUserAccountOnCurrentId(getServerStream.readLine());
                                     break;
-                                case Const.SEND_REQUEST_fROM_USER_MENU:
-                                    process.setUserRequest(getServerStream.readLine(), getServerStream.readLine(), getServerStream.readLine(), getServerStream.readLine());
+                                case Const.SEND_MANAGER_REQUEST_fROM_USER_MENU:
+                                    process.setUserRequest();
                                     break;
                                 case Const.GET_USER_CURRENT_DETAILS:
                                     process.getUserDetailsOnId(Integer.parseInt(getServerStream.readLine()));
@@ -88,6 +89,7 @@ public class ServerWork {
                                     break;
                                 case Const.DELETE_CURRENT_EMPLOYEE:
                                     process.deleteEmployeeOnId(Integer.parseInt(getServerStream.readLine()));
+                                    break;
                                 case Const.GET_DATA_FOR_INITIALISE_VIEW_REQUEST:
                                     process.getDataForViewRequest();
                                     break;
@@ -97,8 +99,56 @@ public class ServerWork {
                                 case Const.REJECT_REQUEST:
                                     process.rejectRequest();
                                     break;
+                                case Const.INITIALIZE_VIEW_REQUEST:
+                                    process.getDataForInitializeViewRequest();
+                                    break;
+                                case Const.INITIALIZE_CURRENT_ORDER_VIEW_TABLE:
+                                    process.initializeCurrentOrderViewTable();
+                                    break;
+                                case Const.INITIALIZE_COMPLETED_VIEW_TABLE:
+                                    process.initializeCompletedOrderViewTable();
+                                    break;
+                                case Const.ADD_ACTS_OF_WORK:
+                                    process.addActsOfWork();
+                                    break;
+                                case Const.ADD_STATISTIC_EMPLOYEE:
+                                    process.addStatisticMark();
+                                    break;
+                                case Const.INITIALIZE_ALL_EMPLOYEE_TABLE_VIEW:
+                                    process.initializeEmployeeTableView();
+                                    break;
+                                case Const.INITIALIZE_GRAPHIC_DEPENDENCE_COST_ON_CITY_BY_ID_EMPLOYEE:
+                                    process.getCityAndCostOnIdEmployee();
+                                    break;
+                                case Const.INITIALIZE_DIAGRAM_COST_AND_MONTH_BY_ID_EMPLOYEE:
+                                    process.getCostAndMonthByIdEmployee();
+                                    break;
+                                case Const.SEND_REQUEST_FOR_EMPLOYEE:
+                                    process.addRequest();
+                                    break;
+                                case Const.INITIALIZE_CURRENT_DETAILS_ADMIN:
+                                    process.getDetailsAdmin();
+                                    break;
+                                case Const.DELETE_CURRENT_ADMIN:
+                                    process.deleteCurrentAdmin();
+                                    break;
+                                case Const.CREATE_EMPLOYEE:
+                                    process.createEmployee();
+                                    break;
+                                case Const.DELETE_EMPLOYEE:
+                                    process.deleteEmployeeOnId(Integer.parseInt(getServerStream.readLine()));
+                                case Const.INITIALIZE_DIAGRAM_COST_AND_MONTH_ALL_EMPLOYEE:
+                                    process.getBarAllCostAndMonth();
+                                    break;
+                                case Const.INITIALIZE_GRAPHIC_DEPENDENCE_COST_ON_CITY_ALL_EMPLOYEE:
+                                    process.getAllDataForAreaCharts();
+                                    break;
+                                case Const.GET_DATA_FOR_REJECT_REQUEST_TABLE_VIEW:
+                                    process.initializeRejectRequestTableView();
+                                    break;
 
-                                    case Const.Exit:
+
+                                case Const.Exit:
                                     break;
                             }
                         }

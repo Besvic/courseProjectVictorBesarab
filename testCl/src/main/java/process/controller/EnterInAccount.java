@@ -3,7 +3,8 @@ package process.controller;
 
 import animation.ErrorInputEnter;
 import com.google.gson.Gson;
-import process.controller.error.ErrorInputData;
+import javafx.scene.control.PasswordField;
+import process.controller.error.ErrorInput;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,6 +15,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import program.classes.Admin;
+import program.classes.Const;
 import program.classes.Employee;
 import program.classes.User;
 
@@ -41,7 +44,7 @@ public class EnterInAccount {
     private Button buttonRegister;
 
     @FXML
-    private TextField textFieldPassword;
+    private PasswordField textFieldPassword;
 
     @FXML
     private Button buttonSignIn;
@@ -49,7 +52,7 @@ public class EnterInAccount {
     @FXML
     private ChoiceBox<String> choiceLaw;
 
-    ObservableList<String> statusList = FXCollections.observableArrayList("Пользователь", "Сотрудник");
+    ObservableList<String> statusList = FXCollections.observableArrayList("Пользователь", "Сотрудник", "Администратор");
    /* public EnterInAccount(){
 
     }*/
@@ -57,69 +60,83 @@ public class EnterInAccount {
     @FXML
     void buttonEnterAction(ActionEvent event) {
         if(textFieldLogin.getText().trim() != "" && textFieldPassword.getText().trim() != ""){
-            Main.getMethod().writeLine(AUTHORISATION);
-            if(choiceLaw.getValue().trim().equals("Пользователь")){
-                Main.getMethod().writeLine(USER_AUTHORISATION);
-                User user = new User();
-                user.setLogin(textFieldLogin.getText().trim());
-                user.setPassword(textFieldPassword.getText().trim());
+            if (choiceLaw.getValue().equals("Администратор")){
+                Main.getMethod().writeLine(Const.AUTHORISATION_ADMIN);
+                Admin admin = new Admin("", 0, textFieldLogin.getText().trim(), textFieldPassword.getText().trim());
                 Gson gson = new Gson();
-                Main.getMethod().writeLine(gson.toJson(user));
-
-                userDetailsG =  Main.getMethod().readLine();////////////////////
-                if(userDetailsG.equals(FUNCTION_FAILED)){
-                    // ANIMATION TEST
-                    ErrorInputEnter loginAnimation = new ErrorInputEnter(textFieldLogin);
-                    ErrorInputEnter passwordAnimation = new ErrorInputEnter(textFieldPassword);
-                    loginAnimation.playAnimation();
-                    passwordAnimation.playAnimation();
-                    ErrorInputData err = new ErrorInputData();
+                Main.getMethod().writeLine(gson.toJson(admin));
+                if (Main.getMethod().readLine().equals(Const.FUNCTION_FAILED)){
+                    ErrorInput err = new ErrorInput();
                     err.show();
-                }else{
-                    User.CURRENT_ID = Integer.parseInt(Main.getMethod().readLine());
-                    Parent root = null;
-                    try {
-                        root = FXMLLoader.load(getClass().getResource("/fxml/user/MenuForUser.fxml"));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    Main.primaryStage.setScene(new Scene(root));
-                    Main.primaryStage.setTitle("Меню пользователя");
-                    Main.primaryStage.show();
+                }else {
+                    Admin.setCurrentId(Integer.parseInt(Main.getMethod().readLine()));
+                    Main main = new Main();
+                    main.getWindow("/fxml/admin/adminMenu.fxml", "Меню администратора");
                 }
-            }else{
-                Main.getMethod().writeLine(ADMIN_AUTHORISATION);
-                Employee employee = new Employee();
-                employee.setLogin(textFieldLogin.getText().trim());
-                employee.setPassword(textFieldPassword.getText().trim());
-                Gson gson = new Gson();
-                Main.getMethod().writeLine(gson.toJson(employee));
-                String answer =  Main.getMethod().readLine();
-                if(answer.equals(FUNCTION_FAILED)){
-                    // ANIMATION TEST
-                    ErrorInputEnter loginAnimation = new ErrorInputEnter(textFieldLogin);
-                    ErrorInputEnter passwordAnimation = new ErrorInputEnter(textFieldPassword);
-                    loginAnimation.playAnimation();
-                    passwordAnimation.playAnimation();
-                    ErrorInputData err = new ErrorInputData();
-                    err.show();
-                }else{
-                    Employee.CURRENT_ID = Integer.parseInt(answer);
-                    Parent root = null;
-                    try {
-                        root = FXMLLoader.load(getClass().getResource("/fxml/employee/mainMenuEmployee.fxml"));
-                    } catch (IOException e) {
-                        e.printStackTrace();
+            }else {
+                Main.getMethod().writeLine(AUTHORISATION);
+                if (choiceLaw.getValue().trim().equals("Пользователь")) {
+                    Main.getMethod().writeLine(USER_AUTHORISATION);
+                    User user = new User();
+                    user.setLogin(textFieldLogin.getText().trim());
+                    user.setPassword(textFieldPassword.getText().trim());
+                    Gson gson = new Gson();
+                    Main.getMethod().writeLine(gson.toJson(user));
+
+                    userDetailsG = Main.getMethod().readLine();////////////////////
+                    if (userDetailsG.equals(FUNCTION_FAILED)) {
+                        // ANIMATION TEST
+                        ErrorInputEnter loginAnimation = new ErrorInputEnter(textFieldLogin);
+                        ErrorInputEnter passwordAnimation = new ErrorInputEnter(textFieldPassword);
+                        loginAnimation.playAnimation();
+                        passwordAnimation.playAnimation();
+                        ErrorInput err = new ErrorInput();
+                        err.show();
+                    } else {
+                        User.CURRENT_ID = Integer.parseInt(Main.getMethod().readLine());
+                        Parent root = null;
+                        try {
+                            root = FXMLLoader.load(getClass().getResource("/fxml/user/MenuForUser.fxml"));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Main.primaryStage.setScene(new Scene(root));
+                        Main.primaryStage.setTitle("Меню пользователя");
+                        Main.primaryStage.show();
                     }
-                    Main.primaryStage.setScene(new Scene(root));
-                    Main.primaryStage.setTitle("Меню сотрудника");
-                    Main.primaryStage.show();
+                } else {
+                    Main.getMethod().writeLine(ADMIN_AUTHORISATION);
+                    Employee employee = new Employee();
+                    employee.setLogin(textFieldLogin.getText().trim());
+                    employee.setPassword(textFieldPassword.getText().trim());
+                    Gson gson = new Gson();
+                    Main.getMethod().writeLine(gson.toJson(employee));
+                    String answer = Main.getMethod().readLine();
+                    if (answer.equals(FUNCTION_FAILED)) {
+                        // ANIMATION TEST
+                       /* ErrorInputEnter loginAnimation = new ErrorInputEnter(textFieldLogin);
+                        ErrorInputEnter passwordAnimation = new ErrorInputEnter(textFieldPassword);
+                        loginAnimation.playAnimation();
+                        passwordAnimation.playAnimation();*/
+                        ErrorInput err = new ErrorInput();
+                        err.show();
+                    } else {
+                        Employee.CURRENT_ID = Integer.parseInt(answer);
+                        Parent root = null;
+                        try {
+                            root = FXMLLoader.load(getClass().getResource("/fxml/employee/mainMenuEmployee.fxml"));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Main.primaryStage.setScene(new Scene(root));
+                        Main.primaryStage.setTitle("Меню сотрудника");
+                        Main.primaryStage.show();
+                    }
                 }
             }
 
-
         }else {
-            ErrorInputData err = new ErrorInputData();
+            ErrorInput err = new ErrorInput();
             err.show();
         }
     }

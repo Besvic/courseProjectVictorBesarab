@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import process.controller.error.ErrorInputData;
+import process.controller.error.ErrorInput;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -74,9 +74,6 @@ public class ChangeEmployeeDetails {
             String stringG = gson.toJson(employee);
             getMethod().writeLine(Const.UPDATE_EMPLOYEE_DETAILS);
             getMethod().writeLine(stringG);
-
-
-
             //wait answer about function
             if (getMethod().readLine().equals(Const.FUNCTION_COMPLETED_SUCCESSFUL)){
                 processLabel.setText("Выйдите из аккаунта для сохранения данных.");
@@ -86,12 +83,12 @@ public class ChangeEmployeeDetails {
             }
             else{
                 processLabel.setText("Логин уже используется.");
-                ErrorInputData err = new ErrorInputData();
+                ErrorInput err = new ErrorInput();
                 err.show();
             }
         }else {
             processLabel.setText("Заполните все поля.");
-            ErrorInputData err = new ErrorInputData();
+            ErrorInput err = new ErrorInput();
             err.show();
         }
     }

@@ -3,11 +3,9 @@ package dbconnection;
 //import com.mysql.fabric.jdbc.FabricMySQLDriver;
 
 import com.google.gson.Gson;
+import com.mysql.cj.Query;
 import com.mysql.cj.jdbc.ClientPreparedStatement;
-import program.classes.Const;
-import program.classes.Employee;
-import program.classes.Service;
-import program.classes.User;
+import program.classes.*;
 import server.ServerWork;
 
 import java.sql.*;
@@ -57,13 +55,7 @@ static {
     public static Connection getConnect () throws SQLException {
 
         try {
-//            Driver driver = new FabricMySQLDriver();
-//            DriverManager.registerDriver(driver);
-            connection = DriverManager.getConnection(URL,USERNAME,PASSWORD);
-//            if (!connection.isClosed()){
-//                System.out.println("Connection");
-//            }
-
+            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         }
         catch (SQLException e){
             System.err.println("Error download driver");
@@ -181,28 +173,82 @@ static {
         }
     }
 
-    public int setUserRequest(int idUser, int idEmployee, String comment, String phoneNumber){
-        String query = null;
-        if (idEmployee != 0)
-            query = "INSERT INTO request (idUser, phoneNumber, comment, choiceIdEmployee) " +
-                    "value (?, ?, ?, ?)";
-            else
-            query =  "INSERT INTO request (idUser, phoneNumber, comment) " +
-                    "value (?, ?, ?)";
+    public int setUserRequestForManager(Request request){
+        String insertQuery = "INSERT INTO managerrequest (idUser, phoneNumber, comment) " +
+                "value (?, ?, ?)";
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(insertQuery);
+            pS.setInt(1, request.getIdUser());
+            pS.setString(2, request.getPhoneNumber());
+            pS.setString(3, request.getComment());
+            return pS.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return 0;
+        }
+    }
+
+    public int addUserStatisticMark(Double mark, String field, int idEmployee){
+        ResultSet resultSelect = null;
+        String selectQuery = "select * " +
+                "from statistic " +
+                "where idEmployee = ? ";
+        try{
+            PreparedStatement pS = getConnect().prepareStatement(selectQuery);
+            pS.setDouble(1, idEmployee);
+            resultSelect = pS.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return 0;
+        }
+        if (resultSelect == null)
+            return 0;
+        else {
             try {
-                PreparedStatement pS = getConnect().prepareStatement(query);
-                pS.setInt(1, idUser);
-                pS.setString(2, phoneNumber);
-                pS.setString(3, comment);
-                if (idEmployee != 0)
-                    pS.setInt(4, idEmployee);
-                int i = pS.executeUpdate();
-                return i;
+                resultSelect.next();
+                String updateQuery = null;
+                if (field.equals("politeness"))
+                    updateQuery = "update statistic " +
+                        "set politeness = ? " +
+                        "where idEmployee = ? ";
+                else if (field.equals("serviceSpeed"))
+                    updateQuery = "update statistic " +
+                        "set serviceSpeed = ? " +
+                        "where idEmployee = ? ";
+                else
+                    updateQuery = "update statistic " +
+                        "set serviceQuality = ? " +
+                        "where idEmployee = ? ";
+                PreparedStatement pS = getConnect().prepareStatement(updateQuery);
+      /*          pS.setString(1, "politeness");
+                pS.setString(2, "politeness");*/
+               /* double point = mark + resultSelect.getDouble(field);
+                if (point > 5)
+                    point = 5;*/
+                pS.setDouble(1, mark/5 + resultSelect.getDouble(field));
+                pS.setInt(2, idEmployee);
+                return pS.executeUpdate();
             } catch (SQLException throwables) {
+                throwables.printStackTrace();
                 return 0;
             }
-
-
+        }
+    }
+    public int addRequest(int idUser, int idEmployee, String phoneNumber, String comment, String date){
+        String insertQuery = "INSERT INTO request (idUser, phoneNumber, comment, choiceIdEmployee, dateForMeeting) " +
+                    "value (?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(insertQuery);
+            pS.setInt(1, idUser);
+            pS.setString(2, phoneNumber);
+            pS.setString(3, comment);
+            pS.setInt(4, idEmployee);
+            pS.setString(5, date);
+            return pS.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return 0;
+        }
     }
 
 
@@ -388,6 +434,62 @@ static {
         }
     }
 
+    public int insertRowIntoActsOfWork(int id){
+        int numberResult = 0;
+        String selectQuery = "SELECT u.email, s.dateStart, s.cost, e.email, s.city, s.definition, s.name, u.idUser, e.id, o.idService " +
+                "from `order` o " +
+                "inner join service s on o.idService = s.idService " +
+                "inner join employee e on o.idEmpl = e.id " +
+                "inner join users u on o.idUser = u.idUser " +
+                "where o.idOrder = ? ";
+        ResultSet resultSelect = null;
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(selectQuery);
+            pS.setInt(1, id);
+            resultSelect = pS.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return numberResult;
+        }
+        if (resultSelect == null)
+            return numberResult;
+        else {
+            String queryInsert = "insert into actsofwork(emailUser, endDate, startDate, cost, emailEmployee, city, " +
+                    "definition, name, idUser, idEmployee) " +
+                    "values (?, current_date(), ?, ? ,? ,? ,? ,? ,? ,?) ";
+            try {
+                resultSelect.next();
+                PreparedStatement pS = getConnect().prepareStatement(queryInsert);
+                pS.setString(1, resultSelect.getString("u.email"));
+                pS.setString(2, resultSelect.getString("dateStart"));
+                pS.setDouble(3, resultSelect.getDouble("cost"));
+                pS.setString(4, resultSelect.getString("e.email"));
+                pS.setString(5, resultSelect.getString("city"));
+                pS.setString(6, resultSelect.getString("definition"));
+                pS.setString(7, resultSelect.getString("name"));
+                pS.setInt(8, resultSelect.getInt("idUser"));
+                pS.setInt(9, resultSelect.getInt("id"));
+                numberResult = pS.executeUpdate();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                return numberResult;
+            }
+            String deleteQuery = "delete from service " +
+                    "where idService = ?";
+            try{
+                PreparedStatement pS = getConnect().prepareStatement(deleteQuery);
+                pS.setInt(1, resultSelect.getInt("idService"));
+                if (pS.executeUpdate() == 1)
+                    return numberResult;
+                else
+                    return 0;
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                return 0;
+            }
+        }
+
+    }
 
 
     public ResultSet getDataFromRequestOnIdUser(int id){
@@ -424,6 +526,108 @@ static {
     }
 
 
+
+
+
+    //admin function
+
+    public ResultSet checkAdminAuthorisation(Admin admin){
+        String selectQuery = "select * " +
+                "from admin " +
+                "where login = ? and password = ?";
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(selectQuery);
+            pS.setString(1, admin.getLogin());
+            pS.setString(2, admin.getPassword());
+            return pS.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
+
+    public ResultSet getDetailsOnId(int id){
+        String selectQuery = "select * " +
+                "from admin " +
+                "where id = ? ";
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(selectQuery);
+            pS.setInt(1, id);
+            return pS.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
+
+    public int deleteCurrentAdminOnId(int id){
+        String deleteQuery = "delete from admin " +
+                "where id = ? ";
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(deleteQuery);
+            pS.setInt(1, id);
+            return pS.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return 0;
+        }
+    }
+
+    public int createEmployee(Employee employee){
+        String insertQuery = "insert into employee (name, position, login, password, phoneNumber, email) " +
+                "values (?, ?, ?, ?, ?, ?) ";
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(insertQuery);
+            pS.setString(1, employee.getName());
+            pS.setString(2, employee.getPosition());
+            pS.setString(3, employee.getLogin());
+            pS.setString(4, employee.getPassword());
+            pS.setString(5, employee.getPhoneNumber());
+            pS.setString(6, employee.getEmail());
+            pS.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return 0;
+        }
+        try {
+            String selectQuery = "select max(id) as id from employee ";
+            PreparedStatement pS = getConnect().prepareStatement(selectQuery);
+            ResultSet result = pS.executeQuery();
+            if (result != null) {
+                result.next();
+                employee.setId(result.getInt("id"));
+            }
+            else
+                return 0;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return 0;
+        }
+        insertQuery = "insert into statistic (idEmployee) " +
+                "values (?)";
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(insertQuery);
+            pS.setInt(1, employee.getId());
+            return pS.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return 0;
+        }
+    }
+
+    public ResultSet getDataForRejectRequestTableView(){
+        String selectQuery = "select r.*, u.email as emailU, e.email as emailE " +
+                "from rejectedrequest r " +
+                "inner join employee e on r.idEmployee = e.id " +
+                "inner join users u on r.idUser = u.idUser ";
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(selectQuery);
+            return pS.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
     // get data for table view
 
     public ResultSet getDataForViewRequest(int id){
@@ -441,102 +645,119 @@ static {
         }
     }
 
+    public ResultSet getDataForCurrentOrderViewTable(int id){
+        String query = "select `order`.idOrder, s.name, u.name, u.email, s.definition, s.cost, s.dateStart " +
+                "from `order` " +
+                "inner join service s on `order`.idService = s.idService " +
+                "inner join users u on `order`.idUser = u.idUser " +
+                "where `order`.idEmpl = ? ";
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(query);
+            pS.setInt(1, id);
+            return pS.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
+
+    public ResultSet getDataForInitializeCompletedOrderViewTable(int id){
+        String query = "select actsofwork.* " +
+                "from actsofwork " +
+                "where idEmployee = ? ";
+        try{
+            PreparedStatement pS = getConnect().prepareStatement(query);
+            pS.setInt(1, id);
+            return pS.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
+
+    public ResultSet getDataForInitializeEmployeeTableView(){
+        String selectQuery = "select e.id, e.name, e.position, " +
+                "CAST(ROUND(((s.serviceQuality + s.serviceSpeed + s.politeness)/3), 2) AS DECIMAL(10,2)) mark " +
+                "from employee e " +
+                "inner join statistic s on e.id = s.idEmployee";
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(selectQuery);
+            return pS.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
+
+
+
+
+
+
+    // graphic
+
+    public ResultSet getAreaChartsAllDataCityAndCostFromActsOfWork(){
+        String selectQuery = "select sum(cost) as cost, city " +
+                "from actsofwork " +
+                "group by city " +
+                "order by cost ";
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(selectQuery);
+            return pS.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
+
+    public ResultSet getByIdEmployeeDataCityAndCostFromActsOfWork(int id){
+        String selectQuery = "select sum(cost) as cost, city " +
+                "from actsofwork " +
+                "where idEmployee = ? " +
+                "group by city " +
+                "order by cost ";
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(selectQuery);
+            pS.setInt(1, id);
+            return pS.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
+
+    public ResultSet getDataByIdEmployeeCostAndMonthFromActsOfWork(int idEmployee){
+        String selectQuery = "select MONTH(endDate) as month, SUM(cost) as cost " +
+                "from actsofwork " +
+                "where YEAR(endDate) = YEAR(CURRENT_DATE) and idEmployee = ? " +
+                "group by month " +
+                "order by month ";
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(selectQuery);
+            pS.setInt(1, idEmployee);
+            return pS.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
+
+    public ResultSet getBarAllDataCostAndMonthFromActsOfWork(){
+        String selectQuery = "select MONTH(endDate) as month, SUM(cost) as cost " +
+                "from actsofwork " +
+                "where YEAR(endDate) = YEAR(CURRENT_DATE) " +
+                "group by month " +
+                "order by month ";
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(selectQuery);
+            return pS.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
 
 
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//    // JDBC variables for opening and managing connection
-//    private static Connection con;
-//    private static Statement stmt;
-//    private static ResultSet rs;
-//
-//    public static void main(String args[]) {
-//        String query = "select count(*) from users";
-//
-//        try {
-//            // opening database connection to MySQL server
-//            con = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-//
-//            // getting Statement object to execute query
-//            stmt = con.createStatement();
-//
-//            // executing SELECT query
-//            rs = stmt.executeQuery(query);
-//
-//            while (rs.next()) {
-//                int count = rs.getInt(1);
-//                System.out.println("Total number of books in the table : " + count);
-//            }
-//
-//        } catch (SQLException sqlEx) {
-//            sqlEx.printStackTrace();
-//        } finally {
-//            //close connection ,stmt and resultset here
-//            try { con.close(); } catch(SQLException se) { /*can't do anything */ }
-//            try { stmt.close(); } catch(SQLException se) { /*can't do anything */ }
-//            try { rs.close(); } catch(SQLException se) { /*can't do anything */ }
-//        }
-//    }

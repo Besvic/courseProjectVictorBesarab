@@ -16,7 +16,7 @@
             <Image url="@../../image/start/menuEmployee.jpg" />
          </image>
       </ImageView>
-      <Accordion layoutY="25.0" prefHeight="206.0" prefWidth="306.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="25.0">
+      <Accordion layoutY="34.0" prefHeight="206.0" prefWidth="306.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="34.0">
          <panes>
           <TitledPane animated="false" prefHeight="181.0" prefWidth="401.0" text="Профиль">
             <content>
@@ -88,7 +88,7 @@
                   </AnchorPane>
             </content>
           </TitledPane>
-            <TitledPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: Thistle;" text="Подтвердить заказ">
+            <TitledPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: Thistle;" text="Подтвердить заявку">
                <content>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: Thistle;">
                      <children>
@@ -104,21 +104,37 @@
                           </rowConstraints>
                            <children>
                               <Label text="id заявки" />
-                              <Label fx:id="idRequestFromViewRequestLabel" text="Label" GridPane.columnIndex="1" />
+                              <Label fx:id="idRequestFromViewRequestLabel" text="id request" GridPane.columnIndex="1" />
                               <Button mnemonicParsing="false" onAction="#commitRequest" text="Подтвердить" GridPane.rowIndex="1" />
                               <Button mnemonicParsing="false" onAction="#rejectRequest" prefHeight="25.0" prefWidth="87.0" text="Оклонить" GridPane.rowIndex="2" />
-                              <MenuButton mnemonicParsing="false" onAction="#reasonForReject" text="Указать причину" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                <items>
-                                  <MenuItem mnemonicParsing="false" text="Не мой профиль" />
-                                  <MenuItem mnemonicParsing="false" text="Невозможно связаться с клиентом" />
-                                    <MenuItem mnemonicParsing="false" text="Другое" />
-                                </items>
-                              </MenuButton>
+                              <ChoiceBox fx:id="reasonForReject" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
                      </children>
                   </AnchorPane>
                </content></TitledPane>
+            <TitledPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: Thistle;" text="Подтвердить заказ">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: Thistle;">
+                     <children>
+                        <GridPane layoutX="27.6" layoutY="29.6" prefHeight="56.0" prefWidth="266.0" AnchorPane.bottomAnchor="64.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+                           <children>
+                              <Label text="id заказа" />
+                              <Label fx:id="idOrderFromCurrentOrderViewTableLabel" prefHeight="17.0" prefWidth="53.0" text="id order" GridPane.columnIndex="1" />
+                           </children>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                        </GridPane>
+                        <Button layoutX="63.0" layoutY="78.0" mnemonicParsing="false" onAction="#confirmCompleteOrder" prefHeight="25.0" prefWidth="177.0" text="Подтвердить выполнение" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </TitledPane>
          </panes>
       </Accordion>
       <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="215.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -133,34 +149,59 @@
                   <MenuItem mnemonicParsing="false" onAction="#deleteCurrentAccount" text="Удалить аккаунт" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu mnemonicParsing="false" text="Функции">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+              <MenuItem mnemonicParsing="false" onAction="#graphicMenu" text="График" />
+                  <MenuItem mnemonicParsing="false" onAction="#barChartIdEmployeeIncomeInMonth" text="Диаграмма" />
             </items>
           </Menu>
+            <Menu mnemonicParsing="false">
+               <graphic>
+                  <Label alignment="CENTER" prefHeight="26.0" prefWidth="452.0" text="Меню сотрудника">
+                     <font>
+                        <Font name="Calibri Italic" size="22.0" />
+                     </font>
+                  </Label>
+               </graphic>
+            </Menu>
         </menus>
       </MenuBar>
-      <AnchorPane layoutX="518.0" layoutY="33.0" prefHeight="426.0" prefWidth="351.0" style="-fx-background-color: Thistle;">
-         <children>
-            <Label layoutX="101.0" layoutY="14.0" text="Меню сотрудника">
-               <font>
-                  <Font name="Calibri Italic" size="22.0" />
-               </font>
-            </Label>
-            <Button layoutX="57.0" layoutY="57.0" mnemonicParsing="false" onAction="#graphicMenu" prefHeight="34.0" prefWidth="241.0" text="Отображении статистики на графике" />
-            <Button layoutX="118.0" layoutY="105.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="116.0" text="Отменить заявку" />
-         </children>
-      </AnchorPane>
-      <Accordion layoutX="229.0" layoutY="446.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <Accordion layoutX="229.0" layoutY="446.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="677.0">
         <panes>
           <TitledPane animated="false" text="История заказов">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="completedViewTable" prefHeight="180.0" prefWidth="898.0" style="-fx-background-color: Thistle;">
+                           <columns>
+                              <TableColumn fx:id="nameOrderColumnCompletedViewTable" prefWidth="109.0" text="Название" />
+                              <TableColumn fx:id="emailUserColumnCompletedViewTable" prefWidth="130.0" text="Email" />
+                              <TableColumn fx:id="startDateColumnCompletedViewTable" prefWidth="98.0" text="Дата начала" />
+                              <TableColumn fx:id="endDateColumnCompletedViewTable" prefWidth="105.0" text="Дата завершения" />
+                              <TableColumn fx:id="costColumnCompletedViewTable" prefWidth="77.0" text="Стоимость, руб" />
+                              <TableColumn fx:id="cityColumnCompletedViewTable" prefWidth="82.0" text="Город" />
+                              <TableColumn fx:id="definitionColumnCompletedViewTable" prefWidth="296.0" text="Описание" />
+                           </columns>
+                        </TableView>
+                     </children></AnchorPane>
             </content>
           </TitledPane>
           <TitledPane animated="false" text="Действующие заказы">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="currentOrderViewTable" layoutX="103.0" prefHeight="180.0" prefWidth="898.0" style="-fx-background-color: Thistle;" AnchorPane.bottomAnchor="-10.0" AnchorPane.leftAnchor="-10.0" AnchorPane.rightAnchor="-10.0" AnchorPane.topAnchor="-10.0">
+                          <columns>
+                            <TableColumn fx:id="idOrderCurrentOrderViewTable" prefWidth="35.000001549720764" text="id" />
+                            <TableColumn fx:id="nameColumnCurrentOrderViewTable" prefWidth="146.99996185302734" text="Название предприятия" />
+                              <TableColumn fx:id="nameUserColumnCurrentOrderViewTable" prefWidth="130.0" text="ФИО пользователя" />
+                              <TableColumn fx:id="phoneNumberColumnCurrentOrderViewTable" prefWidth="113.0" text="Email" />
+                              <TableColumn fx:id="definitionColumnCurrentOrderViewTable" prefWidth="236.00003051757812" text="Описание" />
+                              <TableColumn fx:id="costColumnCurrentOrderViewTable" prefWidth="102.0" text="Стоимость, руб" />
+                              <TableColumn fx:id="startDateColumnCurrentOrderViewTable" prefWidth="138.0" text="Дата начала" />
+                          </columns>
+                        </TableView>
+                     </children></AnchorPane>
             </content>
           </TitledPane>
           <TitledPane animated="false" text="Заявки">

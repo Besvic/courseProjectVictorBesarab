@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="200.0" prefWidth="300.0" style="-fx-background-color: Crimson;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="process.controller.error.ErrorInput">
+    <children>
+        <Label fx:id="demoLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="40.0" prefHeight="60.0" prefWidth="404.0" text="Ошибка выполнения!" textAlignment="JUSTIFY">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+        <Button fx:id="buttonClose" layoutX="176.0" layoutY="120.0" mnemonicParsing="false" onAction="#close" prefHeight="0.0" prefWidth="59.0" text="Ок">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Button>
+    </children>
+</AnchorPane>
