@@ -52,7 +52,7 @@ public class GraphicMenu {
         for (var v: vectorGraphic) {
             series.getData().add(new XYChart.Data<>(v.getyString(), v.getxDouble()));
         }
-        series.setName("Заработанная сумма");
+        series.setName("Заработок компании в городе.");
         areaChartOnRequestFromCountry.getData().setAll(series);
 
     }

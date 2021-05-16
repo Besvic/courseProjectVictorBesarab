@@ -48,7 +48,9 @@ public class BarChartCurrentEmployeeIncome {
 //        barChartIdEmployeeCostInMonth.setCategoryGap(10);
 //        barChartIdEmployeeCostInMonth.setMaxWidth(50);
 //        barChartIdEmployeeCostInMonth.setMinWidth(1);
+        xyChart.setName("Заработок в городе");
         barChartIdEmployeeCostInMonth.getData().setAll(xyChart);
+
 
 
 

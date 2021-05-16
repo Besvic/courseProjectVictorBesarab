@@ -16,7 +16,7 @@
             <Image url="@../../image/start/menuEmployee.jpg" />
          </image>
       </ImageView>
-      <Accordion layoutY="25.0" prefHeight="206.0" prefWidth="306.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="25.0">
+      <Accordion layoutY="34.0" prefHeight="206.0" prefWidth="306.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="34.0">
          <panes>
           <TitledPane animated="false" prefHeight="181.0" prefWidth="401.0" text="Профиль">
             <content>
@@ -149,25 +149,24 @@
                   <MenuItem mnemonicParsing="false" onAction="#deleteCurrentAccount" text="Удалить аккаунт" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu mnemonicParsing="false" text="Функции">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+              <MenuItem mnemonicParsing="false" onAction="#graphicMenu" text="График" />
+                  <MenuItem mnemonicParsing="false" onAction="#barChartIdEmployeeIncomeInMonth" text="Диаграмма" />
             </items>
           </Menu>
+            <Menu mnemonicParsing="false">
+               <graphic>
+                  <Label alignment="CENTER" prefHeight="26.0" prefWidth="452.0" text="Меню сотрудника">
+                     <font>
+                        <Font name="Calibri Italic" size="22.0" />
+                     </font>
+                  </Label>
+               </graphic>
+            </Menu>
         </menus>
       </MenuBar>
-      <AnchorPane layoutX="518.0" layoutY="33.0" prefHeight="426.0" prefWidth="351.0" style="-fx-background-color: Thistle;">
-         <children>
-            <Label layoutX="101.0" layoutY="14.0" text="Меню сотрудника">
-               <font>
-                  <Font name="Calibri Italic" size="22.0" />
-               </font>
-            </Label>
-            <Button layoutX="57.0" layoutY="57.0" mnemonicParsing="false" onAction="#graphicMenu" prefHeight="34.0" prefWidth="241.0" text="Заработок в графической форме" />
-            <Button layoutX="118.0" layoutY="105.0" mnemonicParsing="false" onAction="#barChartIdEmployeeIncomeInMonth" prefHeight="34.0" prefWidth="116.0" text="график 2" />
-         </children>
-      </AnchorPane>
-      <Accordion layoutX="229.0" layoutY="446.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <Accordion layoutX="229.0" layoutY="446.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="677.0">
         <panes>
           <TitledPane animated="false" text="История заказов">
             <content>

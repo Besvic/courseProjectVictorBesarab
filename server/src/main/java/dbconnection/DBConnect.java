@@ -55,13 +55,7 @@ static {
     public static Connection getConnect () throws SQLException {
 
         try {
-//            Driver driver = new FabricMySQLDriver();
-//            DriverManager.registerDriver(driver);
-            connection = DriverManager.getConnection(URL,USERNAME,PASSWORD);
-//            if (!connection.isClosed()){
-//                System.out.println("Connection");
-//            }
-
+            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
         }
         catch (SQLException e){
             System.err.println("Error download driver");
@@ -621,6 +615,19 @@ static {
         }
     }
 
+    public ResultSet getDataForRejectRequestTableView(){
+        String selectQuery = "select r.*, u.email as emailU, e.email as emailE " +
+                "from rejectedrequest r " +
+                "inner join employee e on r.idEmployee = e.id " +
+                "inner join users u on r.idUser = u.idUser ";
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(selectQuery);
+            return pS.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
     // get data for table view
 
     public ResultSet getDataForViewRequest(int id){

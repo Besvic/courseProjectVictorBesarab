@@ -8,11 +8,8 @@ import dbconnection.DBConnect;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import program.classes.*;
-import program.helperClasses.CurrentOrderViewTable;
+import program.helperClasses.*;
 import program.classes.Statistic;
-import program.helperClasses.EmployeeTableView;
-import program.helperClasses.InitializeGraphicArrows;
-import program.helperClasses.StatisticMark;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -318,6 +315,23 @@ public class Process {
             getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
     }
 
+    public void initializeRejectRequestTableView(){
+        DBConnect db = new DBConnect();
+        Gson gson = new Gson();
+        ResultSet result = db.getDataForRejectRequestTableView();
+        try{
+            while (result.next()){
+                RejectRequestViewTable requestViewTable = new RejectRequestViewTable(result.getString("emailU"),
+                        result.getString("emailE"), result.getString("phoneNumber"), result.getString("dateStart"),
+                        result.getString("comment"), result.getString("reason"));
+                getServerStream.writeLine(gson.toJson(requestViewTable));
+            }
+            getServerStream.writeLine("0");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
 
     // get data for table view
 
@@ -437,7 +451,7 @@ public class Process {
         ResultSet result = db.getAreaChartsAllDataCityAndCostFromActsOfWork();
         try {
             while (result.next()){
-                InitializeGraphicArrows init = new InitializeGraphicArrows(result.getDouble("cost"), result.getString("city"));
+                InitializeGraphicArrows init = new InitializeGraphicArrows((result.getDouble("cost") / 2), result.getString("city"));
                 getServerStream.writeLine(gson.toJson(init));
             }
             getServerStream.writeLine("0");
@@ -470,7 +484,7 @@ public class Process {
         ResultSet result = db.getBarAllDataCostAndMonthFromActsOfWork();
         try{
             while (result.next()){
-                InitializeGraphicArrows init = new InitializeGraphicArrows(result.getDouble("cost"), result.getString("month"));
+                InitializeGraphicArrows init = new InitializeGraphicArrows((result.getDouble("cost") / 2), result.getString("month"));
                 init.setyString(mothToString(init.getyString()));
                 getServerStream.writeLine(gson.toJson(init));
             }

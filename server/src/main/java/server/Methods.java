@@ -59,7 +59,6 @@ public class Methods implements Closeable {
 
     }
 
-
     @Override
     public void close() throws IOException {
         System.out.println("Закрыто");

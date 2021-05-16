@@ -18,6 +18,7 @@ import process.controller.error.ErrorInput;
 import program.classes.Admin;
 import program.classes.Const;
 import program.helperClasses.EmployeeTableView;
+import program.helperClasses.RejectRequestViewTable;
 
 import java.io.IOException;
 
@@ -56,7 +57,31 @@ public class AdminMenu {
     @FXML
     private TableColumn<EmployeeTableView, String> nameEmployeeColumnEmployeeTableView;
 
+
+    @FXML
+    private TableView<RejectRequestViewTable> rejectRequestTableView;
+
+    @FXML
+    private TableColumn<RejectRequestViewTable, String> userNameColumnRejectRequestTableView;
+
+    @FXML
+    private TableColumn<RejectRequestViewTable, String> adminNameColumnRejectRequestTableView;
+
+    @FXML
+    private TableColumn<RejectRequestViewTable, String> phoneNumberUserColumnRejectRequestTableView;
+
+    @FXML
+    private TableColumn<RejectRequestViewTable, String> reasonColumnRejectRequestTableView;
+
+    @FXML
+    private TableColumn<RejectRequestViewTable, String> definitionColumnRejectRequestTableView;
+
+    @FXML
+    private TableColumn<RejectRequestViewTable, String> startDateColumnRejectRequestTableView;
+
+
     ObservableList<EmployeeTableView> employeeTableViews = FXCollections.observableArrayList();
+    ObservableList<RejectRequestViewTable> requestViewTables = FXCollections.observableArrayList();
 
     @FXML
     void comeBack() {
@@ -131,6 +156,8 @@ public class AdminMenu {
         initializeCurrentDetails();
 
         initializeEmployeeViewTable();
+        initializeRejectRequestTableView();
+
     }
     public void initializeCurrentDetails(){
         Main.getMethod().writeLine(Const.INITIALIZE_CURRENT_DETAILS_ADMIN);
@@ -172,14 +199,35 @@ public class AdminMenu {
                 nameEmployeeColumnEmployeeTableView.setCellValueFactory(new PropertyValueFactory<EmployeeTableView, String>("name"));
                 positionEmployeeColumnEmployeeTableView.setCellValueFactory(new PropertyValueFactory<EmployeeTableView, String>("position"));
                 ratingEmployeeColumnEmployeeTableView.setCellValueFactory(new PropertyValueFactory<EmployeeTableView, Double>("mark"));
-                employeeTableView.setItems(employeeTableViews);
-                showIdEmployeeTableView(null);
-                //listener tab on row
-                employeeTableView.getSelectionModel().selectedItemProperty().addListener(
-                        ((observableValue, employeeTableView1, t1) -> showIdEmployeeTableView(t1))
-                );
             }
         }
+        employeeTableView.setItems(employeeTableViews);
+        showIdEmployeeTableView(null);
+        //listener tab on row
+        employeeTableView.getSelectionModel().selectedItemProperty().addListener(
+                ((observableValue, employeeTableView1, t1) -> showIdEmployeeTableView(t1)));
+    }
+
+    private void initializeRejectRequestTableView(){
+        Main.getMethod().writeLine(Const.GET_DATA_FOR_REJECT_REQUEST_TABLE_VIEW);
+        Gson gson = new Gson();
+        while (true) {
+            String strG = Main.getMethod().readLine();
+            if (strG.equals("0"))
+                break;
+            else {
+                RejectRequestViewTable requestViewTable = gson.fromJson(strG, RejectRequestViewTable.class);
+                requestViewTables.add(new RejectRequestViewTable(requestViewTable.getNameUser(), requestViewTable.getNameAdmin(), requestViewTable.getPhoneNumber(),
+                        requestViewTable.getStartDate(), requestViewTable.getDefinition(), requestViewTable.getReason()));
+                userNameColumnRejectRequestTableView.setCellValueFactory(new PropertyValueFactory<RejectRequestViewTable, String>("nameUser"));
+                adminNameColumnRejectRequestTableView.setCellValueFactory(new PropertyValueFactory<RejectRequestViewTable, String>("nameAdmin"));
+                phoneNumberUserColumnRejectRequestTableView.setCellValueFactory(new PropertyValueFactory<RejectRequestViewTable, String>("phoneNumber"));
+                startDateColumnRejectRequestTableView.setCellValueFactory(new PropertyValueFactory<RejectRequestViewTable, String>("startDate"));
+                definitionColumnRejectRequestTableView.setCellValueFactory(new PropertyValueFactory<RejectRequestViewTable, String>("definition"));
+                reasonColumnRejectRequestTableView.setCellValueFactory(new PropertyValueFactory<RejectRequestViewTable, String>("reason"));
+            }
+        }
+        rejectRequestTableView.setItems(requestViewTables);
     }
 
 }

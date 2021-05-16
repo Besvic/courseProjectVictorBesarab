@@ -36,7 +36,7 @@ public class GraphicAreaChartAllEmployee {
         menuChoiceGraphic.setItems(itemX);*/
 
         XYChart.Series<String, Double> series = new XYChart.Series<>();
-        Main.getMethod().writeLine(Const.INITIALIZE_GRAPHIC_DEPENDENCE_COST_ON_CITY_ALL_EMPLOYEE);
+        Main.getMethod().writeLine(Const.INITIALIZE_DIAGRAM_COST_AND_MONTH_ALL_EMPLOYEE);
         Gson gson = new Gson();
         Vector<InitializeGraphicArrows> vectorGraphic = new Vector<>();
         while (true) {
@@ -51,7 +51,7 @@ public class GraphicAreaChartAllEmployee {
         for (var v : vectorGraphic) {
             series.getData().add(new XYChart.Data<>(v.getyString(), v.getxDouble()));
         }
-        series.setName("Заработок в разных городах");
+        series.setName("Заработок в течении года");
         areaChartOnRequestFromCountry.getData().setAll(series);
     }
 }

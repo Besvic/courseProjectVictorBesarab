@@ -24,7 +24,7 @@ public class BarChartAllEmployee {
 
     @FXML
     void initialize() {
-        Main.getMethod().writeLine(Const.INITIALIZE_DIAGRAM_COST_AND_MONTH_ALL_EMPLOYEE);
+        Main.getMethod().writeLine(Const.INITIALIZE_GRAPHIC_DEPENDENCE_COST_ON_CITY_ALL_EMPLOYEE);
         Vector<InitializeGraphicArrows> vectorDiagram = new Vector<>();
         Gson gson = new Gson();
         while (true) {
@@ -40,7 +40,7 @@ public class BarChartAllEmployee {
         XYChart.Series<String, Double> xyChart = new XYChart.Series<>();
         for (var v : vectorDiagram)
             xyChart.getData().add(new XYChart.Data<>(v.getyString(), v.getxDouble()));
-
+        xyChart.setName("Заработок компании в разных городах");
         barChartIdEmployeeCostInMonth.setBarGap(20);
 //        barChartIdEmployeeCostInMonth.setCategoryGap(10);
 //        barChartIdEmployeeCostInMonth.setMaxWidth(50);

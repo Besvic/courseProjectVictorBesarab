@@ -13,7 +13,7 @@
                 <Image url="@../../image/start/userMenu.jpg" />
             </image>
         </ImageView>
-        <Accordion layoutX="200.0" layoutY="632.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="632.0">
+        <Accordion layoutX="200.0" layoutY="445.0" prefHeight="205.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="445.0">
             <panes>
                 <TitledPane animated="false" prefHeight="157.0" prefWidth="900.0" text="Просмотреть сотрудников">
                     <content>
@@ -31,6 +31,20 @@
                         </AnchorPane>
                     </content>
                 </TitledPane>
+            <TitledPane prefHeight="200.0" prefWidth="200.0" text="Просмотреть отклоненные заказы">
+               <content>
+                  <TableView fx:id="rejectRequestTableView" prefHeight="200.0" prefWidth="200.0">
+                    <columns>
+                      <TableColumn fx:id="userNameColumnRejectRequestTableView" prefWidth="132.0" text="email пользователя" />
+                        <TableColumn fx:id="phoneNumberUserColumnRejectRequestTableView" prefWidth="148.0" text="Номер телефона пользователя" />
+                      <TableColumn fx:id="adminNameColumnRejectRequestTableView" prefWidth="124.0" text="email сотрудника" />
+                        <TableColumn fx:id="startDateColumnRejectRequestTableView" prefWidth="180.0" text="Дата формирования заявки" />
+                        <TableColumn fx:id="reasonColumnRejectRequestTableView" prefWidth="137.0" text="Причина" />
+                        <TableColumn fx:id="definitionColumnRejectRequestTableView" prefWidth="177.0" text="Описание заявки" />
+                    </columns>
+                  </TableView>
+               </content>
+            </TitledPane>
             </panes>
         </Accordion>
         <MenuBar layoutY="2.0" prefHeight="15.0" prefWidth="900.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

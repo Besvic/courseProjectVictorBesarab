@@ -143,6 +143,9 @@ public class ServerWork {
                                 case Const.INITIALIZE_GRAPHIC_DEPENDENCE_COST_ON_CITY_ALL_EMPLOYEE:
                                     process.getAllDataForAreaCharts();
                                     break;
+                                case Const.GET_DATA_FOR_REJECT_REQUEST_TABLE_VIEW:
+                                    process.initializeRejectRequestTableView();
+                                    break;
 
 
                                 case Const.Exit:

@@ -34,6 +34,8 @@ public class Const {
     public static final String DELETE_CURRENT_ADMIN = "deleteCurrentAdmin";
     public static final String INITIALIZE_TEXT_FIELD_FOR_CREATE_DETAILS = "INITIALIZE_TEXT_FIELD_FOR_CHANGE_DETAILS";
     public static final String DELETE_EMPLOYEE = "DELETE_EMPLOYEE";
+    public static final String GET_DATA_FOR_REJECT_REQUEST_TABLE_VIEW = "GET_DATA_FOR_REJECT_REQUEST_TABLE_VIEW";
+
 
 
 
