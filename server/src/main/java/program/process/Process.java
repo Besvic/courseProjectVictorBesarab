@@ -10,13 +10,15 @@ import javafx.collections.ObservableList;
 import program.classes.*;
 import program.helperClasses.*;
 import program.classes.Statistic;
+import server.ServerWork;
 
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-import static server.ServerWork.getServerStream;
+/*import static server.ServerWork.ServerWork;*/
 
 
 public class Process {
@@ -64,11 +66,11 @@ public class Process {
             throwables.printStackTrace();
         }
         if (i == 1) {
-            getServerStream.writeLine(gson.toJson(userAdd));
-            getServerStream.writeLine(Integer.toString(userAdd.getId()));
+            ServerWork.sout.println(gson.toJson(userAdd));
+            ServerWork.sout.println(Integer.toString(userAdd.getId()));
         }
         else{
-            getServerStream.writeLine(Const.FUNCTION_FAILED);
+            ServerWork.sout.println(Const.FUNCTION_FAILED);
         }
     }
 
@@ -91,19 +93,19 @@ public class Process {
         }
         Gson gson = new Gson();
         if (i != 0)
-            getServerStream.writeLine(gson.toJson(user));
+            ServerWork.sout.println(gson.toJson(user));
         else
-            getServerStream.writeLine("0");
+            ServerWork.sout.println("0");
     }
 
     public void updateUserDetails(String stringG) {
         DBConnect db = new DBConnect();
         int answer = db.updateUserDetails(stringG);
         if ( answer == 0){
-            getServerStream.writeLine(Const.FUNCTION_FAILED);
+            ServerWork.sout.println(Const.FUNCTION_FAILED);
         }
         else{
-            getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
+            ServerWork.sout.println(Const.FUNCTION_COMPLETED_SUCCESSFUL);
         }
     }
     public void deleteUserAccountOnCurrentId(String id){
@@ -112,23 +114,23 @@ public class Process {
         db.userDeleteOnCurrentID(idInt);
     }
 
-    public void setUserRequest(){
+    public void setUserRequest() throws IOException {
        DBConnect db = new DBConnect();
        Gson gson = new Gson();
-       Request request = gson.fromJson(getServerStream.readLine(), Request.class);
+       Request request = gson.fromJson(ServerWork.sin.readLine(), Request.class);
         if (db.setUserRequestForManager(request) == 0)
-            getServerStream.writeLine(Const.FUNCTION_FAILED);
+            ServerWork.sout.println(Const.FUNCTION_FAILED);
         else
-            getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
+            ServerWork.sout.println(Const.FUNCTION_COMPLETED_SUCCESSFUL);
     }
 
-    public void addStatisticMark(){
+    public void addStatisticMark() throws IOException{
         DBConnect db = new DBConnect();
         Gson gson = new Gson();
         ArrayList<StatisticMark> statistic = new ArrayList<>();
-        statistic.add(new StatisticMark("serviceSpeed", Double.valueOf(getServerStream.readLine())));
-        statistic.add(new StatisticMark("serviceQuality", Double.valueOf(getServerStream.readLine())));
-        statistic.add(new StatisticMark("politeness", Double.valueOf(getServerStream.readLine())));
+        statistic.add(new StatisticMark("serviceSpeed", Double.valueOf(ServerWork.sin.readLine())));
+        statistic.add(new StatisticMark("serviceQuality", Double.valueOf(ServerWork.sin.readLine())));
+        statistic.add(new StatisticMark("politeness", Double.valueOf(ServerWork.sin.readLine())));
         Collections.sort(statistic, StatisticMark.COMPARE_BY_MARK);
         while (true){
             if (statistic.get(0).getMark() > statistic.get(1).getMark() + statistic.get(2).getMark())
@@ -141,21 +143,21 @@ public class Process {
             sum += s.getMark();
 
         if (db.addUserStatisticMark(statistic.get(0).getMark() / sum,
-                statistic.get(0).getName(), Integer.parseInt(getServerStream.readLine())) != 0)
-            getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
+                statistic.get(0).getName(), Integer.parseInt(ServerWork.sin.readLine())) != 0)
+            ServerWork.sout.println(Const.FUNCTION_COMPLETED_SUCCESSFUL);
         else
-            getServerStream.writeLine(Const.FUNCTION_FAILED);
+            ServerWork.sout.println(Const.FUNCTION_FAILED);
     }
 
-    public void addRequest(){
+    public void addRequest() throws IOException{
         DBConnect db = new DBConnect();
         Gson gson = new Gson();
-        Request request = gson.fromJson(getServerStream.readLine(), Request.class);
+        Request request = gson.fromJson(ServerWork.sin.readLine(), Request.class);
         if (db.addRequest(request.getIdUser(), request.getIdEmployee(), request.getPhoneNumber(), request.getComment(),
                 request.getChoiceDate()) != 0)
-            getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
+            ServerWork.sout.println(Const.FUNCTION_COMPLETED_SUCCESSFUL);
         else
-            getServerStream.writeLine(Const.FUNCTION_FAILED);
+            ServerWork.sout.println(Const.FUNCTION_FAILED);
 
     }
 
@@ -202,9 +204,9 @@ public class Process {
         }
         Gson gson = new Gson();
         if (i != 0)
-            getServerStream.writeLine(gson.toJson(employee));
+            ServerWork.sout.println(gson.toJson(employee));
         else
-            getServerStream.writeLine("0");
+            ServerWork.sout.println("0");
     }
 
     public void updateEmployeeDetails(String stringG){
@@ -214,105 +216,105 @@ public class Process {
         int result = db.updateEmployeeDetails(employee.getId(), employee.getName(), employee.getEmail(), employee.getPhoneNumber()
                 , employee.getLogin(), employee.getPassword());
         if (result == 0)
-            getServerStream.writeLine(Const.FUNCTION_FAILED);
+            ServerWork.sout.println(Const.FUNCTION_FAILED);
         else
-            getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
+            ServerWork.sout.println(Const.FUNCTION_COMPLETED_SUCCESSFUL);
     }
 
     public void deleteEmployeeOnId(int id){
         DBConnect db = new DBConnect();
         if (db.deleteEmployeeOnId(id) != 0 )
-            getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
+            ServerWork.sout.println(Const.FUNCTION_COMPLETED_SUCCESSFUL);
         else
-            getServerStream.writeLine(Const.FUNCTION_FAILED);
+            ServerWork.sout.println(Const.FUNCTION_FAILED);
     }
 
-    public void insertOrder(){
-        String idRequest = getServerStream.readLine();
-        String stringG = getServerStream.readLine();
+    public void insertOrder() throws IOException{
+        String idRequest = ServerWork.sin.readLine();
+        String stringG = ServerWork.sin.readLine();
         Gson gson = new Gson();
         Service service = gson.fromJson(stringG, Service.class);
         DBConnect db = new DBConnect();
         if (db.insertOrder(service, Integer.parseInt(idRequest)) != 0)
-            getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
+            ServerWork.sout.println(Const.FUNCTION_COMPLETED_SUCCESSFUL);
         else
-            getServerStream.writeLine(Const.FUNCTION_FAILED);
+            ServerWork.sout.println(Const.FUNCTION_FAILED);
     }
 
-    public void rejectRequest(){
+    public void rejectRequest() throws IOException{
         DBConnect db = new DBConnect();
-        if (db.deleteRowFromRequest(Integer.parseInt(getServerStream.readLine()), getServerStream.readLine()) == 0)
-            getServerStream.writeLine(Const.FUNCTION_FAILED);
+        if (db.deleteRowFromRequest(Integer.parseInt(ServerWork.sin.readLine()), ServerWork.sin.readLine()) == 0)
+            ServerWork.sout.println(Const.FUNCTION_FAILED);
         else
-            getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
+            ServerWork.sout.println(Const.FUNCTION_COMPLETED_SUCCESSFUL);
     }
 
-    public void addActsOfWork(){
+    public void addActsOfWork()  throws IOException {
         DBConnect db = new DBConnect();
-        if (db.insertRowIntoActsOfWork(Integer.parseInt(getServerStream.readLine())) == 1)
-            getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
+        if (db.insertRowIntoActsOfWork(Integer.parseInt(ServerWork.sin.readLine())) == 1)
+            ServerWork.sout.println(Const.FUNCTION_COMPLETED_SUCCESSFUL);
         else
-            getServerStream.writeLine(Const.FUNCTION_FAILED);
+            ServerWork.sout.println(Const.FUNCTION_FAILED);
     }
 
 
     // admin function
 
-    public void checkAdmin(){
+    public void checkAdmin() throws IOException{
         DBConnect db = new DBConnect();
         Gson gson = new Gson();
-        ResultSet result = db.checkAdminAuthorisation(gson.fromJson(getServerStream.readLine(), Admin.class));
+        ResultSet result = db.checkAdminAuthorisation(gson.fromJson(ServerWork.sin.readLine(), Admin.class));
         if (result == null)
-            getServerStream.writeLine(Const.FUNCTION_FAILED);
+            ServerWork.sout.println(Const.FUNCTION_FAILED);
         else {
-            getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
+            ServerWork.sout.println(Const.FUNCTION_COMPLETED_SUCCESSFUL);
             try {
                 result.next();
-                getServerStream.writeLine(result.getString("id"));
+                ServerWork.sout.println(result.getString("id"));
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
-                getServerStream.writeLine(Const.FUNCTION_FAILED);
+                ServerWork.sout.println(Const.FUNCTION_FAILED);
             }
 
         }
     }
 
-    public void getDetailsAdmin(){
+    public void getDetailsAdmin() throws IOException{
         DBConnect db = new DBConnect();
         Gson gson = new Gson();
         ResultSet result = null;
-        if ((result = db.getDetailsOnId(Integer.parseInt(getServerStream.readLine()))) == null)
-            getServerStream.writeLine(Const.FUNCTION_FAILED);
+        if ((result = db.getDetailsOnId(Integer.parseInt(ServerWork.sin.readLine()))) == null)
+            ServerWork.sout.println(Const.FUNCTION_FAILED);
         else {
             try {
                 result.next();
                 Admin admin = new Admin(result.getString("name"), result.getInt("id"),
                         result.getString("login"), result.getString("password"));
-                getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
-                getServerStream.writeLine(gson.toJson(admin));
+                ServerWork.sout.println(Const.FUNCTION_COMPLETED_SUCCESSFUL);
+                ServerWork.sout.println(gson.toJson(admin));
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
-                getServerStream.writeLine(Const.FUNCTION_FAILED);
+                ServerWork.sout.println(Const.FUNCTION_FAILED);
             }
         }
     }
 
-    public void deleteCurrentAdmin(){
+    public void deleteCurrentAdmin() throws IOException{
         DBConnect db = new DBConnect();
-        if (db.deleteCurrentAdminOnId(Integer.parseInt(getServerStream.readLine())) == 0)
-            getServerStream.writeLine(Const.FUNCTION_FAILED);
+        if (db.deleteCurrentAdminOnId(Integer.parseInt(ServerWork.sin.readLine())) == 0)
+            ServerWork.sout.println(Const.FUNCTION_FAILED);
         else
-            getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
+            ServerWork.sout.println(Const.FUNCTION_COMPLETED_SUCCESSFUL);
     }
 
 
-    public void createEmployee(){
+    public void createEmployee() throws IOException{
         DBConnect db = new DBConnect();
         Gson gson = new Gson();
-        if (db.createEmployee(gson.fromJson(getServerStream.readLine(), Employee.class)) == 0)
-            getServerStream.writeLine(Const.FUNCTION_FAILED);
+        if (db.createEmployee(gson.fromJson(ServerWork.sin.readLine(), Employee.class)) == 0)
+            ServerWork.sout.println(Const.FUNCTION_FAILED);
         else
-            getServerStream.writeLine(Const.FUNCTION_COMPLETED_SUCCESSFUL);
+            ServerWork.sout.println(Const.FUNCTION_COMPLETED_SUCCESSFUL);
     }
 
     public void initializeRejectRequestTableView(){
@@ -324,9 +326,9 @@ public class Process {
                 RejectRequestViewTable requestViewTable = new RejectRequestViewTable(result.getString("emailU"),
                         result.getString("emailE"), result.getString("phoneNumber"), result.getString("dateStart"),
                         result.getString("comment"), result.getString("reason"));
-                getServerStream.writeLine(gson.toJson(requestViewTable));
+                ServerWork.sout.println(gson.toJson(requestViewTable));
             }
-            getServerStream.writeLine("0");
+            ServerWork.sout.println("0");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -335,10 +337,10 @@ public class Process {
 
     // get data for table view
 
-    public void getDataForViewRequest(){
+    public void getDataForViewRequest() throws IOException{
         DBConnect db = new DBConnect();
         ObservableList<ViewRequest> viewRequest = FXCollections.observableArrayList();
-        ResultSet result = db.getDataForViewRequest(Integer.parseInt(getServerStream.readLine()));
+        ResultSet result = db.getDataForViewRequest(Integer.parseInt(ServerWork.sin.readLine()));
        /* try{
             while (result.next()){
                 viewRequest.add(new ViewRequest(result.getInt("id"), result.getString("name")
@@ -349,60 +351,60 @@ public class Process {
             throwables.printStackTrace();
         }*/
         Gson gson = new Gson();
-        getServerStream.writeLine(gson.toJson(result));
+        ServerWork.sout.println(gson.toJson(result));
     }
 
 
     // get data for view table in employee account
 
-    public void getDataForInitializeViewRequest(){
+    public void getDataForInitializeViewRequest() throws IOException{
         DBConnect db = new DBConnect();
         Gson gson = new Gson();
-        ResultSet result = db.getDataForViewRequest(Integer.parseInt(getServerStream.readLine()));
+        ResultSet result = db.getDataForViewRequest(Integer.parseInt(ServerWork.sin.readLine()));
         try{
             while (result.next()){
 
                 ViewRequest viewRequest = new ViewRequest(result.getInt("id"), result.getString("name")
                         , result.getString("phoneNumber"), result.getString("comment")
                         , result.getString("dateForMeeting"));
-                getServerStream.writeLine(gson.toJson(viewRequest));
+                ServerWork.sout.println(gson.toJson(viewRequest));
             }
-            getServerStream.writeLine("0");
+            ServerWork.sout.println("0");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
 
-    public void initializeCurrentOrderViewTable(){
+    public void initializeCurrentOrderViewTable() throws IOException{
         DBConnect db = new DBConnect();
         Gson gson = new Gson();
-        ResultSet result = db.getDataForCurrentOrderViewTable(Integer.parseInt(getServerStream.readLine()));
+        ResultSet result = db.getDataForCurrentOrderViewTable(Integer.parseInt(ServerWork.sin.readLine()));
         try{
             while (result.next()){
                 CurrentOrderViewTable currentOrderViewTable = new CurrentOrderViewTable(result.getInt("idOrder"),
                         result.getString("s.name"), result.getString("u.name"), result.getString("email"),
                         result.getString("definition"), result.getDouble("cost"), result.getString("dateStart"));
-                getServerStream.writeLine(gson.toJson(currentOrderViewTable));
+                ServerWork.sout.println(gson.toJson(currentOrderViewTable));
             }
-            getServerStream.writeLine("0");
+            ServerWork.sout.println("0");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
 
-    public void initializeCompletedOrderViewTable(){
+    public void initializeCompletedOrderViewTable() throws IOException{
         DBConnect db = new DBConnect();
         Gson gson = new Gson();
-        ResultSet result = db.getDataForInitializeCompletedOrderViewTable(Integer.parseInt(getServerStream.readLine()));
+        ResultSet result = db.getDataForInitializeCompletedOrderViewTable(Integer.parseInt(ServerWork.sin.readLine()));
         try{
             while (result.next()){
                 ActsOfWork acts = new ActsOfWork(result.getInt("id"), result.getString("emailUser"),
                         result.getString("endDate"), result.getString("startDate"), result.getDouble("cost"),
                         result.getString("emailEmployee"), result.getString("city"), result.getString("definition"),
                         result.getString("name"), result.getInt("idUser"), result.getInt("idEmployee"));
-                getServerStream.writeLine(gson.toJson(acts));
+                ServerWork.sout.println(gson.toJson(acts));
             }
-            getServerStream.writeLine("0");
+            ServerWork.sout.println("0");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -416,9 +418,9 @@ public class Process {
             while (result.next()){
                 EmployeeTableView employeeTableView = new EmployeeTableView(result.getInt("id"), result.getString("name"),
                         result.getString("position"), result.getDouble("mark"));
-                getServerStream.writeLine(gson.toJson(employeeTableView));
+                ServerWork.sout.println(gson.toJson(employeeTableView));
             }
-            getServerStream.writeLine("0");
+            ServerWork.sout.println("0");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -430,16 +432,16 @@ public class Process {
 
     //graphic
 
-    public void getCityAndCostOnIdEmployee(){
+    public void getCityAndCostOnIdEmployee() throws IOException{
         DBConnect db = new DBConnect();
         Gson gson = new Gson();
-        ResultSet result = db.getByIdEmployeeDataCityAndCostFromActsOfWork(Integer.parseInt(getServerStream.readLine()));
+        ResultSet result = db.getByIdEmployeeDataCityAndCostFromActsOfWork(Integer.parseInt(ServerWork.sin.readLine()));
         try {
             while (result.next()){
                 InitializeGraphicArrows init = new InitializeGraphicArrows(result.getDouble("cost"), result.getString("city"));
-                getServerStream.writeLine(gson.toJson(init));
+                ServerWork.sout.println(gson.toJson(init));
             }
-            getServerStream.writeLine("0");
+            ServerWork.sout.println("0");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -452,26 +454,26 @@ public class Process {
         try {
             while (result.next()){
                 InitializeGraphicArrows init = new InitializeGraphicArrows((result.getDouble("cost") / 2), result.getString("city"));
-                getServerStream.writeLine(gson.toJson(init));
+                ServerWork.sout.println(gson.toJson(init));
             }
-            getServerStream.writeLine("0");
+            ServerWork.sout.println("0");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
 
     //diagram
-    public void getCostAndMonthByIdEmployee(){
+    public void getCostAndMonthByIdEmployee() throws IOException{
         DBConnect db = new DBConnect();
         Gson gson = new Gson();
-        ResultSet result = db.getDataByIdEmployeeCostAndMonthFromActsOfWork(Integer.parseInt(getServerStream.readLine()));
+        ResultSet result = db.getDataByIdEmployeeCostAndMonthFromActsOfWork(Integer.parseInt(ServerWork.sin.readLine()));
         try{
             while (result.next()){
                 InitializeGraphicArrows init = new InitializeGraphicArrows(result.getDouble("cost"), result.getString("month"));
                 init.setyString(mothToString(init.getyString()));
-                getServerStream.writeLine(gson.toJson(init));
+                ServerWork.sout.println(gson.toJson(init));
             }
-            getServerStream.writeLine("0");
+            ServerWork.sout.println("0");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -486,9 +488,9 @@ public class Process {
             while (result.next()){
                 InitializeGraphicArrows init = new InitializeGraphicArrows((result.getDouble("cost") / 2), result.getString("month"));
                 init.setyString(mothToString(init.getyString()));
-                getServerStream.writeLine(gson.toJson(init));
+                ServerWork.sout.println(gson.toJson(init));
             }
-            getServerStream.writeLine("0");
+            ServerWork.sout.println("0");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

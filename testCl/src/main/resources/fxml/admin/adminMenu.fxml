@@ -33,7 +33,7 @@
                 </TitledPane>
             <TitledPane prefHeight="200.0" prefWidth="200.0" text="Просмотреть отклоненные заказы">
                <content>
-                  <TableView fx:id="rejectRequestTableView" prefHeight="200.0" prefWidth="200.0">
+                  <TableView fx:id="rejectRequestTableView" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: LightSteelBlue;">
                     <columns>
                       <TableColumn fx:id="userNameColumnRejectRequestTableView" prefWidth="132.0" text="email пользователя" />
                         <TableColumn fx:id="phoneNumberUserColumnRejectRequestTableView" prefWidth="148.0" text="Номер телефона пользователя" />

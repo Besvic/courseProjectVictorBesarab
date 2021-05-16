@@ -8,11 +8,11 @@ import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.*;
 
-import static server.ServerWork.getServerStream;
+/*import static server.ServerWork.getServerStream;*/
 
 public class test {
     public static void main(String[] args) {
-        String timeStamp = new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime());
+       /* String timeStamp = new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime());
 
 
 
@@ -28,8 +28,13 @@ public class test {
         }
         if (myDate.before(testDate)){
             System.out.println("good");
+        }*/
+        System.out.println("ok");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-
 
     }
 }

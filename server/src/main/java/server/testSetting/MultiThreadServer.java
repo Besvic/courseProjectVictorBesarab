@@ -38,7 +38,7 @@ public class MultiThreadServer {
 
                     // если команда - quit то инициализируем закрытие сервера и
                     // выход из цикла раздачии нитей монопоточных серверов
-                    String serverCommand = br.readLine();
+                    String serverCommand = br.sin.readLine();
                     if (serverCommand.equalsIgnoreCase("quit")) {
                         System.out.println("Main Server initiate exiting...");
                         server.close();

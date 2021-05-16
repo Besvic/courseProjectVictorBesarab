@@ -166,7 +166,7 @@
             </Menu>
         </menus>
       </MenuBar>
-      <Accordion layoutX="229.0" layoutY="446.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="677.0">
+      <Accordion layoutX="229.0" layoutY="506.0" prefHeight="246.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="506.0">
         <panes>
           <TitledPane animated="false" text="История заказов">
             <content>
