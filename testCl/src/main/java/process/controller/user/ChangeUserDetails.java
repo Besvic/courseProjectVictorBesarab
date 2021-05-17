@@ -7,6 +7,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import process.controller.Registration;
+import process.controller.error.ErrorInput;
 import program.classes.Const;
 import program.classes.User;
 
@@ -33,23 +35,30 @@ public class ChangeUserDetails {
 
     @FXML
     void confirmChanges(ActionEvent event) {
-        User user = new User(nameTextField.getText().trim(),emailTextField.getText().trim(), loginTextField.getText().trim()
-                , passwordTextField.getText().trim(), User.CURRENT_ID);
-        Gson gson = new Gson();
-        String stringG = gson.toJson(user);
-        Main.getMethod().writeLine(Const.UPDATE_USER_DETAILS);
-        Main.getMethod().writeLine(stringG);
-        String answer;
-        if (Main.getMethod().readLine().equals(Const.FUNCTION_COMPLETED_SUCCESSFUL)){
-            answer = "Операция выполнена успешно.";
-            close();
-            Main main = new Main();
-            main.getWindow("/fxml/start/mainWindow.fxml","Вход/Авторизация");
+        if (Registration.checkName(nameTextField.getText().trim()).equals(Const.FUNCTION_COMPLETED_SUCCESSFUL) &&
+                !emailTextField.getText().trim().isEmpty() && !loginTextField.getText().trim().isEmpty() && !passwordTextField.getText().trim().isEmpty()) {
+            User user = new User(nameTextField.getText().trim(), emailTextField.getText().trim(), loginTextField.getText().trim()
+                    , passwordTextField.getText().trim(), User.CURRENT_ID);
+            Gson gson = new Gson();
+            String stringG = gson.toJson(user);
+            Main.getMethod().writeLine(Const.UPDATE_USER_DETAILS);
+            Main.getMethod().writeLine(stringG);
+            String answer;
 
+            if (Main.getMethod().readLine().equals(Const.FUNCTION_COMPLETED_SUCCESSFUL)) {
+                answer = "Операция выполнена успешно.";
+                close();
+                Main main = new Main();
+                main.getWindow("/fxml/start/mainWindow.fxml", "Вход/Авторизация");
+
+            } else {
+                answer = "Операция не завршена.";
+            }
+            processLabel.setText(answer);
         } else {
-            answer = "Операция не завршена.";
+            ErrorInput  err = new ErrorInput();
+            err.show();
         }
-        processLabel.setText(answer);
     }
 
     @FXML

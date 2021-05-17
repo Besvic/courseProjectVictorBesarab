@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import program.classes.Const;
 import program.classes.User;
 
 import java.net.URL;
@@ -79,7 +80,8 @@ public class Registration {
         } catch (IOException e) {
             e.printStackTrace();
         }*/
-        if (getName() != "" && getEmail() != "" && getLogin() != "" && getPassword() != "") {
+        if (getName() != "" && getEmail() != "" && getLogin() != "" && getPassword() != "" &&
+                checkName(getName()).equals(Const.FUNCTION_COMPLETED_SUCCESSFUL)) {
             Main.getMethod().writeLine("registrationUser");
             User user = new User(getName(),getEmail(), getLogin(), getPassword());
             Gson gson = new Gson();
@@ -111,6 +113,7 @@ public class Registration {
             }
             else {
                 System.out.println(FUNCTION_COMPLETED_SUCCESSFUL);
+                exitInMainWindow();
             }
         }else {
             ErrorInput err = new ErrorInput();
@@ -122,6 +125,13 @@ public class Registration {
 
     }
 
+    public static String checkName(String str){
+        for (int i = 0; i < str.length(); i++) {
+            if (!Character.isLetter(str.charAt(i)) && str.charAt(i) != ' ')
+                return Const.FUNCTION_FAILED;
+        }
+        return Const.FUNCTION_COMPLETED_SUCCESSFUL;
+    }
     @FXML
     void exitInMainWindow() {
         Main main = new Main();

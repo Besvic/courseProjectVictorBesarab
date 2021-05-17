@@ -91,6 +91,24 @@ static {
         }
     }
 
+    public String coding(String password){
+        String temp = "";
+        for (int i = 0; i < password.length(); i++) {
+            temp += (char) (password.charAt(i) + 3);
+        }
+        return temp;
+    }
+
+    public String deCoding(String password){
+        String temp = "";
+        for (int i = 0; i < password.length(); i++) {
+            temp += (char) (password.charAt(i) - 3);
+        }
+        return temp;
+    }
+
+
+
     public void insertUser(User userAdd){
         String insertUserSQL = "INSERT INTO users (name, email, login, password)" +
                 "VALUE(?,?,?,?)";
@@ -100,7 +118,7 @@ static {
             preparedStatement.setString(1, userAdd.getName());
             preparedStatement.setString(2, userAdd.getEmail());
             preparedStatement.setString(3, userAdd.getLogin());
-            preparedStatement.setString(4, userAdd.getPassword());
+            preparedStatement.setString(4, coding(userAdd.getPassword()));
             preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -115,7 +133,7 @@ static {
         try {
             PreparedStatement preparedStatement = getConnect().prepareStatement(queryCheckLoginSQL);
             preparedStatement.setString(1, user.getLogin());
-            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setString(2, coding(user.getPassword()));
             resultSet = preparedStatement.executeQuery();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -135,7 +153,7 @@ static {
             pS.setString(1, user.getName());
             pS.setString(2, user.getEmail());
             pS.setString(3, user.getLogin());
-            pS.setString(4, user.getPassword());
+            pS.setString(4, coding(user.getPassword()));
             pS.setInt(5, user.getId());
             return pS.executeUpdate();
         } catch (SQLException throwables) {

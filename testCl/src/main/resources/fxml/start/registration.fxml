@@ -16,7 +16,7 @@
         <menus>
           <Menu mnemonicParsing="false">
                <graphic>
-                  <Button mnemonicParsing="false" onAction="#exitInMainWindow" text="Button" />
+                  <Button mnemonicParsing="false" onAction="#exitInMainWindow" text="Вернуться" />
                </graphic></Menu>
         </menus>
       </MenuBar>

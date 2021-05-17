@@ -58,7 +58,7 @@ public class Process {
                 userAdd.setId(result.getInt("idUser"));
                 userAdd.setName(result.getString("name"));
                 userAdd.setLogin(result.getString("login"));
-                userAdd.setPassword(result.getString("password"));
+                userAdd.setPassword(db.deCoding(result.getString("password")));
                 userAdd.setEmail(result.getString("email"));
                 i++;
             }
@@ -83,7 +83,7 @@ public class Process {
             while (result.next()){
                 user.setLogin(result.getString("login"));
                 user.setId(result.getInt("idUser"));
-                user.setPassword(result.getString("password"));
+                user.setPassword(db.deCoding(result.getString("password")));
                 user.setEmail(result.getString("email"));
                 user.setName(result.getString("name"));
                 i++;
@@ -141,6 +141,7 @@ public class Process {
         double sum = 0;
         for (var s : statistic )
             sum += s.getMark();
+
 
         if (db.addUserStatisticMark(statistic.get(0).getMark() / sum,
                 statistic.get(0).getName(), Integer.parseInt(ServerWork.sin.readLine())) != 0)
