@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import process.controller.Registration;
 import process.controller.error.ErrorInput;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -68,7 +69,8 @@ public class ChangeEmployeeDetails {
 
     @FXML
     void confirmChanges(ActionEvent event) {
-        if(!getName().isEmpty() && !getEmail().isEmpty() && !getPhoneNumber().isEmpty() && !getPassword().isEmpty() && !getLogin().isEmpty()){
+        if(!getName().isEmpty() && !getEmail().isEmpty() && !getPhoneNumber().isEmpty() && !getPassword().isEmpty() && !getLogin().isEmpty() &&
+            Registration.validationEmail(getEmail()) && Registration.checkName(getName()) && Registration.validationNumber(getPhoneNumber())){
             Employee employee = new Employee(Employee.CURRENT_ID, getName(), getEmail(), getPhoneNumber(), getLogin(), getPassword(), null);
             Gson gson = new Gson();
             String stringG = gson.toJson(employee);

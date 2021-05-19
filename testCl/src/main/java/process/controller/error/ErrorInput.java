@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
@@ -17,7 +18,7 @@ import java.io.IOException;
 
 
 public class ErrorInput {
-    @FXML
+    /*@FXML
     private Button buttonClose;
 
     @FXML
@@ -32,10 +33,16 @@ public class ErrorInput {
     @FXML
     void initialize() {
 
-    }
+    }*/
 
     public void show(){
-        FXMLLoader loader = new FXMLLoader();
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Предупреждение");
+        alert.setHeaderText(null);
+        alert.setContentText("Проверьте корректность данных");
+        alert.showAndWait();
+
+        /*FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/error/errorInputData.fxml"));
         try {
             loader.load();
@@ -49,11 +56,16 @@ public class ErrorInput {
         stage.setMaxWidth(300);
         stage.setMinHeight(200);
         stage.setMinWidth(300);
-        stage.showAndWait();
+        stage.showAndWait();*/
     }
 
     public void showErrorProcess(){
-        FXMLLoader loader = new FXMLLoader();
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Ошибка");
+        alert.setHeaderText(null);
+        alert.setContentText("Операция не завершена!");
+        alert.showAndWait();
+        /*FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/error/errorProcess.fxml"));
         try {
             loader.load();
@@ -67,11 +79,16 @@ public class ErrorInput {
         stage.setMaxWidth(300);
         stage.setMinHeight(200);
         stage.setMinWidth(300);
-        stage.showAndWait();
+        stage.showAndWait();*/
     }
 
     public void showCompleteSuccessful(){
-        FXMLLoader loader = new FXMLLoader();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Сообщение");
+        alert.setHeaderText(null);
+        alert.setContentText("Операция успешно завершена!");
+        alert.showAndWait();
+       /* FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/fxml/error/completeSuccessful.fxml"));
         try {
             loader.load();
@@ -85,6 +102,13 @@ public class ErrorInput {
         stage.setMaxWidth(300);
         stage.setMinHeight(200);
         stage.setMinWidth(300);
-        stage.showAndWait();
+        stage.showAndWait();*/
+    }
+    public void showError(String message){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Ошибка");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

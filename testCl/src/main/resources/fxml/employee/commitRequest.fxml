@@ -34,9 +34,9 @@
             <TextField fx:id="nameTextField" onAction="#getNameTextField" GridPane.columnIndex="1" />
             <TextField fx:id="commentTextField" onAction="#getCommentTextField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="cityTextField" onAction="#getCityTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="coastTextField" onAction="#getCoastTextField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label text="Стоимость заказа" GridPane.rowIndex="3" />
             <Button mnemonicParsing="false" onAction="#createOrder" text="Сформировать" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label fx:id="costLabel" prefHeight="17.0" prefWidth="120.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
       </GridPane>
    </children>

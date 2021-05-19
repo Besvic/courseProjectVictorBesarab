@@ -1,6 +1,8 @@
 package process.controller;
 
+import com.google.common.base.CharMatcher;
 import com.google.gson.Gson;
+import javafx.scene.control.Alert;
 import process.controller.error.ErrorInput;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -80,58 +82,58 @@ public class Registration {
         } catch (IOException e) {
             e.printStackTrace();
         }*/
-        if (getName() != "" && getEmail() != "" && getLogin() != "" && getPassword() != "" &&
-                checkName(getName()).equals(Const.FUNCTION_COMPLETED_SUCCESSFUL)) {
+        if (getName() != "" && getEmail() != "" && getLogin() != "" && getPassword() != "" && checkName(getName()) && validationEmail(getEmail())) {
             Main.getMethod().writeLine("registrationUser");
             User user = new User(getName(),getEmail(), getLogin(), getPassword());
-            Gson gson = new Gson();
-            String codUser = gson.toJson(user);
+            String codUser = new Gson().toJson(user);
             Main.getMethod().writeLine(codUser);//sent input data for registration user
             if ( Main.getMethod().readLine().equals(FUNCTION_FAILED)){
-                /*Parent root = null;
-                try {
-                    root = FXMLLoader.load(getClass().getResource("/fxml/error/errorInputData.fxml"));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                Main.primaryStage.setScene(new Scene(root));
-                Main.primaryStage.setTitle("Ошибка ввода двнных.");
-                Main.primaryStage.show();*/
-                //exitInMainWindow();
-                /*Parent root = null;
-                try {
-                    root = FXMLLoader.load(getClass().getResource("/fxml/error/errorInputData.fxml"));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                Main.primaryStage.setScene(new Scene(root));
-                Main.primaryStage.setTitle("Вход/Авторизация");
-                Main.primaryStage.show();*/
-                ErrorInput err = new ErrorInput();
-                err.show();
-
+                new ErrorInput().show();
             }
             else {
                 System.out.println(FUNCTION_COMPLETED_SUCCESSFUL);
                 exitInMainWindow();
             }
         }else {
-            ErrorInput err = new ErrorInput();
-            err.show();
-
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Ошибка");
+            alert.setHeaderText(null);
+            alert.setContentText("Заполните все поля!");
+            alert.showAndWait();
         }
 
 
 
     }
 
-    public static String checkName(String str){
+    public static boolean checkName(String str){
         for (int i = 0; i < str.length(); i++) {
             if (!Character.isLetter(str.charAt(i)) && str.charAt(i) != ' ')
-                return Const.FUNCTION_FAILED;
+                return false;
         }
-        return Const.FUNCTION_COMPLETED_SUCCESSFUL;
+        return true;
     }
+
+    public static boolean validationNumber(String str){
+        for (int i = 0; i < str.length(); i++) {
+            if (Character.isLetter(str.charAt(i)) || str.charAt(i) != '.' || str.charAt(i) != ',' )
+                return false;
+        }
+        return true;
+    }
+
+    public static boolean validationEmail(String str){
+        if (CharMatcher.WHITESPACE.matchesAnyOf(str))
+            return false;
+        for (int i = 0; i < str.length(); i++)
+            if (str.charAt(i) == '@')
+                return true;
+        return true;
+    }
+
+
+
+
     @FXML
     void exitInMainWindow() {
         Main main = new Main();

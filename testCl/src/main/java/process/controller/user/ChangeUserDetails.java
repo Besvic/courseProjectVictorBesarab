@@ -35,8 +35,9 @@ public class ChangeUserDetails {
 
     @FXML
     void confirmChanges(ActionEvent event) {
-        if (Registration.checkName(nameTextField.getText().trim()).equals(Const.FUNCTION_COMPLETED_SUCCESSFUL) &&
-                !emailTextField.getText().trim().isEmpty() && !loginTextField.getText().trim().isEmpty() && !passwordTextField.getText().trim().isEmpty()) {
+        if (Registration.checkName(nameTextField.getText().trim()) &&
+                !loginTextField.getText().trim().isEmpty() && !passwordTextField.getText().trim().isEmpty() &&
+                Registration.validationEmail( emailTextField.getText().trim())) {
             User user = new User(nameTextField.getText().trim(), emailTextField.getText().trim(), loginTextField.getText().trim()
                     , passwordTextField.getText().trim(), User.CURRENT_ID);
             Gson gson = new Gson();

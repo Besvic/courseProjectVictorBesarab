@@ -1,5 +1,10 @@
 package program.classes;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Request {
     public static int CURRENT_ID = 0;
     protected  String name;
@@ -28,7 +33,7 @@ public class Request {
 
     }
 
-    public int getIdUser() {
+ /*   public int getIdUser() {
         return idUser;
     }
 
@@ -82,5 +87,5 @@ public class Request {
 
     public void setName(String name) {
         this.name = name;
-    }
+    }*/
 }

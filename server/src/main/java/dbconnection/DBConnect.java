@@ -16,42 +16,6 @@ public class DBConnect {
     private static final String PASSWORD = "1234";
 public static Statement statement;
 private static Connection connection;
-
-/*static {
-    try {
-        connection = DriverManager.getConnection(URL,USERNAME,PASSWORD);
-    } catch (SQLException throwables) {
-        throwables.printStackTrace();
-        throw new RuntimeException();
-    }
-
-}
-static {
-    try {
-        statement = connection.createStatement();
-    } catch (Exception e) {
-        e.printStackTrace();
-        throw new RuntimeException();
-    }
-}
-
-    public static void main(String[] args) {
-       // Class.forName("com.mysql.cj.jdbc.Driver");
-        try {
-            statement.executeUpdate("select *" +"from users");
-        } catch (SQLException throwables) {
-            System.out.println("Error");
-            throwables.printStackTrace();
-        }
-
-    }
-
- */
-
-
-
-
-
     public static Connection getConnect () throws SQLException {
 
         try {
@@ -106,8 +70,6 @@ static {
         }
         return temp;
     }
-
-
 
     public void insertUser(User userAdd){
         String insertUserSQL = "INSERT INTO users (name, email, login, password)" +
@@ -252,6 +214,7 @@ static {
             }
         }
     }
+
     public int addRequest(int idUser, int idEmployee, String phoneNumber, String comment, String date){
         String insertQuery = "INSERT INTO request (idUser, phoneNumber, comment, choiceIdEmployee, dateForMeeting) " +
                     "value (?, ?, ?, ?, ?)";
@@ -289,6 +252,7 @@ static {
         }
 
     }
+
     public ResultSet checkEmployeeAuthorisation(Employee employee){
         ResultSet resultSet = null;
         String queryCheckLoginPasswordSQL = "SELECT * " +
@@ -297,7 +261,7 @@ static {
         try {
             PreparedStatement preparedStatement = getConnect().prepareStatement(queryCheckLoginPasswordSQL);
             preparedStatement.setString(1, employee.getLogin());
-            preparedStatement.setString(2, employee.getPassword());
+            preparedStatement.setString(2, coding(employee.getPassword()));
             resultSet = preparedStatement.executeQuery();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -314,7 +278,7 @@ static {
             PreparedStatement pS = getConnect().prepareStatement(query);
             pS.setString(1, name);
             pS.setString(2, login);
-            pS.setString(3, password);
+            pS.setString(3, coding(password));
             pS.setString(4, phoneNumber);
             pS.setString(5, email);
             pS.setInt(6, id);
@@ -509,7 +473,6 @@ static {
 
     }
 
-
     public ResultSet getDataFromRequestOnIdUser(int id){
         ResultSet resultSet = null;
         String query = "SELECT * " +
@@ -524,7 +487,6 @@ static {
         }
         return resultSet;
     }
-
 
     public ResultSet getDataFromOrderOnIdUser(int id){
         ResultSet result = null;
@@ -543,8 +505,36 @@ static {
         return result;
     }
 
+    public ResultSet getCostForCreateOrder(int id){
+        String selectQuery = "select CAST(ROUND(((serviceQuality + serviceSpeed + politeness)/3) + 35, 2) AS DECIMAL(10,2)) cost " +
+                "from statistic " +
+                "where idEmployee = ? ";
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(selectQuery);
+            pS.setInt(1, id);
+            return pS.executeQuery();
 
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
 
+    public ResultSet getLastDetailsForReportAboutActOfWork(){
+        String selectQuery = "select *, e.name as nameEmployee, u.name as nameUser " +
+                "from actsofwork " +
+                "inner join users u on actsofwork.idUser = u.idUser " +
+                "inner join employee e on e.id = idEmployee " +
+                "where actsofwork.id = (select max(id) " +
+                "    from actsofwork) ";
+        try {
+            PreparedStatement pS = getConnect().prepareStatement(selectQuery);
+            return pS.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
 
 
     //admin function
@@ -556,7 +546,7 @@ static {
         try {
             PreparedStatement pS = getConnect().prepareStatement(selectQuery);
             pS.setString(1, admin.getLogin());
-            pS.setString(2, admin.getPassword());
+            pS.setString(2, coding(admin.getPassword()));
             return pS.executeQuery();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -599,7 +589,7 @@ static {
             pS.setString(1, employee.getName());
             pS.setString(2, employee.getPosition());
             pS.setString(3, employee.getLogin());
-            pS.setString(4, employee.getPassword());
+            pS.setString(4, coding(employee.getPassword()));
             pS.setString(5, employee.getPhoneNumber());
             pS.setString(6, employee.getEmail());
             pS.executeUpdate();

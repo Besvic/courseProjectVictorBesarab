@@ -150,6 +150,9 @@ public class ServerWork extends Thread{
                         case Const.GET_DATA_FOR_REJECT_REQUEST_TABLE_VIEW:
                             process.initializeRejectRequestTableView();
                             break;
+                        case Const.INITIALIZE_COST_LABEL_FOR_CREATE_ORDER:
+                            process.getCostForCreateOrder();
+                            break;
 
 
                         case Const.Exit:

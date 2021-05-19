@@ -1,18 +1,17 @@
 package program.process;
 
 import com.google.gson.Gson;
-/*import controller.employee.MainMenuEmployee;
-import controller.employee.ViewRequest;*/
 import com.sun.javafx.collections.MappingChange;
 import dbconnection.DBConnect;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 import program.classes.*;
 import program.helperClasses.*;
 import program.classes.Statistic;
 import server.ServerWork;
 
-import java.io.IOException;
+import java.io.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -193,7 +192,7 @@ public class Process {
             while (result.next()){
                 employee.setLogin(result.getString("login"));
                 employee.setId(result.getInt("id"));
-                employee.setPassword(result.getString("password"));
+                employee.setPassword(db.deCoding(result.getString("password")));
                 employee.setEmail(result.getString("email"));
                 employee.setName(result.getString("name"));
                 employee.setPosition(result.getString("position"));
@@ -251,11 +250,73 @@ public class Process {
     }
 
     public void addActsOfWork()  throws IOException {
-        DBConnect db = new DBConnect();
-        if (db.insertRowIntoActsOfWork(Integer.parseInt(ServerWork.sin.readLine())) == 1)
+        if (new DBConnect().insertRowIntoActsOfWork(Integer.parseInt(ServerWork.sin.readLine())) == 1) {
             ServerWork.sout.println(Const.FUNCTION_COMPLETED_SUCCESSFUL);
+            ResultSet result = new DBConnect().getLastDetailsForReportAboutActOfWork();
+            if(result != null){
+                try {
+                    result.next();
+                    ActsOfWork acts = new ActsOfWork(result.getInt("id"),result.getString("emailUser"),
+                            result.getString("endDate"), result.getString("startDate"), result.getDouble("cost"),
+                            result.getString("emailEmployee"), result.getString("city"), result.getString("definition"),
+                            result.getString("name"), result.getInt("idUser"), result.getInt("idEmployee"),
+                            result.getString("nameUser"), result.getString("nameEmployee"));
+                    ServerWork.sout.println(new Gson().toJson(acts));
+                    writeInFile(acts);
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            } else
+                ServerWork.sout.println(Const.FUNCTION_FAILED);
+        }
         else
             ServerWork.sout.println(Const.FUNCTION_FAILED);
+    }
+
+    private void writeInFile(ActsOfWork acts){
+        File file = new File("D:\\БГУИР\\4 семестр\\Курсач\\Бесараб Виктор Сергеевич\\CourseProject\\server\\Отчеты\\Акт № "
+                + acts.getId() + ".txt");
+        try {
+            if (!file.createNewFile()){
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Ошибка");
+                alert.setHeaderText(null);
+                alert.setContentText("Error create file");
+                alert.showAndWait();
+                return;
+            }
+            FileWriter out = new FileWriter (file);
+            out.write("ФИО пользователя: " + acts.getNameEmployee() + "\n");
+            out.write("Email пользователя: " + acts.getEmailEmployee() + "\n");
+            out.write("ФИО сотрудника: " + acts.getNameUser() + "\n");
+            out.write("Email сотрудника: " + acts.getEmailUser() + "\n");
+            out.write("Дата подачи заявки: " + acts.getStartDate() + "\n");
+            out.write("Дата выполнения услуги: " + acts.getEndDate() + "\n");
+            out.write("Стоимость: " + acts.getCost() + "\n");
+            out.write("Название предприятия: " + acts.getName() + "\n");
+            out.write("Город: " + acts.getCity() + "\n");
+            out.write("Описание заказа: " + acts.getDefinition() + "\n");
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public void getCostForCreateOrder() throws IOException {
+        DBConnect db = new DBConnect();
+        ResultSet result = db.getCostForCreateOrder(Integer.parseInt(ServerWork.sin.readLine()));
+
+        if (result == null)
+            ServerWork.sout.println(Const.FUNCTION_FAILED);
+        else {
+            ServerWork.sout.println(Const.FUNCTION_COMPLETED_SUCCESSFUL);
+            try {
+                result.next();
+                ServerWork.sout.println(result.getString("cost"));
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+                ServerWork.sout.println("0");
+            }
+        }
     }
 
 
@@ -265,19 +326,24 @@ public class Process {
         DBConnect db = new DBConnect();
         Gson gson = new Gson();
         ResultSet result = db.checkAdminAuthorisation(gson.fromJson(ServerWork.sin.readLine(), Admin.class));
-        if (result == null)
+
+       /* if (result.next() == null)
             ServerWork.sout.println(Const.FUNCTION_FAILED);
         else {
-            ServerWork.sout.println(Const.FUNCTION_COMPLETED_SUCCESSFUL);
+            ServerWork.sout.println(Const.FUNCTION_COMPLETED_SUCCESSFUL);*/
             try {
-                result.next();
+                if (!result.next()) {
+                    ServerWork.sout.println(Const.FUNCTION_FAILED);
+                    return;
+                }
+                ServerWork.sout.println(Const.FUNCTION_COMPLETED_SUCCESSFUL);
                 ServerWork.sout.println(result.getString("id"));
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
                 ServerWork.sout.println(Const.FUNCTION_FAILED);
             }
 
-        }
+        //}
     }
 
     public void getDetailsAdmin() throws IOException{
@@ -290,7 +356,7 @@ public class Process {
             try {
                 result.next();
                 Admin admin = new Admin(result.getString("name"), result.getInt("id"),
-                        result.getString("login"), result.getString("password"));
+                        result.getString("login"), db.deCoding(result.getString("password")));
                 ServerWork.sout.println(Const.FUNCTION_COMPLETED_SUCCESSFUL);
                 ServerWork.sout.println(gson.toJson(admin));
             } catch (SQLException throwables) {
@@ -394,16 +460,14 @@ public class Process {
     }
 
     public void initializeCompletedOrderViewTable() throws IOException{
-        DBConnect db = new DBConnect();
-        Gson gson = new Gson();
-        ResultSet result = db.getDataForInitializeCompletedOrderViewTable(Integer.parseInt(ServerWork.sin.readLine()));
+        ResultSet result = new DBConnect().getDataForInitializeCompletedOrderViewTable(Integer.parseInt(ServerWork.sin.readLine()));
         try{
             while (result.next()){
                 ActsOfWork acts = new ActsOfWork(result.getInt("id"), result.getString("emailUser"),
                         result.getString("endDate"), result.getString("startDate"), result.getDouble("cost"),
                         result.getString("emailEmployee"), result.getString("city"), result.getString("definition"),
-                        result.getString("name"), result.getInt("idUser"), result.getInt("idEmployee"));
-                ServerWork.sout.println(gson.toJson(acts));
+                        result.getString("name"), result.getInt("idUser"), result.getInt("idEmployee"), "", "");
+                ServerWork.sout.println(new Gson().toJson(acts));
             }
             ServerWork.sout.println("0");
         } catch (SQLException throwables) {

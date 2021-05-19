@@ -3,8 +3,11 @@ package program.classes;
 import lombok.Data;
 import lombok.Generated;
 import lombok.Getter;
+import lombok.Setter;
 
 @Data
+@Setter
+@Getter
 public class User {
     public static int CURRENT_ID = 0;
 
@@ -34,7 +37,7 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
+   /* public String getName() {
         return name;
     }
 
@@ -72,7 +75,7 @@ public class User {
 
     public void setId(int id) {
         this.id = id;
-    }
+    }*/
     @Override
     public String toString() {
         return "User{" +

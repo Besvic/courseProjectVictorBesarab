@@ -63,11 +63,12 @@ public class EnterInAccount {
             if (choiceLaw.getValue().equals("Администратор")){
                 Main.getMethod().writeLine(Const.AUTHORISATION_ADMIN);
                 Admin admin = new Admin("", 0, textFieldLogin.getText().trim(), textFieldPassword.getText().trim());
-                Gson gson = new Gson();
-                Main.getMethod().writeLine(gson.toJson(admin));
+                Main.getMethod().writeLine(new Gson().toJson(admin));
                 if (Main.getMethod().readLine().equals(Const.FUNCTION_FAILED)){
-                    ErrorInput err = new ErrorInput();
-                    err.show();
+                    ErrorInputEnter loginAnimation = new ErrorInputEnter(textFieldLogin);
+                    ErrorInputEnter passwordAnimation = new ErrorInputEnter(textFieldPassword);
+                    loginAnimation.playAnimation();
+                    passwordAnimation.playAnimation();
                 }else {
                     Admin.setCurrentId(Integer.parseInt(Main.getMethod().readLine()));
                     Main main = new Main();
@@ -90,8 +91,6 @@ public class EnterInAccount {
                         ErrorInputEnter passwordAnimation = new ErrorInputEnter(textFieldPassword);
                         loginAnimation.playAnimation();
                         passwordAnimation.playAnimation();
-                        ErrorInput err = new ErrorInput();
-                        err.show();
                     } else {
                         User.CURRENT_ID = Integer.parseInt(Main.getMethod().readLine());
                         Parent root = null;
@@ -114,12 +113,10 @@ public class EnterInAccount {
                     String answer = Main.getMethod().readLine();
                     if (answer.equals(FUNCTION_FAILED)) {
                         // ANIMATION TEST
-                       /* ErrorInputEnter loginAnimation = new ErrorInputEnter(textFieldLogin);
+                        ErrorInputEnter loginAnimation = new ErrorInputEnter(textFieldLogin);
                         ErrorInputEnter passwordAnimation = new ErrorInputEnter(textFieldPassword);
                         loginAnimation.playAnimation();
-                        passwordAnimation.playAnimation();*/
-                        ErrorInput err = new ErrorInput();
-                        err.show();
+                        passwordAnimation.playAnimation();
                     } else {
                         Employee.CURRENT_ID = Integer.parseInt(answer);
                         Parent root = null;

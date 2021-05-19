@@ -1,6 +1,12 @@
 package program.classes;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Order {
+
     private int id;
     private int idUser;
     private int idEmployee;
@@ -8,7 +14,7 @@ public class Order {
     private String action;
     private String startDate;
 
-    public int getId() {
+   /* public int getId() {
         return id;
     }
 
@@ -54,5 +60,5 @@ public class Order {
 
     public void setStartDate(String startDate) {
         this.startDate = startDate;
-    }
+    }*/
 }

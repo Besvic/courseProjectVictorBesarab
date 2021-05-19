@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.input.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.text.*?>
 <?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane maxHeight="800.0" maxWidth="900.0" minHeight="679.0" minWidth="900.0" prefHeight="752.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="process.controller.employee.MainMenuEmployee">
    <children>
@@ -192,7 +189,6 @@
                      <children>
                         <TableView fx:id="currentOrderViewTable" layoutX="103.0" prefHeight="180.0" prefWidth="898.0" style="-fx-background-color: Thistle;" AnchorPane.bottomAnchor="-10.0" AnchorPane.leftAnchor="-10.0" AnchorPane.rightAnchor="-10.0" AnchorPane.topAnchor="-10.0">
                           <columns>
-                            <TableColumn fx:id="idOrderCurrentOrderViewTable" prefWidth="35.000001549720764" text="id" />
                             <TableColumn fx:id="nameColumnCurrentOrderViewTable" prefWidth="146.99996185302734" text="Название предприятия" />
                               <TableColumn fx:id="nameUserColumnCurrentOrderViewTable" prefWidth="130.0" text="ФИО пользователя" />
                               <TableColumn fx:id="phoneNumberColumnCurrentOrderViewTable" prefWidth="113.0" text="Email" />
@@ -210,7 +206,6 @@
                      <children>
                         <TableView fx:id="requestTableView" prefHeight="180.0" prefWidth="898.0" style="-fx-background-color: Thistle;">
                           <columns>
-                              <TableColumn fx:id="idRequestColumnRequest" prefWidth="78.0" text="id заявки" />
                             <TableColumn fx:id="nameUserColumnRequest" prefWidth="224.0" text="ФИО пользователя" />
                             <TableColumn fx:id="phoneNumberUserColumnRequest" prefWidth="166.0" text="Номер телефона" />
                               <TableColumn fx:id="commentColumnRequest" minWidth="0.0" prefWidth="152.0" text="Коментарий" />

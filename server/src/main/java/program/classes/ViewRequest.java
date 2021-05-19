@@ -1,8 +1,11 @@
 package program.classes;
 
 
+import lombok.Getter;
+import lombok.Setter;
 import program.classes.Request;
-
+@Setter
+@Getter
 public class ViewRequest extends Request {
     private String nameUser;
     public ViewRequest(int id, String nameUser, String phoneNumber, String comment, String date){
@@ -15,11 +18,11 @@ public class ViewRequest extends Request {
     }
     public ViewRequest(){}
 
-    public String getNameUser() {
+   /* public String getNameUser() {
         return nameUser;
     }
 
     public void setNameUser(String nameUser) {
         this.nameUser = nameUser;
-    }
+    }*/
 }

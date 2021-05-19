@@ -2,6 +2,9 @@ package test;
 
 import program.helperClasses.StatisticMark;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,7 +14,7 @@ import java.util.*;
 /*import static server.ServerWork.getServerStream;*/
 
 public class test {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
        /* String timeStamp = new SimpleDateFormat("dd.MM.yyyy").format(Calendar.getInstance().getTime());
 
 
@@ -29,10 +32,21 @@ public class test {
         if (myDate.before(testDate)){
             System.out.println("good");
         }*/
-        System.out.println("ok");
+
+
+       /* System.out.println("ok");
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
+
+        FileWriter out = null;
+        try {
+            out = new FileWriter("Акт.txt");
+            out.write("Дата начала работы над заказом: \n");
+            out.write("Дата начала работы над заказом: \n");
+        } catch (IOException e) {
             e.printStackTrace();
         }
 

@@ -125,8 +125,7 @@ public class MainMenuEmployee {
     @FXML
     void commitRequest(ActionEvent event) {
         if (!idRequestFromViewRequestLabel.getText().isEmpty()) {
-            Main.getMethod().writeLine(Const.COMMIT_REQUEST_IN_EMPLOYEE_ACCOUNT);
-            Main.getMethod().writeLine(idRequestFromViewRequestLabel.getText());
+            Request.CURRENT_ID = Integer.parseInt(idRequestFromViewRequestLabel.getText());
             // sent id for delete request
             // Service.setCurrentId(Integer.parseInt(idRequestFromViewRequestLabel.getText()));
             Main m = new Main();
@@ -219,11 +218,16 @@ public class MainMenuEmployee {
             Main.getMethod().writeLine(Const.ADD_ACTS_OF_WORK);
             Main.getMethod().writeLine(idOrderFromCurrentOrderViewTableLabel.getText().trim());
             if (Main.getMethod().readLine().equals(Const.FUNCTION_COMPLETED_SUCCESSFUL)) {
-                Main main = new Main();
-                main.getWindow("/fxml/employee/mainMenuEmployee.fxml", "Меню сотрудника");
+                //view window with report
+                new Main().getWindow("/fxml/employee/Report.fxml",  "Отчет");
             }else{
-                ErrorInput err = new ErrorInput();
-                err.show();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Оштбка");
+                alert.setHeaderText(null);
+                alert.setContentText("Заполните поля правильно!");
+                alert.showAndWait();
+               /* ErrorInput err = new ErrorInput();
+                err.show();*/
             }
         }
     }
@@ -281,7 +285,7 @@ public class MainMenuEmployee {
                         , v.getChoiceDate()));
             }
         }
-        idRequestColumnRequest.setCellValueFactory(new PropertyValueFactory<ViewRequest, Integer>("id"));
+        /*idRequestColumnRequest.setCellValueFactory(new PropertyValueFactory<ViewRequest, Integer>("id"));*/
         nameUserColumnRequest.setCellValueFactory(new PropertyValueFactory<ViewRequest, String>("nameUser"));
         phoneNumberUserColumnRequest.setCellValueFactory(new PropertyValueFactory<ViewRequest, String>("phoneNumber"));
         commentColumnRequest.setCellValueFactory(new PropertyValueFactory<ViewRequest, String>("comment"));
@@ -316,7 +320,7 @@ public class MainMenuEmployee {
                         localOrder.getEmailUser(), localOrder.getDefinition(), localOrder.getCost(), localOrder.getStartDate()));
             }
         }
-        idOrderCurrentOrderViewTable.setCellValueFactory(new PropertyValueFactory<CurrentOrderViewTable, Integer>("id"));
+       /* idOrderCurrentOrderViewTable.setCellValueFactory(new PropertyValueFactory<CurrentOrderViewTable, Integer>("id"));*/
         nameColumnCurrentOrderViewTable.setCellValueFactory(new PropertyValueFactory<CurrentOrderViewTable, String>("nameOrder"));
         nameUserColumnCurrentOrderViewTable.setCellValueFactory(new PropertyValueFactory<CurrentOrderViewTable, String>("nameUser"));
         phoneNumberColumnCurrentOrderViewTable.setCellValueFactory(new PropertyValueFactory<CurrentOrderViewTable, String>("emailUser"));
@@ -333,17 +337,16 @@ public class MainMenuEmployee {
     public void initializeCompletedOrder(){
         Main.getMethod().writeLine(Const.INITIALIZE_COMPLETED_VIEW_TABLE);
         Main.getMethod().writeLine(String.valueOf(Employee.CURRENT_ID));
-        Gson gson = new Gson();
         String strG;
         while (true){
             strG = Main.getMethod().readLine();
             if (strG.equals("0"))
                 break;
             else {
-                ActsOfWork acts = gson.fromJson(strG, ActsOfWork.class);
+                ActsOfWork acts = new Gson().fromJson(strG, ActsOfWork.class);
                 completedOrder.add(new ActsOfWork(0, acts.getEmailUser(), acts.getEndDate(), acts.getStartDate(),
                         acts.getCost(), acts.getEmailEmployee(), acts.getCity(), acts.getDefinition(), acts.getName(),
-                        acts.getIdUser(), acts.getIdEmployee()));
+                        acts.getIdUser(), acts.getIdEmployee(), "", ""));
             }
             emailUserColumnCompletedViewTable.setCellValueFactory(new PropertyValueFactory<ActsOfWork, String>("emailUser"));
             endDateColumnCompletedViewTable.setCellValueFactory(new PropertyValueFactory<ActsOfWork, String>("endDate"));

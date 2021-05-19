@@ -1,5 +1,10 @@
 package program.classes;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class Service {
     protected static int CURRENT_ID;
     protected int id;
@@ -19,7 +24,7 @@ public class Service {
         this.cost = cost;
     }
 
-    public static int getCurrentId() {
+    /*public static int getCurrentId() {
         return CURRENT_ID;
     }
 
@@ -73,5 +78,5 @@ public class Service {
 
     public void setCost(double cost) {
         this.cost = cost;
-    }
+    }*/
 }

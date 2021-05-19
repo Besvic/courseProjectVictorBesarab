@@ -1,35 +1,31 @@
 package process.controller.admin;
-
 import com.google.gson.Gson;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import lombok.Synchronized;
 import process.controller.Main;
+import process.controller.Registration;
 import process.controller.error.ErrorInput;
 import program.classes.Const;
 import program.classes.Employee;
+
 
 public class CreateEmployee {
 
     @FXML
     private TextField phoneNumberField;
-
     @FXML
     private TextField positionField;
-
     @FXML
     private TextField nameField;
-
     @FXML
     private TextField passwordField;
-
     @FXML
     private TextField emailField;
-
     @FXML
     private TextField loginField;
-
     @FXML
     private Button closeButton;
 
@@ -66,7 +62,8 @@ public class CreateEmployee {
     @FXML
     void confirmChanges(ActionEvent event) {
         if (getEmail().isEmpty() || getLogin().isEmpty() || getPassword().isEmpty() || getPhoneNumber().isEmpty() ||
-                getName().isEmpty() || getPosition().isEmpty()){
+                getName().isEmpty() || getPosition().isEmpty() || !Registration.checkName(getName()) ||
+                !Registration.validationNumber(getPhoneNumber()) || !Registration.validationEmail(getEmail())){
             ErrorInput err = new ErrorInput();
             err.show();
         }else {

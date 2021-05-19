@@ -1,5 +1,10 @@
 package program.classes;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Employee extends User {
     protected String position;
     protected String phoneNumber;
@@ -24,7 +29,7 @@ public class Employee extends User {
         this.position = position;
     }
 
-    public String getPosition() {
+/*    public String getPosition() {
         return position;
     }
 
@@ -38,5 +43,5 @@ public class Employee extends User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
+    }*/
 }

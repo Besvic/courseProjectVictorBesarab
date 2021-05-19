@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.image.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
@@ -205,7 +205,6 @@
                      <children>
                         <TableView fx:id="employeeTableView" layoutX="225.0" layoutY="73.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: LightSteelBlue;" AnchorPane.bottomAnchor="-10.0" AnchorPane.leftAnchor="-12.0" AnchorPane.rightAnchor="-12.0" AnchorPane.topAnchor="-12.0">
                           <columns>
-                            <TableColumn fx:id="idEmployeeColumnEmployeeTableView" prefWidth="60.99997103214264" text="ID" />
                             <TableColumn fx:id="nameEmployeeColumnEmployeeTableView" prefWidth="213.99999237060547" text="ФИО" />
                               <TableColumn fx:id="positionEmployeeColumnEmployeeTableView" prefWidth="262.0000305175781" text="Сфера деятельности" />
                               <TableColumn fx:id="ratingEmployeeColumnEmployeeTableView" minWidth="0.0" prefWidth="217.0" text="Рейтинг" />
@@ -221,7 +220,6 @@
                      <children>
                           <TableView fx:id="orderViewTable" layoutX="-2.4000000000000004" layoutY="-1.4000000000000004" prefHeight="342.0" prefWidth="900.0" style="-fx-background-color: LightSteelBlue;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-12.0" AnchorPane.rightAnchor="-12.0" AnchorPane.topAnchor="-11.0">
                               <columns>
-                                  <TableColumn fx:id="idOrderView" prefWidth="34.0" text="ID" />
                                   <TableColumn fx:id="nameOrderView" prefWidth="192.99999237060547" text="Название фирмы" />
                                   <TableColumn fx:id="nameEmployeeView" prefWidth="168.0" text="ФИО сотрудника" />
                                   <TableColumn fx:id="phoneNumberView" prefWidth="179.00003051757812" text="Номер телефона сотрудника" />

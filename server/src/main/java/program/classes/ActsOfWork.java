@@ -1,5 +1,10 @@
 package program.classes;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class ActsOfWork {
     protected int id;
     protected String emailUser;
@@ -12,11 +17,15 @@ public class ActsOfWork {
     protected String name;
     protected int idUser;
     protected int idEmployee;
+    protected String nameUser;
+    protected String nameEmployee;
+
 
     public ActsOfWork() {};
 
     public ActsOfWork(int id, String emailUser, String endDate, String startDate, double cost,
-                      String emailEmployee, String city, String definition, String name, int idUser, int idEmployee) {
+                      String emailEmployee, String city, String definition, String name, int idUser, int idEmployee,
+                      String nameUser, String nameEmployee) {
         this.id = id;
         this.emailUser = emailUser;
         this.endDate = endDate;
@@ -28,6 +37,25 @@ public class ActsOfWork {
         this.name = name;
         this.idUser = idUser;
         this.idEmployee = idEmployee;
+        this.nameEmployee = nameEmployee;
+        this.nameUser = nameUser;
+    }
+
+
+    /*public String getNameUser() {
+        return nameUser;
+    }
+
+    public void setNameUser(String nameUser) {
+        this.nameUser = nameUser;
+    }
+
+    public String getNameEmployee() {
+        return nameEmployee;
+    }
+
+    public void setNameEmployee(String nameEmployee) {
+        this.nameEmployee = nameEmployee;
     }
 
     public int getId() {
@@ -116,5 +144,5 @@ public class ActsOfWork {
 
     public void setIdEmployee(int idEmployee) {
         this.idEmployee = idEmployee;
-    }
+    }*/
 }

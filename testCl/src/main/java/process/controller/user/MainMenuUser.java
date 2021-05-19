@@ -33,98 +33,66 @@ public class MainMenuUser {
 
     @FXML // fx:id="loginLabel"
     private Label loginLabel; // Value injected by FXMLLoader
-
     @FXML // fx:id="passwordLabel"
     private Label passwordLabel; // Value injected by FXMLLoader
-
     @FXML // fx:id="actionRequest"
     private Label actionRequest; // Value injected by FXMLLoader
-
     @FXML // fx:id="idLabel"
     private Label idLabel; // Value injected by FXMLLoader
-
     @FXML // fx:id="emailLabel"
     private Label emailLabel; // Value injected by FXMLLoader
-
     @FXML // fx:id="nameLabel"
     private Label nameLabel; // Value injected by FXMLLoader
-
     @FXML // fx:id="answerOnRequest"
     private Label answerOnRequest; // Value injected by FXMLLoader
-
     @FXML
     private Label idEmployeeForStatisticLabel;
-
     @FXML // fx:id="idEmployeeText"
     private Label idEmployeeForReceiptLabel; // Value injected by FXMLLoader
-
     @FXML // fx:id="confirmReceiptButton"
     private Button confirmReceiptButton; // Value injected by FXMLLoader
-
     @FXML // fx:id="sendRequestButton"
     private Button sendRequestButton; // Value injected by FXMLLoader
-
-
     @FXML
     private TextField serviceQualityMarkForStatisticField;
-
     @FXML
     private TextField serviceSpeedMarkForStatisticField;
-
     @FXML
     private TextField politenessMarkForStatisticField;
-
     @FXML // fx:id="cityField"
     private Label idEmployeeForChoiceLabel; // Value injected by FXMLLoader
-
     @FXML // fx:id="commentForRequestField"
     private TextField commentForRequestField; // Value injected by FXMLLoader
-
     @FXML // fx:id="telephoneNumberField"
     private TextField telephoneNumberField; // Value injected by FXMLLoader
-
     @FXML // fx:id="commentForReceiptText"
     private TextField commentForReceiptText; // Value injected by FXMLLoader
-
     @FXML // fx:id="timeReceiptText"
     private TextField phoneReceiptText; // Value injected by FXMLLoader
-
     @FXML
     private DatePicker dateReceiptText;
-
     @FXML // fx:id="orderViewTable"
     private TableView<OrderTable> orderViewTable; // Value injected by FXMLLoader
-
     @FXML // fx:id="phoneNumberView"
     private TableColumn<OrderTable, String> phoneNumberView; // Value injected by FXMLLoader
-
     @FXML // fx:id="startDateView"
     private TableColumn<OrderTable, String> startDateView; // Value injected by FXMLLoader
-
     @FXML // fx:id="emailEmployeeView"
     private TableColumn<OrderTable, String> emailEmployeeView; // Value injected by FXMLLoader
-
     @FXML // fx:id="nameOrderView"
     private TableColumn<OrderTable, String> nameOrderView; // Value injected by FXMLLoader
-
     @FXML // fx:id="idOrderView"
     private TableColumn<OrderTable, Integer> idOrderView; // Value injected by FXMLLoader
-
     @FXML // fx:id="nameEmployeeView"
     private TableColumn<OrderTable, String> nameEmployeeView; // Value injected by FXMLLoader
-
     @FXML
     private TableView<EmployeeTableView> employeeTableView;
-
     @FXML
     private TableColumn<EmployeeTableView, String> nameEmployeeColumnEmployeeTableView;
-
     @FXML
     private TableColumn<EmployeeTableView, Double> ratingEmployeeColumnEmployeeTableView;
-
     @FXML
     private TableColumn<EmployeeTableView, Integer> idEmployeeColumnEmployeeTableView;
-
     @FXML
     private TableColumn<EmployeeTableView, String> positionEmployeeColumnEmployeeTableView;
 
@@ -236,7 +204,6 @@ public class MainMenuUser {
 
     }
 
-
     public class OrderTable extends Order{
         private String phone;
         private String email;
@@ -285,7 +252,6 @@ public class MainMenuUser {
             this.nameEmployee = nameEmployee;
         }
     }
-
 
     @FXML
     void comeBack(ActionEvent event) {
@@ -377,7 +343,7 @@ public class MainMenuUser {
         showUserDetails(user, actionRequest);
         //initialize user order
         orderTable = initializeMyOrderTable();
-        idOrderView.setCellValueFactory(new PropertyValueFactory<OrderTable,Integer>("id"));
+       /* idOrderView.setCellValueFactory(new PropertyValueFactory<OrderTable,Integer>("id"));*/
         nameEmployeeView.setCellValueFactory(new PropertyValueFactory<OrderTable, String>("nameEmployee"));
         phoneNumberView.setCellValueFactory(new PropertyValueFactory<OrderTable, String>("phone"));
         emailEmployeeView.setCellValueFactory(new PropertyValueFactory<OrderTable,String>("email"));
@@ -439,7 +405,9 @@ public class MainMenuUser {
             else {
                 EmployeeTableView employee = gson.fromJson(strG, EmployeeTableView.class);
                 employeeTableViews.add(new EmployeeTableView(employee.getId(), employee.getName(), employee.getPosition(), employee.getMark()));
+/*
                 idEmployeeColumnEmployeeTableView.setCellValueFactory(new PropertyValueFactory<EmployeeTableView, Integer>("id"));
+*/
                 nameEmployeeColumnEmployeeTableView.setCellValueFactory(new PropertyValueFactory<EmployeeTableView, String>("name"));
                 positionEmployeeColumnEmployeeTableView.setCellValueFactory(new PropertyValueFactory<EmployeeTableView, String>("position"));
                 ratingEmployeeColumnEmployeeTableView.setCellValueFactory(new PropertyValueFactory<EmployeeTableView, Double>("mark"));

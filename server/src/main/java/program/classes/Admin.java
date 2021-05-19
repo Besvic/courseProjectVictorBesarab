@@ -1,5 +1,10 @@
 package program.classes;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Admin {
     protected String name;
     protected int id;
@@ -13,7 +18,14 @@ public class Admin {
         this.login = login;
         this.password = password;
     }
-    public Admin(){}
+    public static int getCurrentId() {
+        return CURRENT_ID;
+    }
+
+    public static void setCurrentId(int currentId) {
+        CURRENT_ID = currentId;
+    }
+  /*  public Admin(){}
 
     public String getName() {
         return name;
@@ -31,13 +43,7 @@ public class Admin {
         this.id = id;
     }
 
-    public static int getCurrentId() {
-        return CURRENT_ID;
-    }
 
-    public static void setCurrentId(int currentId) {
-        CURRENT_ID = currentId;
-    }
 
     public String getLogin() {
         return login;
@@ -53,5 +59,5 @@ public class Admin {
 
     public void setPassword(String password) {
         this.password = password;
-    }
+    }*/
 }
