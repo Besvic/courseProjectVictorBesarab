@@ -131,8 +131,8 @@ public class AdminMenu {
             Main.getMethod().writeLine(Const.DELETE_EMPLOYEE);
             Main.getMethod().writeLine(idEmployeeForDeleteLabel.getText().trim());
             if (Main.getMethod().readLine().equals(Const.FUNCTION_COMPLETED_SUCCESSFUL)){
-                Main main = new Main();
-                main.getWindow("/fxml/admin/adminMenu.fxml", "Меню администратора");
+                /*Main main = new Main();
+                main.getWindow("/fxml/admin/adminMenu.fxml", "Меню администратора");*/
             } else {
                 ErrorInput err = new ErrorInput();
                 err.showErrorProcess();
@@ -194,7 +194,7 @@ public class AdminMenu {
                 break;
             else {
                 EmployeeTableView employee = gson.fromJson(strG, EmployeeTableView.class);
-                employeeTableViews.add(new EmployeeTableView(employee.getId(), employee.getName(), employee.getPosition(), employee.getMark()));
+                employeeTableViews.add(new EmployeeTableView(employee.getId(), employee.getName(), employee.getPosition(), employee.getMark(), -1));
                 idEmployeeColumnEmployeeTableView.setCellValueFactory(new PropertyValueFactory<EmployeeTableView, Integer>("id"));
                 nameEmployeeColumnEmployeeTableView.setCellValueFactory(new PropertyValueFactory<EmployeeTableView, String>("name"));
                 positionEmployeeColumnEmployeeTableView.setCellValueFactory(new PropertyValueFactory<EmployeeTableView, String>("position"));

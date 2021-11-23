@@ -14,7 +14,8 @@ public class DBConnect {
     private static final String URL = "jdbc:mysql://localhost:3306/mycource4";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "1234";
-public static Statement statement;
+    public static Statement statement;
+
 private static Connection connection;
     public static Connection getConnect () throws SQLException {
 
@@ -26,19 +27,6 @@ private static Connection connection;
             e.getMessage();
         }
         return connection;
-       /* try(Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-            Statement statement = connection.createStatement()){
-//            statement.execute("insert into users (nameUser, loginUser, passwordUser) " +
-//                    "values ('Arina', 'Arin', '123')");
-//            statement.executeUpdate("update users set nameUser = 'Kate', loginUser = 'Rin', passwordUser = 'Rin'  where nameUser = 'Arina'");
-//            ResultSet res = statement.executeQuery("select* " +
-//                    "from users");
-//            System.out.println(res);
-
-        } catch (SQLException e){
-            e.getMessage();
-            System.out.println("err");
-        }*/
     }
 
     public ResultSet getUserOnLogin(User user){
@@ -71,7 +59,7 @@ private static Connection connection;
         return temp;
     }
 
-    public void insertUser(User userAdd){
+    public synchronized void insertUser(User userAdd){
         String insertUserSQL = "INSERT INTO users (name, email, login, password)" +
                 "VALUE(?,?,?,?)";
         PreparedStatement preparedStatement = null;
@@ -205,7 +193,7 @@ private static Connection connection;
                /* double point = mark + resultSelect.getDouble(field);
                 if (point > 5)
                     point = 5;*/
-                pS.setDouble(1, mark/5 + resultSelect.getDouble(field));
+                pS.setDouble(1, mark/3 + resultSelect.getDouble(field));
                 pS.setInt(2, idEmployee);
                 return pS.executeUpdate();
             } catch (SQLException throwables) {
@@ -302,7 +290,7 @@ private static Connection connection;
         }
     }
 
-    public int insertOrder(Service service, int idRequest){
+    public synchronized  int insertOrder(Service service, int idRequest){
        ResultSet result = null;
        ResultSet resultAfterInsertIntoService = null;
         String query = "SELECT request.* " +
@@ -370,7 +358,7 @@ private static Connection connection;
         }
     }
 
-    public int deleteRowFromRequest(int id, String reason){
+    public synchronized int deleteRowFromRequest(int id, String reason){
         ResultSet result = null;
         String querySelect = "select request.* " +
                 "from request " +
@@ -416,7 +404,7 @@ private static Connection connection;
         }
     }
 
-    public int insertRowIntoActsOfWork(int id){
+    public synchronized int insertRowIntoActsOfWork(int id){
         int numberResult = 0;
         String selectQuery = "SELECT u.email, s.dateStart, s.cost, e.email, s.city, s.definition, s.name, u.idUser, e.id, o.idService " +
                 "from `order` o " +
@@ -461,10 +449,7 @@ private static Connection connection;
             try{
                 PreparedStatement pS = getConnect().prepareStatement(deleteQuery);
                 pS.setInt(1, resultSelect.getInt("idService"));
-                if (pS.executeUpdate() == 1)
-                    return numberResult;
-                else
-                    return 0;
+                return pS.executeUpdate() == 1 ?  numberResult : 0;
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
                 return 0;
@@ -520,7 +505,7 @@ private static Connection connection;
         }
     }
 
-    public ResultSet getLastDetailsForReportAboutActOfWork(){
+    public synchronized  ResultSet getLastDetailsForReportAboutActOfWork(){
         String selectQuery = "select *, e.name as nameEmployee, u.name as nameUser " +
                 "from actsofwork " +
                 "inner join users u on actsofwork.idUser = u.idUser " +
@@ -568,7 +553,7 @@ private static Connection connection;
         }
     }
 
-    public int deleteCurrentAdminOnId(int id){
+    public  int deleteCurrentAdminOnId(int id){
         String deleteQuery = "delete from admin " +
                 "where id = ? ";
         try {
@@ -581,7 +566,7 @@ private static Connection connection;
         }
     }
 
-    public int createEmployee(Employee employee){
+    public synchronized int createEmployee(Employee employee){
         String insertQuery = "insert into employee (name, position, login, password, phoneNumber, email) " +
                 "values (?, ?, ?, ?, ?, ?) ";
         try {

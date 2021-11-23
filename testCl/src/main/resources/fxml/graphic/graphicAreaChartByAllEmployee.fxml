@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.scene.chart.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
-<VBox prefHeight="423.0" prefWidth="554.0" style="-fx-background-color: Thistle;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="process.controller.graphic.GraphicAreaChartAllEmployee">
+<VBox prefHeight="423.0" prefWidth="554.0" style="-fx-background-color: Thistle;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="process.controller.graphic.GraphicAreaChartAllEmployee">
     <children>
         <HBox prefHeight="70.0" prefWidth="554.0">
             <children>
@@ -21,7 +19,7 @@
                 </MenuBar>
             </children>
         </HBox>
-        <AreaChart fx:id="areaChartOnRequestFromCountry" prefHeight="485.0" prefWidth="554.0" style="-fx-cursor: black; -fx-legend-side: Red; -fx-background-color: Thistle;" title="График заработанной суммы в городе">
+        <AreaChart fx:id="areaChartOnRequestFromCountry" prefHeight="485.0" prefWidth="554.0" style="-fx-cursor: black; -fx-legend-side: Red; -fx-background-color: Thistle;" title="Прибыль копании в текущем году">
             <xAxis>
                 <CategoryAxis side="BOTTOM" />
             </xAxis>

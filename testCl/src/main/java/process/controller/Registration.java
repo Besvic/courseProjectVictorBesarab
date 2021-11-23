@@ -116,7 +116,7 @@ public class Registration {
 
     public static boolean validationNumber(String str){
         for (int i = 0; i < str.length(); i++) {
-            if (Character.isLetter(str.charAt(i)) || str.charAt(i) != '.' || str.charAt(i) != ',' )
+            if (Character.isLetter(str.charAt(i)) || str.charAt(i) == '.' || str.charAt(i) == ',' )
                 return false;
         }
         return true;
@@ -128,7 +128,7 @@ public class Registration {
         for (int i = 0; i < str.length(); i++)
             if (str.charAt(i) == '@')
                 return true;
-        return true;
+        return false;
     }
 
 

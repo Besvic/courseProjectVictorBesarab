@@ -482,7 +482,7 @@ public class Process {
         try {
             while (result.next()){
                 EmployeeTableView employeeTableView = new EmployeeTableView(result.getInt("id"), result.getString("name"),
-                        result.getString("position"), result.getDouble("mark"));
+                        result.getString("position"), result.getDouble("mark"), 15 + result.getDouble("mark") * 10);
                 ServerWork.sout.println(gson.toJson(employeeTableView));
             }
             ServerWork.sout.println("0");

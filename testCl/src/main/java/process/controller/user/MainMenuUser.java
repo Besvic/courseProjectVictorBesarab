@@ -14,6 +14,7 @@ import java.util.Locale;
 import com.google.gson.Gson;
 import process.controller.EnterInAccount;
 import process.controller.Main;
+import process.controller.Registration;
 import process.controller.error.ErrorInput;
 import dbconnection.DBConnect;
 import javafx.collections.FXCollections;
@@ -88,6 +89,8 @@ public class MainMenuUser {
     @FXML
     private TableView<EmployeeTableView> employeeTableView;
     @FXML
+    private TableColumn<EmployeeTableView, Double> costEmployeeColumnEmployeeTableView;
+    @FXML
     private TableColumn<EmployeeTableView, String> nameEmployeeColumnEmployeeTableView;
     @FXML
     private TableColumn<EmployeeTableView, Double> ratingEmployeeColumnEmployeeTableView;
@@ -145,7 +148,8 @@ public class MainMenuUser {
             if (idEmployeeForStatisticLabel.getText().trim().isEmpty() || getPolitenessMarkForStatistic().isEmpty() || getServiceSpeedMarkForStatistic().isEmpty() ||
                     getServiceQualityMarkForStatistic().isEmpty() ||
                    Double.valueOf(getPolitenessMarkForStatistic()) > 5 || Double.valueOf(getServiceSpeedMarkForStatistic()) > 5 ||
-                    Double.valueOf(getServiceQualityMarkForStatistic()) > 5) {
+                    Double.valueOf(getServiceQualityMarkForStatistic()) > 5 || Double.valueOf(getServiceSpeedMarkForStatistic()) < 0 ||
+                    Double.valueOf(getServiceQualityMarkForStatistic()) < 0|| Double.valueOf(getPolitenessMarkForStatistic()) < 0) {
                 ErrorInput err = new ErrorInput();
                 err.show();
             } else {
@@ -183,7 +187,7 @@ public class MainMenuUser {
             err.show();
             e.printStackTrace();
         }
-        System.out.println(currentDate.before(userDate));
+        System.out.println(currentDate.before(userDate)); // TODO: 23.11.2021 del 
         if (currentDate.before(userDate) && !getPhoneReceiptText().isEmpty() && !getDateReceiptText().isEmpty() &&
                 !idEmployeeForReceiptLabel.getText().trim().isEmpty() && !getCommentForReceiptText().isEmpty()){
             Main.getMethod().writeLine(Const.SEND_REQUEST_FOR_EMPLOYEE);
@@ -288,7 +292,8 @@ public class MainMenuUser {
     void sendRequest(ActionEvent event) {
         String answer = null;
         try {
-            if (!telephoneNumberField.getText().trim().isEmpty() && !commentForRequestField.getText().trim().isEmpty()) {
+            if (!telephoneNumberField.getText().trim().isEmpty() && !commentForRequestField.getText().trim().isEmpty() &&
+                    Registration.validationNumber(telephoneNumberField.getText())) {
                 Main.getMethod().writeLine(Const.SEND_MANAGER_REQUEST_fROM_USER_MENU);
                 Request request = new Request(User.CURRENT_ID, telephoneNumberField.getText().trim(), commentForRequestField.getText().trim());
                 Gson gson = new Gson();
@@ -404,13 +409,14 @@ public class MainMenuUser {
                 break;
             else {
                 EmployeeTableView employee = gson.fromJson(strG, EmployeeTableView.class);
-                employeeTableViews.add(new EmployeeTableView(employee.getId(), employee.getName(), employee.getPosition(), employee.getMark()));
+                employeeTableViews.add(new EmployeeTableView(employee.getId(), employee.getName(), employee.getPosition(), employee.getMark(), employee.getCost()));
 /*
                 idEmployeeColumnEmployeeTableView.setCellValueFactory(new PropertyValueFactory<EmployeeTableView, Integer>("id"));
 */
                 nameEmployeeColumnEmployeeTableView.setCellValueFactory(new PropertyValueFactory<EmployeeTableView, String>("name"));
                 positionEmployeeColumnEmployeeTableView.setCellValueFactory(new PropertyValueFactory<EmployeeTableView, String>("position"));
                 ratingEmployeeColumnEmployeeTableView.setCellValueFactory(new PropertyValueFactory<EmployeeTableView, Double>("mark"));
+                costEmployeeColumnEmployeeTableView.setCellValueFactory(new PropertyValueFactory<EmployeeTableView, Double>("cost"));
                 employeeTableView.setItems(employeeTableViews);
                 showIdEmployeeTableView(null);
                 //listener tab on row

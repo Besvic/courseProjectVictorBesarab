@@ -2,24 +2,16 @@ package server;
 
 import program.classes.Const;
 import program.process.Process;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.ArrayList;
-import java.util.Locale;
-
 
 public class ServerWork extends Thread{
 
-
     private static Socket cl = null;
-
-    ArrayList<String> resultSplit;
     public static BufferedReader sin;
     public static PrintStream sout;
 
@@ -141,6 +133,7 @@ public class ServerWork extends Thread{
                             break;
                         case Const.DELETE_EMPLOYEE:
                             process.deleteEmployeeOnId(Integer.parseInt(ServerWork.sin.readLine()));
+                            break;
                         case Const.INITIALIZE_DIAGRAM_COST_AND_MONTH_ALL_EMPLOYEE:
                             process.getBarAllCostAndMonth();
                             break;
@@ -153,35 +146,15 @@ public class ServerWork extends Thread{
                         case Const.INITIALIZE_COST_LABEL_FOR_CREATE_ORDER:
                             process.getCostForCreateOrder();
                             break;
-
-
                         case Const.Exit:
                             break;
                     }
-
-
-
-
-                    /*if (input.equals("0")) {
-                        System.out.println("good");
-                        sout.println("good");
-                    } else {
-                        System.out.println("error");
-                    }*/
-
-
-
-
-
-
                 } catch (NullPointerException ex) {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-        } /*catch (SQLException e1) {
-            e1.printStackTrace();
-        }*/ finally {
+        } finally {
             try {
                 sin.close();
                 sout.close();

@@ -1,19 +1,26 @@
 package program.helperClasses;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class EmployeeTableView {
     protected int id;
     protected String name;
     protected String position;
     protected double mark;
+    protected double cost;
 
-    public EmployeeTableView(int id, String name, String position, double mark) {
+    public EmployeeTableView(int id, String name, String position, double mark, double cost) {
         this.id = id;
         this.name = name;
         this.position = position;
         this.mark = mark;
+        this.cost = cost;
     }
 
-    public EmployeeTableView(){}
+/*    public EmployeeTableView(){}
 
     public int getId() {
         return id;
@@ -45,5 +52,5 @@ public class EmployeeTableView {
 
     public void setMark(double mark) {
         this.mark = mark;
-    }
+    }*/
 }

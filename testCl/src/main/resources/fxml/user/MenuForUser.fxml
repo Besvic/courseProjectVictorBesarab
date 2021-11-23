@@ -208,6 +208,7 @@
                             <TableColumn fx:id="nameEmployeeColumnEmployeeTableView" prefWidth="213.99999237060547" text="ФИО" />
                               <TableColumn fx:id="positionEmployeeColumnEmployeeTableView" prefWidth="262.0000305175781" text="Сфера деятельности" />
                               <TableColumn fx:id="ratingEmployeeColumnEmployeeTableView" minWidth="0.0" prefWidth="217.0" text="Рейтинг" />
+                              <TableColumn fx:id="costEmployeeColumnEmployeeTableView" minWidth="0.0" prefWidth="217.0" text="Тарифная ставка" />
                           </columns>
                         </TableView>
                      </children>
